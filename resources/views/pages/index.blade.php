@@ -5,11 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Hecho en Teoti | Vuelos en Globo · Teotihuacán – Reserva moderna</title>
-    <!-- Google Fonts: Permanent Marker + Montserrat -->
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Permanent+Marker&display=swap"
         rel="stylesheet">
-    <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         * {
@@ -41,7 +39,6 @@
             line-height: 1.5;
         }
 
-        /* --- PRELOADER --- */
         .preloader {
             position: fixed;
             top: 0;
@@ -73,7 +70,7 @@
                 opacity: 0.7;
             }
 
-            50% {
+            100% {
                 transform: scale(1.04);
                 opacity: 1;
             }
@@ -84,7 +81,6 @@
             }
         }
 
-        /* Nav moderna */
         nav {
             position: fixed;
             top: 0;
@@ -95,16 +91,30 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: all 0.3s ease;
-            background: rgba(55, 127, 240, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            background: rgba(55, 127, 240, 0.75);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        nav.nav-scrolled {
+            padding: 12px 48px;
+            background: rgba(55, 127, 240, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom-color: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
         }
 
         .nav-logo-img {
             height: 44px;
             width: auto;
-            display: block;
+            transition: all 0.2s;
+        }
+
+        .nav-logo-img:hover {
+            transform: scale(1.02);
+            filter: drop-shadow(0 0 6px rgba(247, 192, 53, 0.5));
         }
 
         .nav-links {
@@ -116,10 +126,26 @@
         .nav-links a {
             color: var(--blanco);
             text-decoration: none;
-            font-size: 0.9rem;
             font-weight: 600;
-            letter-spacing: -0.01em;
-            transition: color 0.2s;
+            padding: 6px 0;
+            transition: color 0.3s ease;
+            position: relative;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--amarillo-acento), var(--rosa-cta));
+            transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            border-radius: 4px;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
         }
 
         .nav-links a:hover {
@@ -127,63 +153,104 @@
         }
 
         .nav-cta {
-            background: var(--rosa-cta);
-            color: var(--blanco) !important;
+            background: linear-gradient(135deg, var(--rosa-cta), #c72a7a);
             padding: 12px 28px;
             border-radius: 100px;
             font-weight: 700;
             font-size: 0.85rem;
             text-transform: uppercase;
-            transition: all 0.2s;
-            box-shadow: var(--shadow-sm);
+            color: var(--blanco);
+            transition: 0.3s;
+            box-shadow: 0 6px 14px rgba(233, 66, 151, 0.25);
             text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .nav-cta:hover {
-            background: var(--rosa-hover);
-            transform: scale(0.98);
+            transform: translateY(-3px);
+            background: linear-gradient(135deg, var(--rosa-hover), #b81f68);
+            box-shadow: 0 12px 24px rgba(233, 66, 151, 0.4);
         }
 
         .hamburger {
             display: none;
             flex-direction: column;
-            gap: 5px;
+            gap: 6px;
             background: none;
             border: none;
             cursor: pointer;
+            z-index: 102;
         }
 
         .hamburger span {
-            width: 24px;
-            height: 2px;
+            width: 26px;
+            height: 2.5px;
             background: var(--blanco);
-            transition: 0.2s;
+            border-radius: 4px;
+            transition: all 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(6px, 6px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+            transform: scaleX(0);
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
         }
 
         .mobile-menu {
-            display: none;
             position: fixed;
-            inset: 0;
-            background: var(--azul-cielo);
-            z-index: 99;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            width: 80%;
+            max-width: 360px;
+            background: rgba(55, 127, 240, 0.96);
+            backdrop-filter: blur(32px);
+            z-index: 101;
+            display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 30px;
-            font-size: 1.4rem;
+            gap: 32px;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            border-left: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .mobile-menu.open {
+            transform: translateX(0);
         }
 
         .mobile-menu a {
             color: var(--blanco);
             text-decoration: none;
             font-weight: 700;
+            font-size: 1.4rem;
+            padding: 12px 20px;
         }
 
-        .mobile-menu.open {
-            display: flex;
+        .menu-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(4px);
+            z-index: 99;
+            opacity: 0;
+            visibility: hidden;
+            transition: 0.3s;
         }
 
-        /* Sección Hero */
+        .menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
         #hero {
             min-height: 96vh;
             display: flex;
@@ -201,48 +268,21 @@
             width: 100%;
         }
 
-        .hero-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(247, 192, 53, 0.2);
-            border-radius: 100px;
-            padding: 6px 16px 6px 12px;
-            font-size: 0.75rem;
-            font-weight: 700;
-            color: var(--amarillo-acento);
-            margin-bottom: 28px;
-            backdrop-filter: blur(4px);
-        }
-
         .hero-title {
             font-family: 'Permanent Marker', cursive;
             font-size: clamp(3.2rem, 7vw, 5.2rem);
-            font-weight: 400;
             line-height: 1.1;
-            color: var(--blanco);
             margin-bottom: 20px;
         }
 
         .hero-title em {
             color: var(--amarillo-acento);
-            font-style: normal;
             border-bottom: 3px solid var(--rosa-cta);
             display: inline-block;
         }
 
-        .hero-sub {
-            font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.9);
-            max-width: 480px;
-            margin: 20px 0 40px;
-            font-weight: 500;
-        }
-
-        /* Booking engine adaptada */
         .booking-engine {
             background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(12px);
             border-radius: var(--radius-2xl);
             padding: 28px 36px;
             box-shadow: var(--shadow-md);
@@ -261,32 +301,20 @@
         }
 
         .engine-field label {
-            display: block;
             font-size: 0.7rem;
             font-weight: 800;
-            text-transform: uppercase;
             color: var(--rosa-cta);
             margin-bottom: 8px;
+            display: block;
         }
 
         .engine-field input,
         .engine-field select {
             width: 100%;
-            background: var(--blanco);
-            border: 1px solid var(--gris-borde);
-            border-radius: 20px;
             padding: 14px 18px;
+            border-radius: 20px;
+            border: 1px solid var(--gris-borde);
             font-family: 'Montserrat', sans-serif;
-            font-size: 0.9rem;
-            color: var(--negro-suave);
-            transition: all 0.2s;
-        }
-
-        .engine-field input:focus,
-        .engine-field select:focus {
-            outline: none;
-            border-color: var(--amarillo-acento);
-            box-shadow: 0 0 0 3px rgba(247, 192, 53, 0.2);
         }
 
         .search-btn {
@@ -295,11 +323,8 @@
             border-radius: 28px;
             padding: 14px 32px;
             font-weight: 700;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            color: var(--blanco);
+            color: white;
             cursor: pointer;
-            transition: all 0.2s;
         }
 
         .search-btn:hover {
@@ -309,14 +334,12 @@
 
         .booking-summary {
             margin-top: 28px;
-            background: var(--blanco);
+            background: white;
             border-radius: 24px;
             padding: 18px 24px;
             display: flex;
             justify-content: space-between;
-            align-items: center;
             flex-wrap: wrap;
-            border: 1px solid var(--gris-borde);
             color: var(--negro-suave);
         }
 
@@ -326,11 +349,9 @@
             color: var(--rosa-cta);
         }
 
-        /* Carrusel */
         .hero-image {
             border-radius: var(--radius-2xl);
             overflow: hidden;
-            box-shadow: var(--shadow-md);
             background: #1a1a1a;
             min-height: 380px;
         }
@@ -346,26 +367,6 @@
             object-fit: cover;
         }
 
-        .hero-swiper .swiper-button-prev,
-        .hero-swiper .swiper-button-next {
-            background: rgba(255, 255, 255, 0.9);
-            width: 44px;
-            height: 44px;
-            border-radius: 60px;
-        }
-
-        .hero-swiper .swiper-button-prev:after,
-        .hero-swiper .swiper-button-next:after {
-            font-size: 18px;
-            font-weight: bold;
-            color: var(--rosa-cta);
-        }
-
-        .hero-swiper .swiper-pagination-bullet-active {
-            background: var(--amarillo-acento);
-        }
-
-        /* Paquetes (fondo claro, texto oscuro) */
         #paquetes {
             padding: 100px 48px;
             background: var(--blanco);
@@ -384,13 +385,11 @@
             letter-spacing: 0.1em;
             color: var(--rosa-cta);
             font-weight: 800;
-            margin-bottom: 16px;
         }
 
         .section-title {
             font-family: 'Permanent Marker', cursive;
             font-size: clamp(2.2rem, 4vw, 3.2rem);
-            color: var(--negro-suave);
         }
 
         .section-title em {
@@ -400,7 +399,7 @@
 
         .pkg-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
             gap: 32px;
             max-width: 1400px;
             margin: 0 auto;
@@ -409,8 +408,8 @@
         .pkg-card {
             background: var(--gris-claro);
             border-radius: var(--radius-xl);
-            padding: 32px;
-            transition: all 0.25s ease;
+            padding: 28px 28px 32px;
+            transition: transform 0.25s ease, box-shadow 0.2s;
             border: 1px solid var(--gris-borde);
         }
 
@@ -420,20 +419,32 @@
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
         }
 
+        /* IMAGEN DE MOMENTO DESTACADA EN PAQUETES */
+        .pkg-img {
+            width: 100%;
+            aspect-ratio: 4 / 3;
+            object-fit: cover;
+            border-radius: 24px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .pkg-card:hover .pkg-img {
+            transform: scale(1.02);
+        }
+
         .pkg-name {
             font-family: 'Permanent Marker', cursive;
-            font-size: 1.8rem;
-            font-weight: 400;
-            margin: 12px 0;
-            color: var(--negro-suave);
+            font-size: 1.7rem;
+            margin: 8px 0 12px;
         }
 
         .price-row-modern {
             display: flex;
             justify-content: space-between;
             border-bottom: 1px dashed var(--gris-borde);
-            padding: 12px 0;
-            color: var(--negro-suave);
+            padding: 10px 0;
         }
 
         .price-adult {
@@ -446,16 +457,15 @@
             display: inline-flex;
             justify-content: center;
             width: 100%;
-            margin-top: 28px;
+            margin-top: 24px;
             background: var(--rosa-cta);
-            border: none;
             border-radius: 40px;
             padding: 12px;
             font-weight: 700;
             text-transform: uppercase;
-            color: var(--blanco);
+            color: white;
             text-decoration: none;
-            transition: all 0.2s;
+            transition: 0.2s;
         }
 
         .select-pkg:hover {
@@ -470,7 +480,6 @@
             font-weight: 700;
         }
 
-        /* Pasos */
         #como-funciona {
             padding: 60px 48px;
             background: var(--gris-claro);
@@ -486,7 +495,7 @@
         }
 
         .step-card {
-            background: var(--blanco);
+            background: white;
             border-radius: 28px;
             padding: 32px;
             text-align: center;
@@ -495,24 +504,21 @@
             box-shadow: var(--shadow-sm);
         }
 
-        /* Galería */
         #galeria {
             padding: 80px 48px;
             background: var(--blanco);
         }
 
-        /* Reserva final */
         #reserva {
             padding: 80px 48px;
             background: var(--azul-cielo);
         }
 
         .reserva-card {
-            background: var(--blanco);
+            background: white;
             border-radius: 36px;
             padding: 44px;
             margin-top: 40px;
-            box-shadow: var(--shadow-md);
             color: var(--negro-suave);
         }
 
@@ -521,8 +527,6 @@
             padding: 16px;
             border-radius: 24px;
             border: 1px solid var(--gris-borde);
-            background: var(--blanco);
-            font-family: 'Montserrat', sans-serif;
             width: 100%;
         }
 
@@ -532,9 +536,7 @@
             padding: 16px 36px;
             border-radius: 60px;
             font-weight: 800;
-            text-transform: uppercase;
-            color: var(--blanco);
-            font-size: 1rem;
+            color: white;
             cursor: pointer;
             transition: 0.2s;
         }
@@ -547,11 +549,6 @@
             background: var(--negro-suave);
             color: #ccc;
             padding: 70px 48px 40px;
-        }
-
-        footer a,
-        footer strong {
-            color: var(--blanco);
         }
 
         @media (max-width: 1000px) {
@@ -581,23 +578,38 @@
                 padding-left: 24px;
                 padding-right: 24px;
             }
+
+            .pkg-grid {
+                gap: 24px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .booking-engine {
+                padding: 20px;
+            }
+
+            .engine-row {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 
 <body>
     <div class="preloader" id="preloader">
-        <img src="logo.png" alt="Hecho en Teoti">
+        <img src="{{ asset('assets/img/logo.png') }}" alt="Hecho en Teoti">
     </div>
+    <div class="menu-overlay" id="menuOverlay"></div>
     <div class="mobile-menu" id="mobile-menu">
-        <a href="#paquetes">Paquetes</a>
-        <a href="#como-funciona">Experiencia</a>
-        <a href="#galeria">Galería</a>
-        <a href="#reserva">Reservar</a>
+        <a href="#paquetes">🎈 Paquetes</a>
+        <a href="#como-funciona">✨ Experiencia</a>
+        <a href="#galeria">📸 Galería</a>
+        <a href="#reserva">📅 Reservar</a>
     </div>
     <nav id="main-nav">
         <a href="#" class="nav-logo">
-            <img src="logo.png" alt="Hecho en Teoti" class="nav-logo-img">
+            <img src="{{ asset('assets/img/logo.png') }}" alt="Hecho en Teoti" class="nav-logo-img">
         </a>
         <ul class="nav-links">
             <li><a href="#paquetes">Paquetes</a></li>
@@ -612,10 +624,12 @@
     <section id="hero">
         <div class="hero-grid">
             <div>
-                <div class="hero-badge">✨ vuelo al amanecer · Teotihuacán</div>
+                <div class="hero-badge"
+                    style="display: inline-flex; background: rgba(247,192,53,0.2); border-radius: 100px; padding: 6px 16px; font-weight: 700; color: var(--amarillo-acento); margin-bottom: 28px;">
+                    ✨ vuelo al amanecer · Teotihuacán</div>
                 <h1 class="hero-title">Despierta sobre <em>las pirámides</em></h1>
-                <p class="hero-sub">La experiencia más mágica de México. Vuela en globo al amanecer con seguridad y
-                    comodidad.</p>
+                <p class="hero-sub" style="font-size:1.1rem; color: rgba(255,255,255,0.9); margin: 20px 0 40px;">La
+                    experiencia más mágica de México. Vuela en globo al amanecer con seguridad y comodidad.</p>
                 <div class="booking-engine">
                     <div class="engine-row">
                         <div class="engine-field"><label>📅 Fecha</label><input type="date" id="bookingDate"
@@ -624,20 +638,16 @@
                                 value="2" min="1"></div>
                         <div class="engine-field"><label>🧒 Niños (4-10)</label><input type="number" id="childrenCount"
                                 value="0" min="0"></div>
-                        <div class="engine-field"><label>🎈 Paquete</label>
-                            <select id="packageSelect">
+                        <div class="engine-field"><label>🎈 Paquete</label><select id="packageSelect">
                                 <option value="1">Vuelo en globo</option>
                                 <option value="2">Vuelo + Desayuno</option>
                                 <option value="3">+ Transporte CDMX + Desayuno</option>
                                 <option value="4">Completo + Pirámides</option>
-                            </select>
-                        </div>
+                            </select></div>
                         <button class="search-btn" id="searchBtn">🔍 Buscar vuelos</button>
                     </div>
-                    <div class="booking-summary">
-                        <span id="summaryText">20 jun 2026 · 2 adultos · Vuelo en globo</span>
-                        <span class="summary-price" id="totalDisplay">$4,398 MXN</span>
-                    </div>
+                    <div class="booking-summary"><span id="summaryText">20 jun 2026 · 2 adultos · Vuelo en
+                            globo</span><span class="summary-price" id="totalDisplay">$4,398 MXN</span></div>
                 </div>
             </div>
             <div class="hero-image">
@@ -669,43 +679,55 @@
 
     <div class="offer-strip">🎈 OFERTA EXCLUSIVA: 12% OFF en grupos de 4+ personas · Código: TEOTI2025 🎈</div>
 
+    <!-- SECCIÓN PAQUETES CON IMAGEN DE MOMENTO EN TODOS LOS PAQUETES -->
     <section id="paquetes">
         <div class="section-header">
             <span class="section-eyebrow">Nuestros paquetes</span>
             <h2 class="section-title">Elige tu <em>aventura</em></h2>
         </div>
         <div class="pkg-grid">
+            <!-- Paquete 1: Vuelo esencial -->
             <div class="pkg-card" data-pkg-id="1">
-                <div class="pkg-icon">🎈</div>
+                <img class="pkg-img"
+                    src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
+                    alt="Momento mágico en globo">
                 <div class="pkg-name">Vuelo esencial</div>
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,199</span></div>
                 <div class="price-row-modern"><span>Niño (4-10)</span><span>$1,999</span></div>
-                <div class="badge-pkg" style="margin: 12px 0; font-size:0.7rem; color:var(--rosa-cta);">✅ Brindis +
-                    diploma</div>
+                <div style="margin: 12px 0; font-size:0.7rem; color:var(--rosa-cta);">✅ Brindis + diploma</div>
                 <a href="#" class="select-pkg" data-pkg="1">Seleccionar</a>
             </div>
+            <!-- Paquete 2: Vuelo + Desayuno -->
             <div class="pkg-card" data-pkg-id="2">
-                <div class="pkg-icon">🍳</div>
+                <img class="pkg-img"
+                    src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
+                    alt="Amanecer y desayuno">
                 <div class="pkg-name">Vuelo + Desayuno</div>
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,299</span></div>
                 <div class="price-row-modern"><span>Niño</span><span>$2,149</span></div>
-                <div class="badge-pkg" style="margin: 12px 0;">🍽️ Desayuno en hacienda</div>
+                <div style="margin: 12px 0;">🍽️ Desayuno en hacienda</div>
                 <a href="#" class="select-pkg" data-pkg="2">Seleccionar</a>
             </div>
+            <!-- Paquete 3: Todo incluido (CDMX) -->
             <div class="pkg-card" data-pkg-id="3">
-                <div class="pkg-icon">🚐</div>
+                <img class="pkg-img"
+                    src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
+                    alt="Transporte incluido">
                 <div class="pkg-name">Todo incluido (CDMX)</div>
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,749</span></div>
                 <div class="price-row-modern"><span>Niño</span><span>$2,599</span></div>
-                <div class="badge-pkg">🚐 Transporte redondo + desayuno</div>
+                <div style="margin: 12px 0;">🚐 Transporte redondo + desayuno</div>
                 <a href="#" class="select-pkg" data-pkg="3">Seleccionar</a>
             </div>
+            <!-- Paquete 4: Experiencia completa -->
             <div class="pkg-card" data-pkg-id="4">
-                <div class="pkg-icon">🏛️</div>
+                <img class="pkg-img"
+                    src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
+                    alt="Acceso pirámides">
                 <div class="pkg-name">Experiencia completa</div>
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,949</span></div>
                 <div class="price-row-modern"><span>Niño</span><span>$2,799</span></div>
-                <div class="badge-pkg">🏛️ Acceso pirámides + guía</div>
+                <div style="margin: 12px 0;">🏛️ Acceso pirámides + guía</div>
                 <a href="#" class="select-pkg" data-pkg="4">Seleccionar</a>
             </div>
         </div>
@@ -732,8 +754,7 @@
         </div>
         <div
             style="background: white; border-radius: 28px; padding: 24px; text-align: center; max-width: 500px; margin: 20px auto 0; color: var(--negro-suave);">
-            📆 Disponibilidad: <strong>20, 21, 22, 27, 28 de junio</strong> — ¡últimos lugares!
-        </div>
+            📆 Disponibilidad: <strong>20, 21, 22, 27, 28 de junio</strong> — ¡últimos lugares!</div>
     </section>
 
     <section id="galeria">
@@ -867,13 +888,45 @@
                     'whatsappReserva').value) alert("Completa todos los datos para solicitar tu reserva");
             else alert(`✨ ¡Gracias ${nombre}! Te contactaremos por WhatsApp para confirmar tu vuelo en globo.`);
         });
-        const ham = document.getElementById('hamburger'),
-            mobMenu = document.getElementById('mobile-menu');
-        ham.addEventListener('click', () => {
-            mobMenu.classList.toggle('open');
+        const nav = document.getElementById('main-nav');
+        window.addEventListener('scroll', () => {
+            window.scrollY > 20 ? nav.classList.add('nav-scrolled') : nav.classList.remove('nav-scrolled');
         });
-        document.querySelectorAll('.mobile-menu a').forEach(l => l.addEventListener('click', () => mobMenu.classList.remove(
-            'open')));
+        const hamburger = document.getElementById('hamburger'),
+            mobileMenu = document.getElementById('mobile-menu'),
+            overlay = document.getElementById('menuOverlay');
+
+        function toggleMobileMenu(open) {
+            if (open) {
+                mobileMenu.classList.add('open');
+                hamburger.classList.add('active');
+                overlay.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            } else {
+                mobileMenu.classList.remove('open');
+                hamburger.classList.remove('active');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+        hamburger.addEventListener('click', (e) => {
+            e.stopPropagation();
+            toggleMobileMenu(!mobileMenu.classList.contains('open'));
+        });
+        overlay.addEventListener('click', () => toggleMobileMenu(false));
+        document.querySelectorAll('.mobile-menu a').forEach(link => link.addEventListener('click', (e) => {
+            toggleMobileMenu(false);
+            const targetId = link.getAttribute('href');
+            if (targetId && targetId !== '#') {
+                e.preventDefault();
+                document.querySelector(targetId)?.scrollIntoView({
+                    behavior: 'smooth'
+                });
+            }
+        }));
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 1000 && mobileMenu.classList.contains('open')) toggleMobileMenu(false);
+        });
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             if (preloader) {
