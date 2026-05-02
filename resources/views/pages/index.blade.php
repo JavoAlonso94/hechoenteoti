@@ -43,6 +43,49 @@
             line-height: 1.4;
         }
 
+        /* --- PRELOADER --- */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #FDFBF7;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .preloader img {
+            width: 100px;
+            height: auto;
+            animation: softPulse 1.2s infinite ease-in-out;
+        }
+
+        @keyframes softPulse {
+            0% {
+                transform: scale(0.96);
+                opacity: 0.7;
+            }
+
+            50% {
+                transform: scale(1.04);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(0.96);
+                opacity: 0.7;
+            }
+        }
+
         /* Nav moderna */
         nav {
             position: fixed;
@@ -60,22 +103,10 @@
             border-bottom: 1px solid rgba(0, 0, 0, 0.02);
         }
 
-        .nav-logo {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 500;
-            letter-spacing: -0.02em;
-            background: linear-gradient(135deg, var(--text-main) 0%, var(--gold) 100%);
-            background-clip: text;
-            -webkit-background-clip: text;
-            color: transparent;
-            text-decoration: none;
-        }
-
-        .nav-logo span {
-            background: none;
-            color: var(--gold);
-            -webkit-background-clip: unset;
+        .nav-logo-img {
+            height: 44px;
+            width: auto;
+            display: block;
         }
 
         .nav-links {
@@ -106,6 +137,7 @@
             font-size: 0.85rem;
             transition: all 0.2s;
             box-shadow: var(--shadow-xs);
+            text-decoration: none;
         }
 
         .nav-cta:hover {
@@ -580,6 +612,11 @@
 
 <body>
 
+    <!-- PRELOADER con logo.png centrado -->
+    <div class="preloader" id="preloader">
+        <img src="logo.png" alt="Hecho en Teoti">
+    </div>
+
     <div class="mobile-menu" id="mobile-menu">
         <a href="#paquetes">Paquetes</a>
         <a href="#como-funciona">Experiencia</a>
@@ -588,7 +625,9 @@
     </div>
 
     <nav id="main-nav">
-        <a href="#" class="nav-logo">hecho<span>en</span>teoti</a>
+        <a href="#" class="nav-logo">
+            <img src="logo.png" alt="Hecho en Teoti" class="nav-logo-img">
+        </a>
         <ul class="nav-links">
             <li><a href="#paquetes">Paquetes</a></li>
             <li><a href="#como-funciona">Experiencia</a></li>
@@ -687,7 +726,8 @@
                 <div class="pkg-name">Vuelo esencial</div>
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,199</span></div>
                 <div class="price-row-modern"><span>Niño (4-10)</span><span>$1,999</span></div>
-                <div class="badge-pkg" style="margin: 12px 0; font-size:0.7rem; color:var(--gold);">✅ Brindis + diploma
+                <div class="badge-pkg" style="margin: 12px 0; font-size:0.7rem; color:var(--gold);">✅ Brindis +
+                    diploma
                 </div>
                 <a href="#" class="select-pkg" data-pkg="1">Seleccionar</a>
             </div>
@@ -797,7 +837,8 @@
     <footer>
         <div
             style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
-            <div><strong class="nav-logo" style="font-size: 1.5rem;">hecho<span>en</span>teoti</strong><br>Desde 2009
+            <div><strong style="font-family:'Space Grotesk'; font-size: 1.5rem;">hecho<span
+                        style="color:var(--gold);">en</span>teoti</strong><br>Desde 2009
                 · Experiencias únicas</div>
             <div><strong>Contacto</strong><br>📞 55 4321 8765<br>✉️ vuelos@hechoenteoti.mx</div>
             <div><strong>Información</strong><br>Políticas de clima<br>Términos y condiciones</div>
@@ -807,7 +848,7 @@
             en Teoti · Pilotos certificados AFAC</div>
     </footer>
 
-    <!-- Scripts: Swiper JS + lógica del sitio -->
+    <!-- Scripts: Swiper JS + lógica del sitio + preloader -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
         // Inicializar Swiper (carrusel moderno con loop, autoplay y diseño responsive premium)
@@ -832,17 +873,9 @@
             grabCursor: true,
             slidesPerView: 1,
             spaceBetween: 0,
-            breakpoints: {
-                320: {
-                    slidesPerView: 1
-                },
-                768: {
-                    slidesPerView: 1
-                }
-            }
         });
 
-        // Precios y lógica del sitio (existente + mejora)
+        // Precios y lógica del sitio
         const prices = {
             1: {
                 adult: 2199,
@@ -928,6 +961,28 @@
             nav.style.backdropFilter = window.scrollY > 50 ? "blur(20px)" : "blur(12px)";
         });
         updateSummary();
+
+        // Ocultar preloader cuando todo esté cargado (incluyendo imágenes del Swiper)
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            if (preloader) {
+                preloader.classList.add('hidden');
+                // Remover del DOM después de la transición
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
+        });
+        // Fallback por si load no se dispara rápido (ej. caché)
+        setTimeout(() => {
+            const preloader = document.getElementById('preloader');
+            if (preloader && !preloader.classList.contains('hidden')) {
+                preloader.classList.add('hidden');
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }
+        }, 2000);
     </script>
 </body>
 
