@@ -8,4 +8,4 @@ use Illuminate\Support\Facades\Route;
 // });
 
 
-route::get('/', [PagesController::class, 'index'])->name('page.index');
+Route::get('/', [PagesController::class, 'index'])->name('page.index');
