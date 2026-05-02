@@ -4,10 +4,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Hecho en Teoti | Vuelos en Globo · Teotihuacán</title>
+    <title>Hecho en Teoti | Vuelos en Globo · Teotihuacán – Reserva moderna</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
-        href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Outfit:wght@300;400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@300;400;500;600&display=swap"
         rel="stylesheet">
     <style>
         * {
@@ -17,72 +17,77 @@
         }
 
         :root {
-            --gold: #B57C1C;
-            --gold-light: #D9A13B;
-            --gold-soft: #F7E9D0;
-            --sand: #F9F6F0;
-            --sand-dark: #EAE2D4;
-            --warm-gray: #F4EFE6;
-            --text-dark: #2C2B28;
-            --text-muted: #6F6A63;
-            --white: #FFFFFF;
-            --cream: #FFFCF8;
-            --radius: 20px;
-            --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.03), 0 2px 6px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 12px 30px rgba(0, 0, 0, 0.08);
+            --gold: #C2871B;
+            --gold-light: #E0A23B;
+            --gold-soft: #FEF6E6;
+            --sand-bg: #FDFBF7;
+            --card-white: #FFFFFF;
+            --text-main: #1F1E1B;
+            --text-muted: #6B6862;
+            --border-light: #EFECE5;
+            --shadow-xs: 0 4px 12px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
+            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            --shadow-md: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+            --shadow-glow: 0 18px 35px -12px rgba(193, 130, 27, 0.15);
+            --radius-xl: 32px;
+            --radius-2xl: 40px;
         }
 
         body {
-            font-family: 'Outfit', sans-serif;
-            background: var(--sand);
-            color: var(--text-dark);
-            overflow-x: hidden;
+            font-family: 'Inter', sans-serif;
+            background: var(--sand-bg);
+            color: var(--text-main);
+            line-height: 1.4;
         }
 
-        /* Nav */
+        /* Nav moderna */
         nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 20px 40px;
+            padding: 20px 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
+            background: rgba(253, 251, 247, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.02);
         }
 
         .nav-logo {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
-            font-weight: 400;
-            letter-spacing: 0.04em;
-            color: var(--text-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 500;
+            letter-spacing: -0.02em;
+            background: linear-gradient(135deg, var(--text-main) 0%, var(--gold) 100%);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
             text-decoration: none;
         }
 
         .nav-logo span {
+            background: none;
             color: var(--gold);
+            -webkit-background-clip: unset;
         }
 
         .nav-links {
             display: flex;
-            gap: 32px;
+            gap: 36px;
             list-style: none;
         }
 
         .nav-links a {
             color: var(--text-muted);
             text-decoration: none;
-            font-size: 12px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
+            font-size: 0.85rem;
             font-weight: 500;
-            transition: color 0.3s;
+            letter-spacing: -0.01em;
+            transition: color 0.2s;
         }
 
         .nav-links a:hover {
@@ -92,309 +97,286 @@
         .nav-cta {
             background: var(--gold);
             color: white !important;
-            padding: 10px 24px;
-            border-radius: 50px;
+            padding: 12px 28px;
+            border-radius: 100px;
             font-weight: 600;
-            font-size: 12px;
-            letter-spacing: 0.08em;
-            text-decoration: none;
-            transition: all 0.3s;
-            box-shadow: var(--shadow-sm);
+            font-size: 0.85rem;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-xs);
         }
 
         .nav-cta:hover {
             background: var(--gold-light);
-            transform: translateY(-2px);
+            transform: scale(0.98);
         }
 
         .hamburger {
             display: none;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-        }
-
-        .hamburger span {
-            width: 24px;
-            height: 2px;
-            background: var(--text-dark);
-            transition: 0.3s;
         }
 
         .mobile-menu {
             display: none;
-            position: fixed;
-            inset: 0;
-            background: var(--cream);
-            z-index: 99;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 36px;
         }
 
-        .mobile-menu.open {
-            display: flex;
-        }
-
-        .mobile-menu a {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 32px;
-            color: var(--text-dark);
-            text-decoration: none;
-        }
-
-        /* Hero + buscador */
+        /* Hero section moderna */
         #hero {
-            position: relative;
-            min-height: 92vh;
+            min-height: 96vh;
             display: flex;
             align-items: center;
-            background: linear-gradient(135deg, #FFF9F0 0%, #F4E9DA 100%);
-            padding-top: 90px;
+            padding: 120px 48px 80px;
+            position: relative;
+            background: linear-gradient(145deg, #FFFDF9 0%, #FEF9F0 100%);
         }
 
-        .hero-content {
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 40px;
             width: 100%;
         }
 
         .hero-badge {
             display: inline-flex;
             align-items: center;
-            gap: 8px;
-            background: rgba(181, 124, 28, 0.1);
-            border: 1px solid rgba(181, 124, 28, 0.2);
-            border-radius: 50px;
-            padding: 6px 16px;
-            font-size: 11px;
-            letter-spacing: 0.2em;
-            margin-bottom: 24px;
-            color: var(--gold);
+            gap: 10px;
+            background: rgba(194, 135, 27, 0.08);
+            border-radius: 100px;
+            padding: 6px 16px 6px 12px;
+            font-size: 0.75rem;
             font-weight: 500;
+            color: var(--gold);
+            margin-bottom: 28px;
+            backdrop-filter: blur(4px);
         }
 
         .hero-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(48px, 8vw, 110px);
-            font-weight: 400;
-            line-height: 0.95;
-            letter-spacing: -0.01em;
-            color: var(--text-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(3.2rem, 7vw, 5.2rem);
+            font-weight: 500;
+            line-height: 1.1;
+            letter-spacing: -0.03em;
+            color: var(--text-main);
         }
 
         .hero-title em {
             color: var(--gold);
-            font-style: italic;
-            display: block;
+            font-style: normal;
+            border-bottom: 3px solid var(--gold-light);
+            display: inline-block;
         }
 
         .hero-sub {
-            font-size: 16px;
+            font-size: 1rem;
             color: var(--text-muted);
-            max-width: 500px;
-            margin: 24px 0 48px;
-            font-weight: 400;
+            max-width: 480px;
+            margin: 28px 0 40px;
+            line-height: 1.5;
         }
 
-        /* Booking engine */
+        /* Booking engine moderna (glassmorph) */
         .booking-engine {
-            background: var(--white);
-            border-radius: 28px;
-            box-shadow: var(--shadow-md);
-            padding: 28px 32px;
-            max-width: 1100px;
-            margin-top: 20px;
-            border: 1px solid rgba(0, 0, 0, 0.03);
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius-2xl);
+            padding: 28px 36px;
+            box-shadow: var(--shadow-md), 0 0 0 1px rgba(255, 255, 255, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.9);
         }
 
         .engine-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 16px;
+            gap: 20px;
             align-items: flex-end;
         }
 
         .engine-field {
             flex: 1;
-            min-width: 140px;
+            min-width: 150px;
         }
 
         .engine-field label {
             display: block;
-            font-size: 10px;
-            letter-spacing: 0.12em;
-            text-transform: uppercase;
-            color: var(--gold);
-            margin-bottom: 8px;
+            font-size: 0.7rem;
             font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            color: var(--gold);
+            margin-bottom: 10px;
         }
 
         .engine-field input,
         .engine-field select {
             width: 100%;
-            background: var(--sand);
-            border: 1px solid #E2DCD2;
-            border-radius: 16px;
-            padding: 14px 16px;
-            color: var(--text-dark);
-            font-family: 'Outfit', sans-serif;
-            font-size: 14px;
+            background: rgba(253, 251, 247, 0.9);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 14px 18px;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.2s;
         }
 
         .engine-field input:focus,
         .engine-field select:focus {
-            border-color: var(--gold);
             outline: none;
+            border-color: var(--gold);
+            box-shadow: 0 0 0 3px rgba(194, 135, 27, 0.1);
         }
 
         .search-btn {
             background: var(--gold);
             border: none;
-            border-radius: 40px;
+            border-radius: 28px;
             padding: 14px 32px;
-            font-weight: 700;
-            font-size: 14px;
-            letter-spacing: 0.05em;
+            font-weight: 600;
+            font-size: 0.9rem;
             color: white;
             cursor: pointer;
-            transition: all 0.3s;
-            white-space: nowrap;
+            transition: all 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
 
         .search-btn:hover {
             background: var(--gold-light);
             transform: translateY(-2px);
-            box-shadow: 0 6px 14px rgba(181, 124, 28, 0.2);
         }
 
         .booking-summary {
-            margin-top: 24px;
-            background: var(--gold-soft);
-            border-radius: 20px;
+            margin-top: 28px;
+            background: var(--card-white);
+            border-radius: 24px;
             padding: 18px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            gap: 12px;
-            border-left: 4px solid var(--gold);
+            border: 1px solid var(--border-light);
+            box-shadow: var(--shadow-xs);
         }
 
         .summary-price {
-            font-size: 28px;
-            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', monospace;
+            color: var(--gold);
+        }
+
+        .hero-image {
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .hero-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* Paquetes modernos */
+        #paquetes {
+            padding: 100px 48px;
+            background: var(--card-white);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 64px;
+        }
+
+        .section-eyebrow {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
             color: var(--gold);
             font-weight: 600;
-        }
-
-        .summary-detail {
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-
-        /* Paquetes */
-        #paquetes {
-            padding: 80px 40px;
-            background: var(--cream);
+            margin-bottom: 16px;
+            display: block;
         }
 
         .section-title {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: clamp(36px, 5vw, 56px);
-            font-weight: 400;
-            margin-bottom: 48px;
-            color: var(--text-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 500;
+            letter-spacing: -0.02em;
         }
 
         .section-title em {
             color: var(--gold);
-            font-style: italic;
+            font-style: normal;
         }
 
         .pkg-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
+            gap: 32px;
             max-width: 1400px;
             margin: 0 auto;
         }
 
         .pkg-card {
-            background: var(--white);
-            border-radius: 28px;
-            padding: 28px;
+            background: var(--sand-bg);
+            border-radius: var(--radius-xl);
+            padding: 32px;
             transition: all 0.25s ease;
-            box-shadow: var(--shadow-sm);
-            border: 1px solid rgba(0, 0, 0, 0.04);
+            border: 1px solid var(--border-light);
+            backdrop-filter: blur(0px);
         }
 
         .pkg-card:hover {
-            transform: translateY(-6px);
-            box-shadow: var(--shadow-md);
+            transform: translateY(-8px);
             border-color: var(--gold-light);
+            box-shadow: var(--shadow-glow);
+            background: white;
+        }
+
+        .pkg-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
         }
 
         .pkg-name {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 26px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
             font-weight: 500;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
-        .pkg-desc {
-            font-size: 13px;
-            color: var(--text-muted);
-            margin-bottom: 20px;
-            border-bottom: 1px solid #EFE8DF;
-            padding-bottom: 16px;
-        }
-
-        .price-row {
+        .price-row-modern {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 12px;
-            font-size: 15px;
+            align-items: baseline;
+            border-bottom: 1px dashed var(--border-light);
+            padding: 12px 0;
         }
 
         .price-adult {
             font-weight: 700;
             color: var(--gold);
-        }
-
-        .price-child {
-            color: var(--text-muted);
-            font-size: 14px;
-        }
-
-        .badge-pkg {
-            background: var(--gold-soft);
-            padding: 4px 12px;
-            border-radius: 50px;
-            font-size: 10px;
-            letter-spacing: 0.05em;
-            display: inline-block;
-            margin-top: 12px;
-            color: var(--gold);
-            font-weight: 500;
+            font-size: 1.1rem;
         }
 
         .select-pkg {
-            display: block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
-            margin-top: 24px;
-            background: transparent;
+            margin-top: 28px;
+            background: white;
             border: 1px solid var(--gold);
             border-radius: 40px;
             padding: 12px;
-            text-align: center;
-            color: var(--gold);
             font-weight: 600;
+            color: var(--gold);
             text-decoration: none;
-            transition: all 0.3s;
+            transition: all 0.2s;
         }
 
         .select-pkg:hover {
@@ -404,43 +386,48 @@
 
         /* Ofertas */
         .offer-strip {
-            background: linear-gradient(90deg, var(--gold) 0%, #e0a23b 100%);
-            color: white;
-            padding: 14px 20px;
+            background: linear-gradient(110deg, #F2E6D5, #FEF3E6);
+            padding: 18px;
             text-align: center;
-            font-weight: 600;
-            letter-spacing: 0.03em;
-        }
-
-        .calendar-placeholder {
-            background: var(--white);
-            border-radius: 28px;
-            padding: 24px;
-            margin: 40px 0;
-            text-align: center;
-            box-shadow: var(--shadow-sm);
-        }
-
-        .map-placeholder {
-            height: 280px;
-            background: #E9E2D6;
-            border-radius: 28px;
-            margin: 40px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--text-muted);
             font-weight: 500;
+            color: var(--gold);
+            border-top: 1px solid rgba(0, 0, 0, 0.02);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.02);
         }
 
+        /* Steps modernos */
+        .steps-modern {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 60px 0;
+        }
+
+        .step-card {
+            background: white;
+            border-radius: 28px;
+            padding: 32px;
+            text-align: center;
+            flex: 1;
+            min-width: 200px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border-light);
+        }
+
+        /* Footer moderno */
         footer {
-            background: #F2EBE0;
-            padding: 60px 40px 30px;
-            border-top: 1px solid rgba(0, 0, 0, 0.05);
-            color: var(--text-dark);
+            background: #F6F3EE;
+            padding: 70px 48px 40px;
+            border-top: 1px solid var(--border-light);
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 1000px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+
             nav {
                 padding: 16px 24px;
             }
@@ -452,27 +439,40 @@
 
             .hamburger {
                 display: flex;
-            }
-
-            .hero-content {
-                padding: 0 24px;
-            }
-
-            .booking-engine {
-                padding: 20px;
-            }
-
-            .engine-row {
                 flex-direction: column;
+                gap: 5px;
+                background: none;
+                border: none;
             }
 
-            .search-btn {
-                width: 100%;
-                text-align: center;
+            .hamburger span {
+                width: 24px;
+                height: 2px;
+                background: var(--text-main);
+            }
+
+            .mobile-menu {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: white;
+                z-index: 99;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                gap: 30px;
+            }
+
+            .mobile-menu.open {
+                display: flex;
+            }
+
+            #hero {
+                padding: 100px 24px 60px;
             }
 
             #paquetes {
-                padding: 60px 24px;
+                padding: 70px 24px;
             }
         }
     </style>
@@ -482,7 +482,7 @@
 
     <div class="mobile-menu" id="mobile-menu">
         <a href="#paquetes">Paquetes</a>
-        <a href="#como-funciona">Cómo funciona</a>
+        <a href="#como-funciona">Experiencia</a>
         <a href="#galeria">Galería</a>
         <a href="#reserva">Reservar</a>
     </div>
@@ -499,210 +499,188 @@
         <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
     </nav>
 
-    <!-- Hero + buscador -->
+    <!-- Hero con buscador -->
     <section id="hero">
-        <div class="hero-content">
-            <div class="hero-badge">✨ EXPERIENCIA ÚNICA · TEOTIHUACÁN</div>
-            <h1 class="hero-title">Vuela sobre <em>las pirámides</em></h1>
-            <p class="hero-sub">Amanecer en globo, silencio y majestuosidad. Reserva tu lugar con los mejores precios
-                garantizados.</p>
-
-            <div class="booking-engine">
-                <div class="engine-row">
-                    <div class="engine-field">
-                        <label>📅 Fecha</label>
-                        <input type="date" id="bookingDate" value="2026-06-10">
-                    </div>
-                    <div class="engine-field">
-                        <label>👥 Adultos</label>
-                        <input type="number" id="adultsCount" value="2" min="1" max="20">
-                    </div>
-                    <div class="engine-field">
-                        <label>🧒 Niños (4-10 años)</label>
-                        <input type="number" id="childrenCount" value="0" min="0" max="10">
-                    </div>
-                    <div class="engine-field">
-                        <label>🎈 Paquete</label>
-                        <select id="packageSelect">
-                            <option value="1">Vuelo en globo</option>
-                            <option value="2">Vuelo + Desayuno</option>
-                            <option value="3">+ Transporte CDMX + Desayuno</option>
-                            <option value="4">+ Transporte + Desayuno + Acceso pirámides</option>
-                        </select>
-                    </div>
-                    <button class="search-btn" id="searchBtn">🔍 Buscar vuelos</button>
-                </div>
-                <div class="booking-summary" id="summaryBox">
-                    <div><span class="summary-detail" id="summaryText">📆 10 jun 2026 · 2 adultos, 0 niños · Vuelo en
-                            globo</span></div>
-                    <div class="summary-price" id="totalDisplay">$4,398 MXN</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <div class="offer-strip">🎈 OFERTA ESPECIAL: 10% OFF en grupos de 4+ personas · Reserva antes del 30 de junio 🎈
-    </div>
-
-    <!-- Paquetes (precios reales) -->
-    <section id="paquetes">
-        <div style="max-width:1400px; margin:0 auto">
-            <h2 class="section-title">Elige tu <em>experiencia</em></h2>
-            <div class="pkg-grid" id="packagesGrid">
-                <!-- Paquete 1 -->
-                <div class="pkg-card" data-pkg-id="1">
-                    <div class="pkg-name">🎈 Vuelo en globo</div>
-                    <div class="pkg-desc">Vuelo compartido al amanecer · 45-60 min</div>
-                    <div class="price-row"><span>Adulto</span><span class="price-adult">$2,199 MXN</span></div>
-                    <div class="price-row"><span>Niño (4-10 años)</span><span class="price-child">$1,999 MXN</span>
-                    </div>
-                    <div class="badge-pkg">Incluye: brindis, diploma, seguro</div>
-                    <a href="#" class="select-pkg" data-pkg="1">Seleccionar paquete</a>
-                </div>
-                <!-- Paquete 2 -->
-                <div class="pkg-card" data-pkg-id="2">
-                    <div class="pkg-name">🍳 Vuelo + Desayuno</div>
-                    <div class="pkg-desc">Vuelo + desayuno típico en hacienda</div>
-                    <div class="price-row"><span>Adulto</span><span class="price-adult">$2,299 MXN</span></div>
-                    <div class="price-row"><span>Niño (menor 10 años)</span><span class="price-child">$2,149 MXN</span>
-                    </div>
-                    <div class="badge-pkg">Desayuno buffet + aguas frescas</div>
-                    <a href="#" class="select-pkg" data-pkg="2">Seleccionar paquete</a>
-                </div>
-                <!-- Paquete 3 -->
-                <div class="pkg-card" data-pkg-id="3">
-                    <div class="pkg-name">🚐 Vuelo + Transporte CDMX + Desayuno</div>
-                    <div class="pkg-desc">Transporte redondo desde CDMX, vuelo y desayuno</div>
-                    <div class="price-row"><span>Adulto</span><span class="price-adult">$2,749 MXN</span></div>
-                    <div class="price-row"><span>Niño</span><span class="price-child">$2,599 MXN</span></div>
-                    <div class="badge-pkg">Van con Wifi, salida 4:30am</div>
-                    <a href="#" class="select-pkg" data-pkg="3">Seleccionar paquete</a>
-                </div>
-                <!-- Paquete 4 -->
-                <div class="pkg-card" data-pkg-id="4">
-                    <div class="pkg-name">🏛️ Paquete completo + Acceso pirámides</div>
-                    <div class="pkg-desc">Transporte + Vuelo + Desayuno + Entrada zona arqueológica</div>
-                    <div class="price-row"><span>Adulto</span><span class="price-adult">$2,949 MXN</span></div>
-                    <div class="price-row"><span>Niño</span><span class="price-child">$2,799 MXN</span></div>
-                    <div class="badge-pkg">Guía incluido en la pirámide</div>
-                    <a href="#" class="select-pkg" data-pkg="4">Seleccionar paquete</a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Cómo funciona + calendario -->
-    <section id="como-funciona" style="padding: 80px 40px; max-width:1200px; margin:0 auto">
-        <h2 class="section-title" style="text-align:center">Reserva en <em>3 pasos</em></h2>
-        <div style="display:flex; gap:30px; flex-wrap:wrap; justify-content:center; margin-top:40px">
-            <div
-                style="text-align:center; flex:1; background: var(--white); padding: 28px; border-radius: 28px; box-shadow: var(--shadow-sm);">
-                <div style="font-size: 48px;">📅</div>
-                <h3 style="margin: 12px 0 8px;">1. Elige fecha</h3>
-                <p style="color: var(--text-muted);">Selecciona tu día preferido</p>
-            </div>
-            <div
-                style="text-align:center; flex:1; background: var(--white); padding: 28px; border-radius: 28px; box-shadow: var(--shadow-sm);">
-                <div style="font-size: 48px;">🎈</div>
-                <h3 style="margin: 12px 0 8px;">2. Escoge tu paquete</h3>
-                <p style="color: var(--text-muted);">Adultos y niños, el que más te guste</p>
-            </div>
-            <div
-                style="text-align:center; flex:1; background: var(--white); padding: 28px; border-radius: 28px; box-shadow: var(--shadow-sm);">
-                <div style="font-size: 48px;">✅</div>
-                <h3 style="margin: 12px 0 8px;">3. Confirma y vuela</h3>
-                <p style="color: var(--text-muted);">Recibirás tu voucher en minutos</p>
-            </div>
-        </div>
-
-        <div class="calendar-placeholder">
-            📆 Calendario de disponibilidad (próximas fechas con cupo)<br>
-            <div style="display:flex; gap:12px; justify-content:center; margin-top:16px; flex-wrap:wrap">
-                <span style="background: var(--gold); color: white; padding:8px 18px; border-radius:40px;">10 jun
-                    ✅</span>
-                <span style="background: var(--gold); color: white; padding:8px 18px; border-radius:40px;">11 jun
-                    ✅</span>
-                <span style="background: var(--gold); color: white; padding:8px 18px; border-radius:40px;">12 jun
-                    ✅</span>
-                <span style="background: #E2DCD2; color: #6F6A63; padding:8px 18px; border-radius:40px;">13 jun</span>
-                <span style="background: var(--gold); color: white; padding:8px 18px; border-radius:40px;">15 jun
-                    ✅</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- Galería -->
-    <section id="galeria" style="background: var(--warm-gray); padding: 80px 40px">
-        <div style="max-width:1400px; margin:0 auto">
-            <h2 class="section-title">Galería <em>de alturas</em></h2>
-            <div
-                style="display:grid; grid-template-columns:repeat(auto-fill, minmax(260px,1fr)); gap:20px; margin-top:40px">
-                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-                    style="border-radius:24px; width:100%; height:220px; object-fit:cover; box-shadow: var(--shadow-sm);">
-                <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=600&q=80"
-                    style="border-radius:24px; width:100%; height:220px; object-fit:cover; box-shadow: var(--shadow-sm);">
-                <img src="https://images.unsplash.com/photo-1600699882135-04b6a8fb3cae?auto=format&fit=crop&w=600&q=80"
-                    style="border-radius:24px; width:100%; height:220px; object-fit:cover; box-shadow: var(--shadow-sm);">
-                <img src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?auto=format&fit=crop&w=600&q=80"
-                    style="border-radius:24px; width:100%; height:220px; object-fit:cover; box-shadow: var(--shadow-sm);">
-            </div>
-        </div>
-    </section>
-
-    <!-- Reserva final + mapa -->
-    <section id="reserva" style="padding: 80px 40px">
-        <div style="max-width:1200px; margin:0 auto; text-align:center">
-            <h2 class="section-title">¿Listo para <em>despegar?</em></h2>
-            <div class="map-placeholder">
-                📍 Ubicación: San Juan Teotihuacán · Punto de encuentro (Globo puerto) · <a href="#"
-                    style="color: var(--gold); margin-left: 8px;">Ver mapa interactivo</a>
-            </div>
-            <div
-                style="background: var(--white); border-radius: 32px; padding: 40px; margin-top: 20px; box-shadow: var(--shadow-md);">
-                <h3 style="font-size: 28px; font-family: 'Cormorant Garamond'; margin-bottom: 12px;">Formulario de
-                    reserva directa</h3>
-                <p style="margin-bottom: 28px; color: var(--text-muted);">Completa tus datos y te confirmamos en < 2
-                        horas por WhatsApp</p>
-                        <div
-                            style="display:grid; grid-template-columns:1fr 1fr; gap:18px; max-width:600px; margin:0 auto">
-                            <input type="text" placeholder="Nombre completo" id="nombreReserva"
-                                style="background: var(--sand); border: 1px solid #E2DCD2; border-radius: 20px; padding: 14px; color: var(--text-dark);">
-                            <input type="email" placeholder="Correo" id="emailReserva"
-                                style="background: var(--sand); border: 1px solid #E2DCD2; border-radius: 20px; padding: 14px; color: var(--text-dark);">
-                            <input type="tel" placeholder="WhatsApp" id="whatsappReserva"
-                                style="background: var(--sand); border: 1px solid #E2DCD2; border-radius: 20px; padding: 14px; color: var(--text-dark);">
-                            <select id="paqueteFinal"
-                                style="background: var(--sand); border: 1px solid #E2DCD2; border-radius: 20px; padding: 14px; color: var(--text-dark);">
+        <div class="hero-grid">
+            <div>
+                <div class="hero-badge">✨ vuelo al amanecer · Teotihuacán</div>
+                <h1 class="hero-title">Despierta sobre <em>las pirámides</em></h1>
+                <p class="hero-sub">La experiencia más mágica de México. Vuela en globo al amanecer con seguridad y
+                    comodidad.</p>
+                <div class="booking-engine">
+                    <div class="engine-row">
+                        <div class="engine-field">
+                            <label>📅 Fecha</label>
+                            <input type="date" id="bookingDate" value="2026-06-20">
+                        </div>
+                        <div class="engine-field">
+                            <label>👥 Adultos</label>
+                            <input type="number" id="adultsCount" value="2" min="1">
+                        </div>
+                        <div class="engine-field">
+                            <label>🧒 Niños (4-10)</label>
+                            <input type="number" id="childrenCount" value="0" min="0">
+                        </div>
+                        <div class="engine-field">
+                            <label>🎈 Paquete</label>
+                            <select id="packageSelect">
                                 <option value="1">Vuelo en globo</option>
                                 <option value="2">Vuelo + Desayuno</option>
-                                <option value="3">Vuelo + Transporte + Desayuno</option>
-                                <option value="4">Paquete completo + Pirámides</option>
+                                <option value="3">+ Transporte CDMX + Desayuno</option>
+                                <option value="4">Completo + Pirámides</option>
                             </select>
                         </div>
-                        <button id="submitReserva"
-                            style="margin-top: 32px; background: var(--gold); border: none; border-radius: 50px; padding: 14px 44px; font-weight: 700; color: white; font-size: 16px; cursor: pointer; transition: 0.2s;">Solicitar
-                            reservación →</button>
-                        <p style="margin-top: 28px; font-size: 12px; color: var(--text-muted);">Sin tarjeta aún: te
-                            contactamos para confirmar disponibilidad y pago seguro.</p>
+                        <button class="search-btn" id="searchBtn">🔍 Buscar vuelos</button>
+                    </div>
+                    <div class="booking-summary">
+                        <span id="summaryText" style="color: var(--text-muted);">20 jun 2026 · 2 adultos · Vuelo en
+                            globo</span>
+                        <span class="summary-price" id="totalDisplay">$4,398 MXN</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=800&q=85"
+                    alt="Globo en Teotihuacán">
+            </div>
+        </div>
+    </section>
+
+    <div class="offer-strip">🎈 OFERTA EXCLUSIVA: 12% OFF en grupos de 4+ personas · Código: TEOTI2025 🎈</div>
+
+    <!-- Paquetes con precios reales -->
+    <section id="paquetes">
+        <div class="section-header">
+            <span class="section-eyebrow">Nuestros paquetes</span>
+            <h2 class="section-title">Elige tu <em>aventura</em></h2>
+        </div>
+        <div class="pkg-grid" id="packagesGrid">
+            <div class="pkg-card" data-pkg-id="1">
+                <div class="pkg-icon">🎈</div>
+                <div class="pkg-name">Vuelo esencial</div>
+                <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,199</span></div>
+                <div class="price-row-modern"><span>Niño (4-10)</span><span>$1,999</span></div>
+                <div class="badge-pkg" style="margin: 12px 0; font-size:0.7rem; color:var(--gold);">✅ Brindis + diploma
+                </div>
+                <a href="#" class="select-pkg" data-pkg="1">Seleccionar</a>
+            </div>
+            <div class="pkg-card" data-pkg-id="2">
+                <div class="pkg-icon">🍳</div>
+                <div class="pkg-name">Vuelo + Desayuno</div>
+                <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,299</span></div>
+                <div class="price-row-modern"><span>Niño</span><span>$2,149</span></div>
+                <div class="badge-pkg" style="margin: 12px 0;">🍽️ Desayuno en hacienda</div>
+                <a href="#" class="select-pkg" data-pkg="2">Seleccionar</a>
+            </div>
+            <div class="pkg-card" data-pkg-id="3">
+                <div class="pkg-icon">🚐</div>
+                <div class="pkg-name">Todo incluido (CDMX)</div>
+                <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,749</span></div>
+                <div class="price-row-modern"><span>Niño</span><span>$2,599</span></div>
+                <div class="badge-pkg">🚐 Transporte redondo + desayuno</div>
+                <a href="#" class="select-pkg" data-pkg="3">Seleccionar</a>
+            </div>
+            <div class="pkg-card" data-pkg-id="4">
+                <div class="pkg-icon">🏛️</div>
+                <div class="pkg-name">Experiencia completa</div>
+                <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,949</span></div>
+                <div class="price-row-modern"><span>Niño</span><span>$2,799</span></div>
+                <div class="badge-pkg">🏛️ Acceso pirámides + guía</div>
+                <a href="#" class="select-pkg" data-pkg="4">Seleccionar</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cómo funciona moderno -->
+    <section id="como-funciona" style="padding: 60px 48px; background: var(--sand-bg);">
+        <div class="section-header">
+            <span class="section-eyebrow">Simple y rápido</span>
+            <h2 class="section-title">Reserva en <em>3 pasos</em></h2>
+        </div>
+        <div class="steps-modern">
+            <div class="step-card"><span style="font-size: 2rem;">📅</span>
+                <h3 style="margin: 12px 0;">1. Elige fecha</h3>
+                <p style="color: var(--text-muted);">Selecciona tu día preferido</p>
+            </div>
+            <div class="step-card"><span style="font-size: 2rem;">🎈</span>
+                <h3 style="margin: 12px 0;">2. Elige paquete</h3>
+                <p style="color: var(--text-muted);">Adultos y niños</p>
+            </div>
+            <div class="step-card"><span style="font-size: 2rem;">✅</span>
+                <h3 style="margin: 12px 0;">3. Confirma y vuela</h3>
+                <p style="color: var(--text-muted);">Voucher en minutos</p>
+            </div>
+        </div>
+        <div
+            style="background: white; border-radius: 28px; padding: 24px; text-align: center; max-width: 500px; margin: 20px auto 0;">
+            📆 Disponibilidad: <strong>20, 21, 22, 27, 28 de junio</strong> — ¡últimos lugares!
+        </div>
+    </section>
+
+    <!-- Galería moderna -->
+    <section id="galeria" style="padding: 80px 48px; background: white;">
+        <div class="section-header">
+            <span class="section-eyebrow">Recuerdos reales</span>
+            <h2 class="section-title">Momentos <em>únicos</em></h2>
+        </div>
+        <div
+            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; max-width: 1400px; margin: 0 auto;">
+            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
+                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
+            <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=600&q=80"
+                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
+            <img src="https://images.unsplash.com/photo-1600699882135-04b6a8fb3cae?auto=format&fit=crop&w=600&q=80"
+                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
+            <img src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?auto=format&fit=crop&w=600&q=80"
+                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
+        </div>
+    </section>
+
+    <!-- Reserva final -->
+    <section id="reserva" style="padding: 80px 48px; background: var(--sand-bg);">
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+            <span class="section-eyebrow">Asegura tu lugar</span>
+            <h2 class="section-title">¿Listo para <em>despegar?</em></h2>
+            <div
+                style="background: white; border-radius: 36px; padding: 44px; margin-top: 40px; box-shadow: var(--shadow-md);">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <input type="text" id="nombreReserva" placeholder="Nombre completo"
+                        style="padding: 16px; border-radius: 24px; border: 1px solid var(--border-light); background: var(--sand-bg);">
+                    <input type="email" id="emailReserva" placeholder="Correo electrónico"
+                        style="padding: 16px; border-radius: 24px; border: 1px solid var(--border-light); background: var(--sand-bg);">
+                    <input type="tel" id="whatsappReserva" placeholder="WhatsApp"
+                        style="padding: 16px; border-radius: 24px; border: 1px solid var(--border-light); background: var(--sand-bg);">
+                    <select id="paqueteFinal"
+                        style="padding: 16px; border-radius: 24px; border: 1px solid var(--border-light); background: var(--sand-bg);">
+                        <option value="1">Vuelo en globo</option>
+                        <option value="2">Vuelo + Desayuno</option>
+                        <option value="3">+ Transporte CDMX + Desayuno</option>
+                        <option value="4">Completo + Pirámides</option>
+                    </select>
+                </div>
+                <button id="submitReserva"
+                    style="margin-top: 32px; background: var(--gold); border: none; padding: 16px 36px; border-radius: 60px; font-weight: 700; color: white; font-size: 1rem; cursor: pointer;">Solicitar
+                    reservación →</button>
+                <p style="margin-top: 28px; font-size: 0.75rem; color: var(--text-muted);">Te contactamos en menos de 2
+                    horas para confirmar disponibilidad y pago seguro.</p>
             </div>
         </div>
     </section>
 
     <footer>
         <div
-            style="max-width:1400px; margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:40px">
-            <div><span class="nav-logo" style="font-size: 28px;">hecho<span>en</span>teoti</span><br
-                    style="margin-bottom: 8px;">Vuelos en globo con pasión desde 2009</div>
-            <div><strong>Contacto</strong><br>📞 55 1234 5678<br>✉️ hola@hechoenteoti.mx</div>
-            <div><strong>Legal</strong><br>Políticas de cancelación<br>Aviso de privacidad</div>
-            <div><strong>Síguenos</strong><br>📷 Instagram · 🎵 TikTok · 📘 Facebook</div>
+            style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
+            <div><strong class="nav-logo" style="font-size: 1.5rem;">hecho<span>en</span>teoti</strong><br>Desde 2009
+                · Experiencias únicas</div>
+            <div><strong>Contacto</strong><br>📞 55 4321 8765<br>✉️ vuelos@hechoenteoti.mx</div>
+            <div><strong>Información</strong><br>Políticas de clima<br>Términos y condiciones</div>
+            <div><strong>Redes</strong><br>📷 IG · 🎵 TT · 📘 FB</div>
         </div>
-        <div style="text-align:center; margin-top: 48px; color: var(--text-muted); font-size: 12px;">© 2025 Hecho en
-            Teoti · Pilotos certificados AFAC</div>
+        <div style="text-align: center; margin-top: 60px; font-size: 0.75rem; color: var(--text-muted);">© 2025 Hecho
+            en Teoti · Pilotos certificados AFAC</div>
     </footer>
 
     <script>
-        // Precios reales
         const prices = {
             1: {
                 adult: 2199,
@@ -733,12 +711,11 @@
             const pkg = prices[pkgId];
             const total = (adults * pkg.adult) + (children * pkg.child);
             const date = document.getElementById('bookingDate').value;
-            const formattedDate = date ? new Date(date).toLocaleDateString('es-MX') : 'fecha por definir';
+            const formattedDate = date ? new Date(date).toLocaleDateString('es-MX') : 'fecha';
             document.getElementById('summaryText').innerHTML =
-                `📆 ${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
+                `${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
             document.getElementById('totalDisplay').innerHTML = `$${total.toLocaleString()} MXN`;
         }
-
         document.getElementById('adultsCount').addEventListener('input', updateSummary);
         document.getElementById('childrenCount').addEventListener('input', updateSummary);
         document.getElementById('packageSelect').addEventListener('change', updateSummary);
@@ -749,68 +726,35 @@
                 behavior: 'smooth'
             });
         });
-
-        // Al hacer clic en "Seleccionar paquete"
         document.querySelectorAll('.select-pkg').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const pkgId = btn.getAttribute('data-pkg');
-                if (pkgId) {
-                    document.getElementById('packageSelect').value = pkgId;
-                    updateSummary();
-                    document.getElementById('hero').scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
+                if (pkgId) document.getElementById('packageSelect').value = pkgId;
+                updateSummary();
+                document.getElementById('hero').scrollIntoView({
+                    behavior: 'smooth'
+                });
             });
         });
-
-        // Reserva final
         document.getElementById('submitReserva').addEventListener('click', () => {
             const nombre = document.getElementById('nombreReserva').value;
-            const email = document.getElementById('emailReserva').value;
-            const whats = document.getElementById('whatsappReserva').value;
-            const pkgFinalId = document.getElementById('paqueteFinal').value;
-            const pkgFinal = prices[pkgFinalId].name;
-            if (!nombre || !email || !whats) {
-                alert("Por favor completa todos tus datos de contacto.");
-                return;
-            }
-            alert(
-                `✨ ¡Gracias ${nombre}! Hemos recibido tu solicitud para ${pkgFinal}. Te contactaremos por WhatsApp en breve para confirmar tu vuelo.`);
+            if (!nombre || !document.getElementById('emailReserva').value || !document.getElementById(
+                    'whatsappReserva').value) alert("Completa todos los datos");
+            else alert(`✨ ¡Gracias ${nombre}! Te contactaremos por WhatsApp para confirmar tu vuelo.`);
         });
-
-        // Mobile menú
         const ham = document.getElementById('hamburger');
         const mobMenu = document.getElementById('mobile-menu');
         ham.addEventListener('click', () => {
             ham.classList.toggle('open');
             mobMenu.classList.toggle('open');
         });
-        document.querySelectorAll('.mobile-menu a').forEach(l => {
-            l.addEventListener('click', () => {
-                ham.classList.remove('open');
-                mobMenu.classList.remove('open');
-            });
-        });
-
-        // Smooth scroll
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                if (this.getAttribute('href') !== '#') {
-                    e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
-                    if (target) target.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
-            });
-        });
-
-        window.addEventListener('scroll', () => {
-            document.getElementById('main-nav').classList.toggle('scrolled', window.scrollY > 60);
-        });
-
+        document.querySelectorAll('.mobile-menu a').forEach(l => l.addEventListener('click', () => {
+            ham.classList.remove('open');
+            mobMenu.classList.remove('open');
+        }));
+        window.addEventListener('scroll', () => document.getElementById('main-nav').style.backdropFilter = window.scrollY >
+            50 ? "blur(20px)" : "blur(12px)");
         updateSummary();
     </script>
 </body>
