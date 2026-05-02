@@ -5,12 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>Hecho en Teoti | Vuelos en Globo · Teotihuacán – Reserva moderna</title>
-    <!-- Google Fonts & Swiper JS (modern CDN) -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- Google Fonts: Permanent Marker + Montserrat -->
     <link
-        href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Space+Grotesk:wght@300;400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Permanent+Marker&display=swap"
         rel="stylesheet">
-    <!-- Swiper CSS (latest version) -->
+    <!-- Swiper CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <style>
         * {
@@ -20,27 +19,26 @@
         }
 
         :root {
-            --gold: #C2871B;
-            --gold-light: #E0A23B;
-            --gold-soft: #FEF6E6;
-            --sand-bg: #FDFBF7;
-            --card-white: #FFFFFF;
-            --text-main: #1F1E1B;
-            --text-muted: #6B6862;
-            --border-light: #EFECE5;
-            --shadow-xs: 0 4px 12px rgba(0, 0, 0, 0.02), 0 1px 2px rgba(0, 0, 0, 0.03);
-            --shadow-sm: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
-            --shadow-md: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
-            --shadow-glow: 0 18px 35px -12px rgba(193, 130, 27, 0.15);
+            --azul-cielo: #377FF0;
+            --rosa-cta: #E94297;
+            --rosa-hover: #d12c85;
+            --amarillo-acento: #F7C035;
+            --fucsia-acento: #EF489B;
+            --blanco: #FFFFFF;
+            --negro-suave: #1A1A1A;
+            --gris-claro: #F5F5F5;
+            --gris-borde: #E0E0E0;
+            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
             --radius-xl: 32px;
             --radius-2xl: 40px;
         }
 
         body {
-            font-family: 'Inter', sans-serif;
-            background: var(--sand-bg);
-            color: var(--text-main);
-            line-height: 1.4;
+            font-family: 'Montserrat', sans-serif;
+            background: var(--azul-cielo);
+            color: var(--blanco);
+            line-height: 1.5;
         }
 
         /* --- PRELOADER --- */
@@ -50,7 +48,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: #FDFBF7;
+            background: var(--azul-cielo);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -97,10 +95,10 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: all 0.3s cubic-bezier(0.2, 0, 0, 1);
-            background: rgba(253, 251, 247, 0.85);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.02);
+            transition: all 0.3s ease;
+            background: rgba(55, 127, 240, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .nav-logo-img {
@@ -116,51 +114,82 @@
         }
 
         .nav-links a {
-            color: var(--text-muted);
+            color: var(--blanco);
             text-decoration: none;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.9rem;
+            font-weight: 600;
             letter-spacing: -0.01em;
             transition: color 0.2s;
         }
 
         .nav-links a:hover {
-            color: var(--gold);
+            color: var(--amarillo-acento);
         }
 
         .nav-cta {
-            background: var(--gold);
-            color: white !important;
+            background: var(--rosa-cta);
+            color: var(--blanco) !important;
             padding: 12px 28px;
             border-radius: 100px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.85rem;
+            text-transform: uppercase;
             transition: all 0.2s;
-            box-shadow: var(--shadow-xs);
+            box-shadow: var(--shadow-sm);
             text-decoration: none;
         }
 
         .nav-cta:hover {
-            background: var(--gold-light);
+            background: var(--rosa-hover);
             transform: scale(0.98);
         }
 
         .hamburger {
             display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .hamburger span {
+            width: 24px;
+            height: 2px;
+            background: var(--blanco);
+            transition: 0.2s;
         }
 
         .mobile-menu {
             display: none;
+            position: fixed;
+            inset: 0;
+            background: var(--azul-cielo);
+            z-index: 99;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 30px;
+            font-size: 1.4rem;
         }
 
-        /* Hero section moderna */
+        .mobile-menu a {
+            color: var(--blanco);
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .mobile-menu.open {
+            display: flex;
+        }
+
+        /* Sección Hero */
         #hero {
             min-height: 96vh;
             display: flex;
             align-items: center;
             padding: 120px 48px 80px;
-            position: relative;
-            background: linear-gradient(145deg, #FFFDF9 0%, #FEF9F0 100%);
+            background: var(--azul-cielo);
         }
 
         .hero-grid {
@@ -176,48 +205,47 @@
             display: inline-flex;
             align-items: center;
             gap: 10px;
-            background: rgba(194, 135, 27, 0.08);
+            background: rgba(247, 192, 53, 0.2);
             border-radius: 100px;
             padding: 6px 16px 6px 12px;
             font-size: 0.75rem;
-            font-weight: 500;
-            color: var(--gold);
+            font-weight: 700;
+            color: var(--amarillo-acento);
             margin-bottom: 28px;
             backdrop-filter: blur(4px);
         }
 
         .hero-title {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Permanent Marker', cursive;
             font-size: clamp(3.2rem, 7vw, 5.2rem);
-            font-weight: 500;
+            font-weight: 400;
             line-height: 1.1;
-            letter-spacing: -0.03em;
-            color: var(--text-main);
+            color: var(--blanco);
+            margin-bottom: 20px;
         }
 
         .hero-title em {
-            color: var(--gold);
+            color: var(--amarillo-acento);
             font-style: normal;
-            border-bottom: 3px solid var(--gold-light);
+            border-bottom: 3px solid var(--rosa-cta);
             display: inline-block;
         }
 
         .hero-sub {
-            font-size: 1rem;
-            color: var(--text-muted);
+            font-size: 1.1rem;
+            color: rgba(255, 255, 255, 0.9);
             max-width: 480px;
-            margin: 28px 0 40px;
-            line-height: 1.5;
+            margin: 20px 0 40px;
+            font-weight: 500;
         }
 
-        /* Booking engine moderna */
+        /* Booking engine adaptada */
         .booking-engine {
-            background: rgba(255, 255, 255, 0.85);
+            background: rgba(255, 255, 255, 0.95);
             backdrop-filter: blur(12px);
             border-radius: var(--radius-2xl);
             padding: 28px 36px;
-            box-shadow: var(--shadow-md), 0 0 0 1px rgba(255, 255, 255, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.9);
+            box-shadow: var(--shadow-md);
         }
 
         .engine-row {
@@ -235,97 +263,79 @@
         .engine-field label {
             display: block;
             font-size: 0.7rem;
-            font-weight: 600;
+            font-weight: 800;
             text-transform: uppercase;
-            letter-spacing: 0.03em;
-            color: var(--gold);
-            margin-bottom: 10px;
+            color: var(--rosa-cta);
+            margin-bottom: 8px;
         }
 
         .engine-field input,
         .engine-field select {
             width: 100%;
-            background: rgba(253, 251, 247, 0.9);
-            border: 1px solid var(--border-light);
+            background: var(--blanco);
+            border: 1px solid var(--gris-borde);
             border-radius: 20px;
             padding: 14px 18px;
-            font-family: 'Inter', sans-serif;
+            font-family: 'Montserrat', sans-serif;
             font-size: 0.9rem;
+            color: var(--negro-suave);
             transition: all 0.2s;
         }
 
         .engine-field input:focus,
         .engine-field select:focus {
             outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 0 3px rgba(194, 135, 27, 0.1);
+            border-color: var(--amarillo-acento);
+            box-shadow: 0 0 0 3px rgba(247, 192, 53, 0.2);
         }
 
         .search-btn {
-            background: var(--gold);
+            background: var(--rosa-cta);
             border: none;
             border-radius: 28px;
             padding: 14px 32px;
-            font-weight: 600;
+            font-weight: 700;
             font-size: 0.9rem;
-            color: white;
+            text-transform: uppercase;
+            color: var(--blanco);
             cursor: pointer;
             transition: all 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
         }
 
         .search-btn:hover {
-            background: var(--gold-light);
+            background: var(--rosa-hover);
             transform: translateY(-2px);
         }
 
         .booking-summary {
             margin-top: 28px;
-            background: var(--card-white);
+            background: var(--blanco);
             border-radius: 24px;
             padding: 18px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
-            border: 1px solid var(--border-light);
-            box-shadow: var(--shadow-xs);
+            border: 1px solid var(--gris-borde);
+            color: var(--negro-suave);
         }
 
         .summary-price {
             font-size: 1.8rem;
-            font-weight: 700;
-            font-family: 'Space Grotesk', monospace;
-            color: var(--gold);
+            font-weight: 800;
+            color: var(--rosa-cta);
         }
 
-        /* ----- MODERN CARROUSEL (Swiper) ----- */
+        /* Carrusel */
         .hero-image {
             border-radius: var(--radius-2xl);
             overflow: hidden;
             box-shadow: var(--shadow-md);
-            background: #e9e5dd;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            position: relative;
-            height: 100%;
+            background: #1a1a1a;
             min-height: 380px;
         }
 
         .hero-swiper {
-            width: 100%;
-            height: 100%;
-            border-radius: inherit;
-        }
-
-        .hero-swiper .swiper-wrapper {
-            height: 100%;
-        }
-
-        .hero-swiper .swiper-slide {
             width: 100%;
             height: 100%;
         }
@@ -334,55 +344,32 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
-            display: block;
-            transition: transform 0.4s ease;
         }
 
-        /* Estilos de navegación modernos */
         .hero-swiper .swiper-button-prev,
         .hero-swiper .swiper-button-next {
-            background: rgba(255, 255, 255, 0.85);
-            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.9);
             width: 44px;
             height: 44px;
             border-radius: 60px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-            transition: all 0.2s;
         }
 
         .hero-swiper .swiper-button-prev:after,
         .hero-swiper .swiper-button-next:after {
             font-size: 18px;
             font-weight: bold;
-            color: var(--gold);
-        }
-
-        .hero-swiper .swiper-button-prev:hover,
-        .hero-swiper .swiper-button-next:hover {
-            background: white;
-            transform: scale(1.02);
-            box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
-        }
-
-        .hero-swiper .swiper-pagination-bullet {
-            background: #ffffffcc;
-            opacity: 0.7;
-            width: 8px;
-            height: 8px;
-            transition: 0.2s;
+            color: var(--rosa-cta);
         }
 
         .hero-swiper .swiper-pagination-bullet-active {
-            background: var(--gold);
-            width: 24px;
-            border-radius: 8px;
-            opacity: 1;
+            background: var(--amarillo-acento);
         }
 
-        /* Paquetes modernos */
+        /* Paquetes (fondo claro, texto oscuro) */
         #paquetes {
             padding: 100px 48px;
-            background: var(--card-white);
+            background: var(--blanco);
+            color: var(--negro-suave);
         }
 
         .section-header {
@@ -395,21 +382,19 @@
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            color: var(--gold);
-            font-weight: 600;
+            color: var(--rosa-cta);
+            font-weight: 800;
             margin-bottom: 16px;
-            display: block;
         }
 
         .section-title {
-            font-family: 'Space Grotesk', sans-serif;
+            font-family: 'Permanent Marker', cursive;
             font-size: clamp(2.2rem, 4vw, 3.2rem);
-            font-weight: 500;
-            letter-spacing: -0.02em;
+            color: var(--negro-suave);
         }
 
         .section-title em {
-            color: var(--gold);
+            color: var(--azul-cielo);
             font-style: normal;
         }
 
@@ -422,76 +407,74 @@
         }
 
         .pkg-card {
-            background: var(--sand-bg);
+            background: var(--gris-claro);
             border-radius: var(--radius-xl);
             padding: 32px;
             transition: all 0.25s ease;
-            border: 1px solid var(--border-light);
-            backdrop-filter: blur(0px);
+            border: 1px solid var(--gris-borde);
         }
 
         .pkg-card:hover {
             transform: translateY(-8px);
-            border-color: var(--gold-light);
-            box-shadow: var(--shadow-glow);
-            background: white;
-        }
-
-        .pkg-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
+            border-color: var(--amarillo-acento);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
         }
 
         .pkg-name {
-            font-family: 'Space Grotesk', sans-serif;
-            font-size: 1.6rem;
-            font-weight: 500;
-            margin-bottom: 12px;
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin: 12px 0;
+            color: var(--negro-suave);
         }
 
         .price-row-modern {
             display: flex;
             justify-content: space-between;
-            align-items: baseline;
-            border-bottom: 1px dashed var(--border-light);
+            border-bottom: 1px dashed var(--gris-borde);
             padding: 12px 0;
+            color: var(--negro-suave);
         }
 
         .price-adult {
-            font-weight: 700;
-            color: var(--gold);
+            font-weight: 800;
+            color: var(--rosa-cta);
             font-size: 1.1rem;
         }
 
         .select-pkg {
             display: inline-flex;
-            align-items: center;
             justify-content: center;
             width: 100%;
             margin-top: 28px;
-            background: white;
-            border: 1px solid var(--gold);
+            background: var(--rosa-cta);
+            border: none;
             border-radius: 40px;
             padding: 12px;
-            font-weight: 600;
-            color: var(--gold);
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--blanco);
             text-decoration: none;
             transition: all 0.2s;
         }
 
         .select-pkg:hover {
-            background: var(--gold);
-            color: white;
+            background: var(--rosa-hover);
         }
 
         .offer-strip {
-            background: linear-gradient(110deg, #F2E6D5, #FEF3E6);
-            padding: 18px;
+            background: var(--amarillo-acento);
+            color: var(--negro-suave);
+            padding: 14px;
             text-align: center;
-            font-weight: 500;
-            color: var(--gold);
-            border-top: 1px solid rgba(0, 0, 0, 0.02);
-            border-bottom: 1px solid rgba(0, 0, 0, 0.02);
+            font-weight: 700;
+        }
+
+        /* Pasos */
+        #como-funciona {
+            padding: 60px 48px;
+            background: var(--gris-claro);
+            color: var(--negro-suave);
         }
 
         .steps-modern {
@@ -503,23 +486,74 @@
         }
 
         .step-card {
-            background: white;
+            background: var(--blanco);
             border-radius: 28px;
             padding: 32px;
             text-align: center;
             flex: 1;
             min-width: 200px;
             box-shadow: var(--shadow-sm);
-            border: 1px solid var(--border-light);
+        }
+
+        /* Galería */
+        #galeria {
+            padding: 80px 48px;
+            background: var(--blanco);
+        }
+
+        /* Reserva final */
+        #reserva {
+            padding: 80px 48px;
+            background: var(--azul-cielo);
+        }
+
+        .reserva-card {
+            background: var(--blanco);
+            border-radius: 36px;
+            padding: 44px;
+            margin-top: 40px;
+            box-shadow: var(--shadow-md);
+            color: var(--negro-suave);
+        }
+
+        .reserva-card input,
+        .reserva-card select {
+            padding: 16px;
+            border-radius: 24px;
+            border: 1px solid var(--gris-borde);
+            background: var(--blanco);
+            font-family: 'Montserrat', sans-serif;
+            width: 100%;
+        }
+
+        #submitReserva {
+            background: var(--rosa-cta);
+            border: none;
+            padding: 16px 36px;
+            border-radius: 60px;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: var(--blanco);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #submitReserva:hover {
+            background: var(--rosa-hover);
         }
 
         footer {
-            background: #F6F3EE;
+            background: var(--negro-suave);
+            color: #ccc;
             padding: 70px 48px 40px;
-            border-top: 1px solid var(--border-light);
         }
 
-        /* Responsive */
+        footer a,
+        footer strong {
+            color: var(--blanco);
+        }
+
         @media (max-width: 1000px) {
             .hero-grid {
                 grid-template-columns: 1fr;
@@ -537,93 +571,30 @@
 
             .hamburger {
                 display: flex;
-                flex-direction: column;
-                gap: 5px;
-                background: none;
-                border: none;
-                cursor: pointer;
             }
 
-            .hamburger span {
-                width: 24px;
-                height: 2px;
-                background: var(--text-main);
-                transition: 0.2s;
-            }
-
-            .mobile-menu {
-                display: none;
-                position: fixed;
-                inset: 0;
-                background: white;
-                z-index: 99;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
-                gap: 30px;
-                font-size: 1.4rem;
-            }
-
-            .mobile-menu a {
-                color: var(--text-main);
-                text-decoration: none;
-                font-weight: 500;
-            }
-
-            .mobile-menu.open {
-                display: flex;
-            }
-
-            #hero {
-                padding: 100px 24px 60px;
-            }
-
-            #paquetes {
-                padding: 70px 24px;
-            }
-
-            .hero-image {
-                min-height: 340px;
-            }
-
-            .hero-swiper .swiper-button-prev,
-            .hero-swiper .swiper-button-next {
-                width: 36px;
-                height: 36px;
-            }
-
-            .hero-swiper .swiper-button-prev:after,
-            .hero-swiper .swiper-button-next:after {
-                font-size: 14px;
-            }
-        }
-
-        @media (max-width: 640px) {
-            .booking-engine {
-                padding: 20px;
-            }
-
-            .hero-image {
-                min-height: 280px;
+            #hero,
+            #paquetes,
+            #como-funciona,
+            #galeria,
+            #reserva {
+                padding-left: 24px;
+                padding-right: 24px;
             }
         }
     </style>
 </head>
 
 <body>
-
-    <!-- PRELOADER con logo.png centrado -->
     <div class="preloader" id="preloader">
         <img src="logo.png" alt="Hecho en Teoti">
     </div>
-
     <div class="mobile-menu" id="mobile-menu">
         <a href="#paquetes">Paquetes</a>
         <a href="#como-funciona">Experiencia</a>
         <a href="#galeria">Galería</a>
         <a href="#reserva">Reservar</a>
     </div>
-
     <nav id="main-nav">
         <a href="#" class="nav-logo">
             <img src="logo.png" alt="Hecho en Teoti" class="nav-logo-img">
@@ -638,7 +609,6 @@
         <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
     </nav>
 
-    <!-- Hero con carrusel Swiper completamente integrado -->
     <section id="hero">
         <div class="hero-grid">
             <div>
@@ -648,20 +618,13 @@
                     comodidad.</p>
                 <div class="booking-engine">
                     <div class="engine-row">
-                        <div class="engine-field">
-                            <label>📅 Fecha</label>
-                            <input type="date" id="bookingDate" value="2026-06-20">
-                        </div>
-                        <div class="engine-field">
-                            <label>👥 Adultos</label>
-                            <input type="number" id="adultsCount" value="2" min="1">
-                        </div>
-                        <div class="engine-field">
-                            <label>🧒 Niños (4-10)</label>
-                            <input type="number" id="childrenCount" value="0" min="0">
-                        </div>
-                        <div class="engine-field">
-                            <label>🎈 Paquete</label>
+                        <div class="engine-field"><label>📅 Fecha</label><input type="date" id="bookingDate"
+                                value="2026-06-20"></div>
+                        <div class="engine-field"><label>👥 Adultos</label><input type="number" id="adultsCount"
+                                value="2" min="1"></div>
+                        <div class="engine-field"><label>🧒 Niños (4-10)</label><input type="number" id="childrenCount"
+                                value="0" min="0"></div>
+                        <div class="engine-field"><label>🎈 Paquete</label>
                             <select id="packageSelect">
                                 <option value="1">Vuelo en globo</option>
                                 <option value="2">Vuelo + Desayuno</option>
@@ -672,38 +635,30 @@
                         <button class="search-btn" id="searchBtn">🔍 Buscar vuelos</button>
                     </div>
                     <div class="booking-summary">
-                        <span id="summaryText" style="color: var(--text-muted);">20 jun 2026 · 2 adultos · Vuelo en
-                            globo</span>
+                        <span id="summaryText">20 jun 2026 · 2 adultos · Vuelo en globo</span>
                         <span class="summary-price" id="totalDisplay">$4,398 MXN</span>
                     </div>
                 </div>
             </div>
-            <!-- CARROUSEL SWIPER - IMÁGENES DINÁMICAS Y MODERNAS -->
             <div class="hero-image">
                 <div class="swiper hero-swiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide">
-                            <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=1000&q=85"
-                                alt="Globo sobre pirámide Teotihuacán amanecer">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1000&q=85"
-                                alt="Vuelo en globo con vista arqueológica">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="https://images.unsplash.com/photo-1506703719100-f0b3c5c4fea0?auto=format&fit=crop&w=1000&q=85"
-                                alt="Amanecer mágico en globo aerostático">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="https://images.unsplash.com/photo-1534777367038-9404f45b869b?auto=format&fit=crop&w=1000&q=85"
-                                alt="Globos y pirámide del sol Teotihuacán">
-                        </div>
-                        <div class="swiper-slide">
-                            <img src="https://images.unsplash.com/photo-1621760874155-995ec1eb23de?auto=format&fit=crop&w=1000&q=85"
-                                alt="Experiencia premium en globo">
-                        </div>
+                        <div class="swiper-slide"><img
+                                src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=1000&q=85"
+                                alt="Globo"></div>
+                        <div class="swiper-slide"><img
+                                src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1000&q=85"
+                                alt="Vuelo"></div>
+                        <div class="swiper-slide"><img
+                                src="https://images.unsplash.com/photo-1506703719100-f0b3c5c4fea0?auto=format&fit=crop&w=1000&q=85"
+                                alt="Amanecer"></div>
+                        <div class="swiper-slide"><img
+                                src="https://images.unsplash.com/photo-1534777367038-9404f45b869b?auto=format&fit=crop&w=1000&q=85"
+                                alt="Pirámides"></div>
+                        <div class="swiper-slide"><img
+                                src="https://images.unsplash.com/photo-1621760874155-995ec1eb23de?auto=format&fit=crop&w=1000&q=85"
+                                alt="Experiencia"></div>
                     </div>
-                    <!-- Navegación y paginación modernas -->
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
                     <div class="swiper-pagination"></div>
@@ -714,21 +669,19 @@
 
     <div class="offer-strip">🎈 OFERTA EXCLUSIVA: 12% OFF en grupos de 4+ personas · Código: TEOTI2025 🎈</div>
 
-    <!-- Paquetes con precios reales -->
     <section id="paquetes">
         <div class="section-header">
             <span class="section-eyebrow">Nuestros paquetes</span>
             <h2 class="section-title">Elige tu <em>aventura</em></h2>
         </div>
-        <div class="pkg-grid" id="packagesGrid">
+        <div class="pkg-grid">
             <div class="pkg-card" data-pkg-id="1">
                 <div class="pkg-icon">🎈</div>
                 <div class="pkg-name">Vuelo esencial</div>
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,199</span></div>
                 <div class="price-row-modern"><span>Niño (4-10)</span><span>$1,999</span></div>
-                <div class="badge-pkg" style="margin: 12px 0; font-size:0.7rem; color:var(--gold);">✅ Brindis +
-                    diploma
-                </div>
+                <div class="badge-pkg" style="margin: 12px 0; font-size:0.7rem; color:var(--rosa-cta);">✅ Brindis +
+                    diploma</div>
                 <a href="#" class="select-pkg" data-pkg="1">Seleccionar</a>
             </div>
             <div class="pkg-card" data-pkg-id="2">
@@ -758,34 +711,32 @@
         </div>
     </section>
 
-    <!-- Cómo funciona moderno -->
-    <section id="como-funciona" style="padding: 60px 48px; background: var(--sand-bg);">
+    <section id="como-funciona">
         <div class="section-header">
             <span class="section-eyebrow">Simple y rápido</span>
             <h2 class="section-title">Reserva en <em>3 pasos</em></h2>
         </div>
         <div class="steps-modern">
             <div class="step-card"><span style="font-size: 2rem;">📅</span>
-                <h3 style="margin: 12px 0;">1. Elige fecha</h3>
-                <p style="color: var(--text-muted);">Selecciona tu día preferido</p>
+                <h3>1. Elige fecha</h3>
+                <p>Selecciona tu día preferido</p>
             </div>
             <div class="step-card"><span style="font-size: 2rem;">🎈</span>
-                <h3 style="margin: 12px 0;">2. Elige paquete</h3>
-                <p style="color: var(--text-muted);">Adultos y niños</p>
+                <h3>2. Elige paquete</h3>
+                <p>Adultos y niños</p>
             </div>
             <div class="step-card"><span style="font-size: 2rem;">✅</span>
-                <h3 style="margin: 12px 0;">3. Confirma y vuela</h3>
-                <p style="color: var(--text-muted);">Voucher en minutos</p>
+                <h3>3. Confirma y vuela</h3>
+                <p>Voucher en minutos</p>
             </div>
         </div>
         <div
-            style="background: white; border-radius: 28px; padding: 24px; text-align: center; max-width: 500px; margin: 20px auto 0;">
+            style="background: white; border-radius: 28px; padding: 24px; text-align: center; max-width: 500px; margin: 20px auto 0; color: var(--negro-suave);">
             📆 Disponibilidad: <strong>20, 21, 22, 27, 28 de junio</strong> — ¡últimos lugares!
         </div>
     </section>
 
-    <!-- Galería moderna -->
-    <section id="galeria" style="padding: 80px 48px; background: white;">
+    <section id="galeria">
         <div class="section-header">
             <span class="section-eyebrow">Recuerdos reales</span>
             <h2 class="section-title">Momentos <em>únicos</em></h2>
@@ -793,43 +744,35 @@
         <div
             style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; max-width: 1400px; margin: 0 auto;">
             <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;" loading="lazy">
+                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
             <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=600&q=80"
-                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;" loading="lazy">
+                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
             <img src="https://images.unsplash.com/photo-1600699882135-04b6a8fb3cae?auto=format&fit=crop&w=600&q=80"
-                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;" loading="lazy">
+                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
             <img src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?auto=format&fit=crop&w=600&q=80"
-                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;" loading="lazy">
+                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
         </div>
     </section>
 
-    <!-- Reserva final -->
-    <section id="reserva" style="padding: 80px 48px; background: var(--sand-bg);">
+    <section id="reserva">
         <div style="max-width: 900px; margin: 0 auto; text-align: center;">
             <span class="section-eyebrow">Asegura tu lugar</span>
             <h2 class="section-title">¿Listo para <em>despegar?</em></h2>
-            <div
-                style="background: white; border-radius: 36px; padding: 44px; margin-top: 40px; box-shadow: var(--shadow-md);">
+            <div class="reserva-card">
                 <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <input type="text" id="nombreReserva" placeholder="Nombre completo"
-                        style="padding: 16px; border-radius: 24px; border: 1px solid var(--border-light); background: var(--sand-bg);">
-                    <input type="email" id="emailReserva" placeholder="Correo electrónico"
-                        style="padding: 16px; border-radius: 24px; border: 1px solid var(--border-light); background: var(--sand-bg);">
-                    <input type="tel" id="whatsappReserva" placeholder="WhatsApp"
-                        style="padding: 16px; border-radius: 24px; border: 1px solid var(--border-light); background: var(--sand-bg);">
-                    <select id="paqueteFinal"
-                        style="padding: 16px; border-radius: 24px; border: 1px solid var(--border-light); background: var(--sand-bg);">
+                    <input type="text" id="nombreReserva" placeholder="Nombre completo">
+                    <input type="email" id="emailReserva" placeholder="Correo electrónico">
+                    <input type="tel" id="whatsappReserva" placeholder="WhatsApp">
+                    <select id="paqueteFinal">
                         <option value="1">Vuelo en globo</option>
                         <option value="2">Vuelo + Desayuno</option>
                         <option value="3">+ Transporte CDMX + Desayuno</option>
                         <option value="4">Completo + Pirámides</option>
                     </select>
                 </div>
-                <button id="submitReserva"
-                    style="margin-top: 32px; background: var(--gold); border: none; padding: 16px 36px; border-radius: 60px; font-weight: 700; color: white; font-size: 1rem; cursor: pointer;">Solicitar
-                    reservación →</button>
-                <p style="margin-top: 28px; font-size: 0.75rem; color: var(--text-muted);">Te contactamos en menos de 2
-                    horas para confirmar disponibilidad y pago seguro.</p>
+                <button id="submitReserva">Solicitar reservación →</button>
+                <p style="margin-top: 28px; font-size: 0.75rem; color: var(--negro-suave);">Te contactamos en menos de
+                    2 horas para confirmar disponibilidad y pago seguro.</p>
             </div>
         </div>
     </section>
@@ -837,45 +780,33 @@
     <footer>
         <div
             style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
-            <div><strong style="font-family:'Space Grotesk'; font-size: 1.5rem;">hecho<span
-                        style="color:var(--gold);">en</span>teoti</strong><br>Desde 2009
-                · Experiencias únicas</div>
+            <div><strong style="font-family:'Permanent Marker', cursive; font-size: 1.5rem;">hecho<span
+                        style="color:var(--amarillo-acento);">en</span>teoti</strong><br>Desde 2009 · Experiencias
+                únicas</div>
             <div><strong>Contacto</strong><br>📞 55 4321 8765<br>✉️ vuelos@hechoenteoti.mx</div>
             <div><strong>Información</strong><br>Políticas de clima<br>Términos y condiciones</div>
             <div><strong>Redes</strong><br>📷 IG · 🎵 TT · 📘 FB</div>
         </div>
-        <div style="text-align: center; margin-top: 60px; font-size: 0.75rem; color: var(--text-muted);">© 2025 Hecho
-            en Teoti · Pilotos certificados AFAC</div>
+        <div style="text-align: center; margin-top: 60px; font-size: 0.75rem;">© 2025 Hecho en Teoti · Pilotos
+            certificados AFAC</div>
     </footer>
 
-    <!-- Scripts: Swiper JS + lógica del sitio + preloader -->
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
-        // Inicializar Swiper (carrusel moderno con loop, autoplay y diseño responsive premium)
         const heroSwiper = new Swiper('.hero-swiper', {
             loop: true,
             autoplay: {
-                delay: 4500,
-                disableOnInteraction: false,
-                pauseOnMouseEnter: true,
+                delay: 4500
             },
-            effect: 'slide',
-            speed: 800,
             navigation: {
                 nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev',
+                prevEl: '.swiper-button-prev'
             },
             pagination: {
                 el: '.swiper-pagination',
-                clickable: true,
-                dynamicBullets: true,
-            },
-            grabCursor: true,
-            slidesPerView: 1,
-            spaceBetween: 0,
+                clickable: true
+            }
         });
-
-        // Precios y lógica del sitio
         const prices = {
             1: {
                 adult: 2199,
@@ -911,7 +842,6 @@
                 `${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
             document.getElementById('totalDisplay').innerHTML = `$${total.toLocaleString()} MXN`;
         }
-
         document.getElementById('adultsCount').addEventListener('input', updateSummary);
         document.getElementById('childrenCount').addEventListener('input', updateSummary);
         document.getElementById('packageSelect').addEventListener('change', updateSummary);
@@ -922,67 +852,43 @@
                 behavior: 'smooth'
             });
         });
-
-        document.querySelectorAll('.select-pkg').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const pkgId = btn.getAttribute('data-pkg');
-                if (pkgId) document.getElementById('packageSelect').value = pkgId;
-                updateSummary();
-                document.getElementById('hero').scrollIntoView({
-                    behavior: 'smooth'
-                });
+        document.querySelectorAll('.select-pkg').forEach(btn => btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const pkgId = btn.getAttribute('data-pkg');
+            if (pkgId) document.getElementById('packageSelect').value = pkgId;
+            updateSummary();
+            document.getElementById('hero').scrollIntoView({
+                behavior: 'smooth'
             });
-        });
-
+        }));
         document.getElementById('submitReserva').addEventListener('click', () => {
             const nombre = document.getElementById('nombreReserva').value;
             if (!nombre || !document.getElementById('emailReserva').value || !document.getElementById(
-                    'whatsappReserva').value) {
-                alert("Completa todos los datos para solicitar tu reserva");
-            } else {
-                alert(`✨ ¡Gracias ${nombre}! Te contactaremos por WhatsApp para confirmar tu vuelo en globo.`);
-            }
+                    'whatsappReserva').value) alert("Completa todos los datos para solicitar tu reserva");
+            else alert(`✨ ¡Gracias ${nombre}! Te contactaremos por WhatsApp para confirmar tu vuelo en globo.`);
         });
-
-        const ham = document.getElementById('hamburger');
-        const mobMenu = document.getElementById('mobile-menu');
+        const ham = document.getElementById('hamburger'),
+            mobMenu = document.getElementById('mobile-menu');
         ham.addEventListener('click', () => {
-            ham.classList.toggle('open');
             mobMenu.classList.toggle('open');
         });
-        document.querySelectorAll('.mobile-menu a').forEach(l => l.addEventListener('click', () => {
-            ham.classList.remove('open');
-            mobMenu.classList.remove('open');
-        }));
-
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('main-nav');
-            nav.style.backdropFilter = window.scrollY > 50 ? "blur(20px)" : "blur(12px)";
-        });
-        updateSummary();
-
-        // Ocultar preloader cuando todo esté cargado (incluyendo imágenes del Swiper)
-        window.addEventListener('load', function() {
+        document.querySelectorAll('.mobile-menu a').forEach(l => l.addEventListener('click', () => mobMenu.classList.remove(
+            'open')));
+        window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             if (preloader) {
                 preloader.classList.add('hidden');
-                // Remover del DOM después de la transición
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 500);
+                setTimeout(() => preloader.style.display = 'none', 500);
             }
         });
-        // Fallback por si load no se dispara rápido (ej. caché)
         setTimeout(() => {
             const preloader = document.getElementById('preloader');
             if (preloader && !preloader.classList.contains('hidden')) {
                 preloader.classList.add('hidden');
-                setTimeout(() => {
-                    preloader.style.display = 'none';
-                }, 500);
+                setTimeout(() => preloader.style.display = 'none', 500);
             }
         }, 2000);
+        updateSummary();
     </script>
 </body>
 
