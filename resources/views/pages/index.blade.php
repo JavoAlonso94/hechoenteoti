@@ -17,11 +17,12 @@
         }
 
         :root {
-            --azul-cielo: #377FF0;
-            --rosa-cta: #E94297;
-            --rosa-hover: #d12c85;
-            --amarillo-acento: #F7C035;
-            --fucsia-acento: #EF489B;
+            --azul-cielo: #0099ff;      /* r0 g177 b255 */
+            --rosa-cta: #ff0099;        /* r255 g0 b170 */
+            --rosa-hover: #e6008c;
+            --amarillo-acento: #ffcc00;  /* r255 g206 b0 */
+            --naranja-acento: #ff9900;   /* r255 g151 b0 */
+            --azul-profundo: #333399;    /* r31 g65 b160 */
             --blanco: #FFFFFF;
             --negro-suave: #1A1A1A;
             --gris-claro: #F5F5F5;
@@ -65,20 +66,9 @@
         }
 
         @keyframes softPulse {
-            0% {
-                transform: scale(0.96);
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: scale(1.04);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(0.96);
-                opacity: 0.7;
-            }
+            0% { transform: scale(0.96); opacity: 0.7; }
+            100% { transform: scale(1.04); opacity: 1; }
+            100% { transform: scale(0.96); opacity: 0.7; }
         }
 
         nav {
@@ -92,7 +82,7 @@
             align-items: center;
             justify-content: space-between;
             transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            background: rgba(55, 127, 240, 0.75);
+            background: rgba(0, 153, 255, 0.75);
             backdrop-filter: blur(16px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
@@ -100,7 +90,7 @@
 
         nav.nav-scrolled {
             padding: 12px 48px;
-            background: rgba(55, 127, 240, 0.92);
+            background: rgba(0, 153, 255, 0.92);
             backdrop-filter: blur(20px);
             border-bottom-color: rgba(255, 255, 255, 0.3);
             box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
@@ -114,7 +104,7 @@
 
         .nav-logo-img:hover {
             transform: scale(1.02);
-            filter: drop-shadow(0 0 6px rgba(247, 192, 53, 0.5));
+            filter: drop-shadow(0 0 6px rgba(255, 204, 0, 0.5));
         }
 
         .nav-links {
@@ -153,7 +143,7 @@
         }
 
         .nav-cta {
-            background: linear-gradient(135deg, var(--rosa-cta), #c72a7a);
+            background: linear-gradient(135deg, var(--rosa-cta), #c20077);
             padding: 12px 28px;
             border-radius: 100px;
             font-weight: 700;
@@ -161,15 +151,15 @@
             text-transform: uppercase;
             color: var(--blanco);
             transition: 0.3s;
-            box-shadow: 0 6px 14px rgba(233, 66, 151, 0.25);
+            box-shadow: 0 6px 14px rgba(255, 0, 153, 0.25);
             text-decoration: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
         .nav-cta:hover {
             transform: translateY(-3px);
-            background: linear-gradient(135deg, var(--rosa-hover), #b81f68);
-            box-shadow: 0 12px 24px rgba(233, 66, 151, 0.4);
+            background: linear-gradient(135deg, var(--rosa-hover), #aa0068);
+            box-shadow: 0 12px 24px rgba(255, 0, 153, 0.4);
         }
 
         .hamburger {
@@ -193,12 +183,10 @@
         .hamburger.active span:nth-child(1) {
             transform: rotate(45deg) translate(6px, 6px);
         }
-
         .hamburger.active span:nth-child(2) {
             opacity: 0;
             transform: scaleX(0);
         }
-
         .hamburger.active span:nth-child(3) {
             transform: rotate(-45deg) translate(6px, -6px);
         }
@@ -210,7 +198,7 @@
             bottom: 0;
             width: 80%;
             max-width: 360px;
-            background: rgba(55, 127, 240, 0.96);
+            background: rgba(0, 153, 255, 0.96);
             backdrop-filter: blur(32px);
             z-index: 101;
             display: flex;
@@ -415,11 +403,10 @@
 
         .pkg-card:hover {
             transform: translateY(-8px);
-            border-color: var(--amarillo-acento);
+            border-color: var(--naranja-acento);
             box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
         }
 
-        /* IMAGEN DE MOMENTO DESTACADA EN PAQUETES */
         .pkg-img {
             width: 100%;
             aspect-ratio: 4 / 3;
@@ -474,7 +461,7 @@
 
         .offer-strip {
             background: var(--amarillo-acento);
-            color: var(--negro-suave);
+            color: var(--azul-profundo);
             padding: 14px;
             text-align: center;
             font-weight: 700;
@@ -556,29 +543,19 @@
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
-
             nav {
                 padding: 16px 24px;
             }
-
-            .nav-links,
-            .nav-cta {
+            .nav-links, .nav-cta {
                 display: none;
             }
-
             .hamburger {
                 display: flex;
             }
-
-            #hero,
-            #paquetes,
-            #como-funciona,
-            #galeria,
-            #reserva {
+            #hero, #paquetes, #como-funciona, #galeria, #reserva {
                 padding-left: 24px;
                 padding-right: 24px;
             }
-
             .pkg-grid {
                 gap: 24px;
             }
@@ -588,7 +565,6 @@
             .booking-engine {
                 padding: 20px;
             }
-
             .engine-row {
                 flex-direction: column;
             }
@@ -625,7 +601,7 @@
         <div class="hero-grid">
             <div>
                 <div class="hero-badge"
-                    style="display: inline-flex; background: rgba(247,192,53,0.2); border-radius: 100px; padding: 6px 16px; font-weight: 700; color: var(--amarillo-acento); margin-bottom: 28px;">
+                    style="display: inline-flex; background: rgba(255,204,0,0.2); border-radius: 100px; padding: 6px 16px; font-weight: 700; color: var(--amarillo-acento); margin-bottom: 28px;">
                     ✨ vuelo al amanecer · Teotihuacán</div>
                 <h1 class="hero-title">Despierta sobre <em>las pirámides</em></h1>
                 <p class="hero-sub" style="font-size:1.1rem; color: rgba(255,255,255,0.9); margin: 20px 0 40px;">La
@@ -679,14 +655,12 @@
 
     <div class="offer-strip">🎈 OFERTA EXCLUSIVA: 12% OFF en grupos de 4+ personas · Código: TEOTI2025 🎈</div>
 
-    <!-- SECCIÓN PAQUETES CON IMAGEN DE MOMENTO EN TODOS LOS PAQUETES -->
     <section id="paquetes">
         <div class="section-header">
             <span class="section-eyebrow">Nuestros paquetes</span>
             <h2 class="section-title">Elige tu <em>aventura</em></h2>
         </div>
         <div class="pkg-grid">
-            <!-- Paquete 1: Vuelo esencial -->
             <div class="pkg-card" data-pkg-id="1">
                 <img class="pkg-img"
                     src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
@@ -697,7 +671,6 @@
                 <div style="margin: 12px 0; font-size:0.7rem; color:var(--rosa-cta);">✅ Brindis + diploma</div>
                 <a href="#" class="select-pkg" data-pkg="1">Seleccionar</a>
             </div>
-            <!-- Paquete 2: Vuelo + Desayuno -->
             <div class="pkg-card" data-pkg-id="2">
                 <img class="pkg-img"
                     src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
@@ -708,7 +681,6 @@
                 <div style="margin: 12px 0;">🍽️ Desayuno en hacienda</div>
                 <a href="#" class="select-pkg" data-pkg="2">Seleccionar</a>
             </div>
-            <!-- Paquete 3: Todo incluido (CDMX) -->
             <div class="pkg-card" data-pkg-id="3">
                 <img class="pkg-img"
                     src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
@@ -719,7 +691,6 @@
                 <div style="margin: 12px 0;">🚐 Transporte redondo + desayuno</div>
                 <a href="#" class="select-pkg" data-pkg="3">Seleccionar</a>
             </div>
-            <!-- Paquete 4: Experiencia completa -->
             <div class="pkg-card" data-pkg-id="4">
                 <img class="pkg-img"
                     src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
@@ -816,39 +787,15 @@
     <script>
         const heroSwiper = new Swiper('.hero-swiper', {
             loop: true,
-            autoplay: {
-                delay: 4500
-            },
-            navigation: {
-                nextEl: '.swiper-button-next',
-                prevEl: '.swiper-button-prev'
-            },
-            pagination: {
-                el: '.swiper-pagination',
-                clickable: true
-            }
+            autoplay: { delay: 4500 },
+            navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+            pagination: { el: '.swiper-pagination', clickable: true }
         });
         const prices = {
-            1: {
-                adult: 2199,
-                child: 1999,
-                name: "Vuelo en globo"
-            },
-            2: {
-                adult: 2299,
-                child: 2149,
-                name: "Vuelo + Desayuno"
-            },
-            3: {
-                adult: 2749,
-                child: 2599,
-                name: "Vuelo + Transporte + Desayuno"
-            },
-            4: {
-                adult: 2949,
-                child: 2799,
-                name: "Paquete completo + Pirámides"
-            }
+            1: { adult: 2199, child: 1999, name: "Vuelo en globo" },
+            2: { adult: 2299, child: 2149, name: "Vuelo + Desayuno" },
+            3: { adult: 2749, child: 2599, name: "Vuelo + Transporte + Desayuno" },
+            4: { adult: 2949, child: 2799, name: "Paquete completo + Pirámides" }
         };
 
         function updateSummary() {
@@ -859,8 +806,7 @@
             const total = (adults * pkg.adult) + (children * pkg.child);
             const date = document.getElementById('bookingDate').value;
             const formattedDate = date ? new Date(date).toLocaleDateString('es-MX') : 'fecha';
-            document.getElementById('summaryText').innerHTML =
-                `${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
+            document.getElementById('summaryText').innerHTML = `${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
             document.getElementById('totalDisplay').innerHTML = `$${total.toLocaleString()} MXN`;
         }
         document.getElementById('adultsCount').addEventListener('input', updateSummary);
@@ -869,33 +815,26 @@
         document.getElementById('bookingDate').addEventListener('change', updateSummary);
         document.getElementById('searchBtn').addEventListener('click', () => {
             updateSummary();
-            document.getElementById('paquetes').scrollIntoView({
-                behavior: 'smooth'
-            });
+            document.getElementById('paquetes').scrollIntoView({ behavior: 'smooth' });
         });
         document.querySelectorAll('.select-pkg').forEach(btn => btn.addEventListener('click', (e) => {
             e.preventDefault();
             const pkgId = btn.getAttribute('data-pkg');
             if (pkgId) document.getElementById('packageSelect').value = pkgId;
             updateSummary();
-            document.getElementById('hero').scrollIntoView({
-                behavior: 'smooth'
-            });
+            document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
         }));
         document.getElementById('submitReserva').addEventListener('click', () => {
             const nombre = document.getElementById('nombreReserva').value;
-            if (!nombre || !document.getElementById('emailReserva').value || !document.getElementById(
-                    'whatsappReserva').value) alert("Completa todos los datos para solicitar tu reserva");
+            if (!nombre || !document.getElementById('emailReserva').value || !document.getElementById('whatsappReserva').value)
+                alert("Completa todos los datos para solicitar tu reserva");
             else alert(`✨ ¡Gracias ${nombre}! Te contactaremos por WhatsApp para confirmar tu vuelo en globo.`);
         });
         const nav = document.getElementById('main-nav');
         window.addEventListener('scroll', () => {
             window.scrollY > 20 ? nav.classList.add('nav-scrolled') : nav.classList.remove('nav-scrolled');
         });
-        const hamburger = document.getElementById('hamburger'),
-            mobileMenu = document.getElementById('mobile-menu'),
-            overlay = document.getElementById('menuOverlay');
-
+        const hamburger = document.getElementById('hamburger'), mobileMenu = document.getElementById('mobile-menu'), overlay = document.getElementById('menuOverlay');
         function toggleMobileMenu(open) {
             if (open) {
                 mobileMenu.classList.add('open');
@@ -919,9 +858,7 @@
             const targetId = link.getAttribute('href');
             if (targetId && targetId !== '#') {
                 e.preventDefault();
-                document.querySelector(targetId)?.scrollIntoView({
-                    behavior: 'smooth'
-                });
+                document.querySelector(targetId)?.scrollIntoView({ behavior: 'smooth' });
             }
         }));
         window.addEventListener('resize', () => {
