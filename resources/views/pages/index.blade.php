@@ -17,12 +17,12 @@
         }
 
         :root {
-            --azul-cielo: #0099ff;      /* r0 g177 b255 */
-            --rosa-cta: #ff0099;        /* r255 g0 b170 */
+            --azul-cielo: #0099ff;
+            --rosa-cta: #ff0099;
             --rosa-hover: #e6008c;
-            --amarillo-acento: #ffcc00;  /* r255 g206 b0 */
-            --naranja-acento: #ff9900;   /* r255 g151 b0 */
-            --azul-profundo: #333399;    /* r31 g65 b160 */
+            --amarillo-acento: #ffcc00;
+            --naranja-acento: #ff9900;
+            --azul-profundo: #333399;
             --blanco: #FFFFFF;
             --negro-suave: #1A1A1A;
             --gris-claro: #F5F5F5;
@@ -38,8 +38,105 @@
             background: var(--azul-cielo);
             color: var(--blanco);
             line-height: 1.5;
+            overflow-x: hidden;
         }
 
+        /* Lightbox moderno */
+        .lightbox {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+        }
+
+        .lightbox-content img {
+            width: auto;
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: -40px;
+            background: var(--rosa-cta);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 24px;
+            color: white;
+            transition: transform 0.2s;
+            border: none;
+        }
+
+        .lightbox-close:hover {
+            transform: scale(1.1);
+            background: var(--rosa-hover);
+        }
+
+        .lightbox-prev,
+        .lightbox-next {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(8px);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 28px;
+            color: white;
+            transition: all 0.2s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .lightbox-prev { left: -60px; }
+        .lightbox-next { right: -60px; }
+
+        .lightbox-prev:hover, .lightbox-next:hover {
+            background: var(--rosa-cta);
+            border-color: var(--rosa-cta);
+        }
+
+        @media (max-width: 768px) {
+            .lightbox-prev { left: 10px; }
+            .lightbox-next { right: 10px; }
+            .lightbox-close { top: 10px; right: 10px; }
+        }
+
+        /* Preloader, nav, hero, etc - todo lo anterior se mantiene */
         .preloader {
             position: fixed;
             top: 0;
@@ -491,9 +588,73 @@
             box-shadow: var(--shadow-sm);
         }
 
+        /* GALERÍA MODERNA */
         #galeria {
             padding: 80px 48px;
             background: var(--blanco);
+        }
+
+        .gallery-modern {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            position: relative;
+            border-radius: 28px;
+            overflow: hidden;
+            aspect-ratio: 1 / 1;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-item .overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+            color: white;
+            padding: 20px;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+            font-weight: 600;
+        }
+
+        .gallery-item:hover .overlay {
+            transform: translateY(0);
+        }
+
+        .gallery-item .overlay span {
+            display: block;
+            font-size: 0.9rem;
+            background: var(--rosa-cta);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            margin-top: 8px;
+        }
+
+        @media (max-width: 640px) {
+            .gallery-modern {
+                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+                gap: 12px;
+            }
         }
 
         #reserva {
@@ -532,7 +693,7 @@
             background: var(--rosa-hover);
         }
 
-        /* Nueva sección nosotros, misión, visión, ubicación, contacto */
+        /* Sección conocenos */
         #conocenos {
             padding: 80px 48px;
             background: var(--blanco);
@@ -615,6 +776,12 @@
             border: 0;
         }
 
+        footer {
+            background: var(--negro-suave);
+            color: #ccc;
+            padding: 70px 48px 40px;
+        }
+
         @media (max-width: 1000px) {
             .hero-grid {
                 grid-template-columns: 1fr;
@@ -652,12 +819,6 @@
             .mv-container {
                 flex-direction: column;
             }
-        }
-
-        footer {
-            background: var(--negro-suave);
-            color: #ccc;
-            padding: 70px 48px 40px;
         }
     </style>
 </head>
@@ -820,21 +981,46 @@
             📆 Disponibilidad: <strong>20, 21, 22, 27, 28 de junio</strong> — ¡últimos lugares!</div>
     </section>
 
+    <!-- GALERÍA MODERNA -->
     <section id="galeria">
         <div class="section-header">
-            <span class="section-eyebrow">Recuerdos reales</span>
+            <span class="section-eyebrow">Recuerdos que inspiran</span>
             <h2 class="section-title">Momentos <em>únicos</em></h2>
         </div>
-        <div
-            style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 24px; max-width: 1400px; margin: 0 auto;">
-            <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=600&q=80"
-                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
-            <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=600&q=80"
-                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
-            <img src="https://images.unsplash.com/photo-1600699882135-04b6a8fb3cae?auto=format&fit=crop&w=600&q=80"
-                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
-            <img src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?auto=format&fit=crop&w=600&q=80"
-                style="border-radius: 24px; width: 100%; height: 240px; object-fit: cover;">
+        <div class="gallery-modern" id="galleryModern">
+            <!-- 8 imágenes de alta calidad -->
+            <div class="gallery-item" data-index="0">
+                <img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=800&q=85" alt="Globo sobrevolando Teotihuacán">
+                <div class="overlay"><span>📸 Amanecer místico</span></div>
+            </div>
+            <div class="gallery-item" data-index="1">
+                <img src="https://images.unsplash.com/photo-1506703719100-f0b3c5c4fea0?auto=format&fit=crop&w=800&q=85" alt="Vista de la Pirámide del Sol">
+                <div class="overlay"><span>🌅 Pirámide del Sol</span></div>
+            </div>
+            <div class="gallery-item" data-index="2">
+                <img src="https://images.unsplash.com/photo-1534777367038-9404f45b869b?auto=format&fit=crop&w=800&q=85" alt="Preparación del globo">
+                <div class="overlay"><span>🎈 Inflado del globo</span></div>
+            </div>
+            <div class="gallery-item" data-index="3">
+                <img src="https://images.unsplash.com/photo-1621760874155-995ec1eb23de?auto=format&fit=crop&w=800&q=85" alt="Grupo celebrando">
+                <div class="overlay"><span>🥂 Brindis post vuelo</span></div>
+            </div>
+            <div class="gallery-item" data-index="4">
+                <img src="https://images.unsplash.com/photo-1556388158-158ea5ccacbd?auto=format&fit=crop&w=800&q=85" alt="Globo y pirámides">
+                <div class="overlay"><span>🏛️ Vista aérea única</span></div>
+            </div>
+            <div class="gallery-item" data-index="5">
+                <img src="https://images.unsplash.com/photo-1600699882135-04b6a8fb3cae?auto=format&fit=crop&w=800&q=85" alt="Pasajeros sonriendo">
+                <div class="overlay"><span>😊 Felicidad a bordo</span></div>
+            </div>
+            <div class="gallery-item" data-index="6">
+                <img src="https://images.unsplash.com/photo-1504701954957-2010ec3bcec1?auto=format&fit=crop&w=800&q=85" alt="Canasta con globo">
+                <div class="overlay"><span>🧺 Preparando el vuelo</span></div>
+            </div>
+            <div class="gallery-item" data-index="7">
+                <img src="https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=800&q=85" alt="Atardecer en Teotihuacán">
+                <div class="overlay"><span>🌄 Magia al atardecer</span></div>
+            </div>
         </div>
     </section>
 
@@ -861,14 +1047,12 @@
         </div>
     </section>
 
-    <!-- NUEVA SECCIÓN: Nosotros, Misión, Visión, Ubicación, Contacto -->
     <section id="conocenos">
         <div class="section-header">
             <span class="section-eyebrow">Nuestra esencia</span>
             <h2 class="section-title">Conoce <em>más de nosotros</em></h2>
         </div>
         <div class="conocenos-grid">
-            <!-- Columna izquierda: Nosotros y misión/visión -->
             <div class="info-card">
                 <h3>✨ Nosotros</h3>
                 <p style="line-height: 1.6; margin-bottom: 24px;">Somos <strong>Hecho en Teoti</strong>, una empresa familiar con más de 15 años de experiencia ofreciendo vuelos en globo aerostático sobre la majestuosa Zona Arqueológica de Teotihuacán. Nacimos del amor por las tradiciones mexicanas y el deseo de compartir una vista única del amanecer entre las pirámides del Sol y la Luna. Cada vuelo es operado con los más altos estándares de seguridad y calidez humana.</p>
@@ -883,7 +1067,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Columna derecha: Ubicación + Contacto -->
             <div class="info-card">
                 <h3>📍 Ubicación</h3>
                 <p><strong>Globopuerto Teotihuacán</strong><br>Carretera Federal México-Tulancingo Km 28.5, San Martín de las Pirámides, Estado de México, C.P. 55800</p>
@@ -911,27 +1094,36 @@
     </section>
 
     <footer>
-        <div
-            style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
-            <div><strong style="font-family:'Permanent Marker', cursive; font-size: 1.5rem;">hecho<span
-                        style="color:var(--amarillo-acento);">en</span>teoti</strong><br>Desde 2009 · Experiencias
-                únicas</div>
+        <div style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
+            <div><strong style="font-family:'Permanent Marker', cursive; font-size: 1.5rem;">hecho<span style="color:var(--amarillo-acento);">en</span>teoti</strong><br>Desde 2009 · Experiencias únicas</div>
             <div><strong>Contacto</strong><br>📞 55 4321 8765<br>✉️ vuelos@hechoenteoti.mx</div>
             <div><strong>Información</strong><br>Políticas de clima<br>Términos y condiciones</div>
             <div><strong>Redes</strong><br>📷 IG · 🎵 TT · 📘 FB</div>
         </div>
-        <div style="text-align: center; margin-top: 60px; font-size: 0.75rem;">© 2025 Hecho en Teoti · Pilotos
-            certificados AFAC</div>
+        <div style="text-align: center; margin-top: 60px; font-size: 0.75rem;">© 2025 Hecho en Teoti · Pilotos certificados AFAC</div>
     </footer>
+
+    <!-- Lightbox estructura -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="">
+            <button class="lightbox-close" id="lightboxClose">✕</button>
+            <button class="lightbox-prev" id="lightboxPrev">‹</button>
+            <button class="lightbox-next" id="lightboxNext">›</button>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script>
+        // Hero Swiper
         const heroSwiper = new Swiper('.hero-swiper', {
             loop: true,
             autoplay: { delay: 4500 },
             navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
             pagination: { el: '.swiper-pagination', clickable: true }
         });
+
+        // Precios y lógica de reserva
         const prices = {
             1: { adult: 2199, child: 1999, name: "Vuelo en globo" },
             2: { adult: 2299, child: 2149, name: "Vuelo + Desayuno" },
@@ -971,10 +1163,14 @@
                 alert("Completa todos los datos para solicitar tu reserva");
             else alert(`✨ ¡Gracias ${nombre}! Te contactaremos por WhatsApp para confirmar tu vuelo en globo.`);
         });
+
+        // Nav scroll
         const nav = document.getElementById('main-nav');
         window.addEventListener('scroll', () => {
             window.scrollY > 20 ? nav.classList.add('nav-scrolled') : nav.classList.remove('nav-scrolled');
         });
+
+        // Mobile menu
         const hamburger = document.getElementById('hamburger'), mobileMenu = document.getElementById('mobile-menu'), overlay = document.getElementById('menuOverlay');
         function toggleMobileMenu(open) {
             if (open) {
@@ -1005,6 +1201,8 @@
         window.addEventListener('resize', () => {
             if (window.innerWidth > 1000 && mobileMenu.classList.contains('open')) toggleMobileMenu(false);
         });
+
+        // Preloader
         window.addEventListener('load', () => {
             const preloader = document.getElementById('preloader');
             if (preloader) {
@@ -1020,6 +1218,54 @@
             }
         }, 2000);
         updateSummary();
+
+        // ----- GALERÍA MODERNA CON LIGHTBOX -----
+        const galleryItems = document.querySelectorAll('.gallery-item');
+        const lightbox = document.getElementById('lightbox');
+        const lightboxImg = document.getElementById('lightboxImg');
+        const closeBtn = document.getElementById('lightboxClose');
+        const prevBtn = document.getElementById('lightboxPrev');
+        const nextBtn = document.getElementById('lightboxNext');
+        let currentIndex = 0;
+        const images = Array.from(galleryItems).map(item => item.querySelector('img').src);
+
+        function openLightbox(index) {
+            currentIndex = index;
+            lightboxImg.src = images[currentIndex];
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function showNext() {
+            currentIndex = (currentIndex + 1) % images.length;
+            lightboxImg.src = images[currentIndex];
+        }
+
+        function showPrev() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            lightboxImg.src = images[currentIndex];
+        }
+
+        galleryItems.forEach((item, idx) => {
+            item.addEventListener('click', () => openLightbox(idx));
+        });
+        closeBtn.addEventListener('click', closeLightbox);
+        nextBtn.addEventListener('click', showNext);
+        prevBtn.addEventListener('click', showPrev);
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) closeLightbox();
+        });
+        document.addEventListener('keydown', (e) => {
+            if (!lightbox.classList.contains('active')) return;
+            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'ArrowRight') showNext();
+            if (e.key === 'ArrowLeft') showPrev();
+        });
     </script>
 </body>
 
