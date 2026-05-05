@@ -532,10 +532,87 @@
             background: var(--rosa-hover);
         }
 
-        footer {
-            background: var(--negro-suave);
-            color: #ccc;
-            padding: 70px 48px 40px;
+        /* Nueva sección nosotros, misión, visión, ubicación, contacto */
+        #conocenos {
+            padding: 80px 48px;
+            background: var(--blanco);
+            color: var(--negro-suave);
+        }
+
+        .conocenos-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 48px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .info-card {
+            background: var(--gris-claro);
+            border-radius: var(--radius-xl);
+            padding: 32px;
+            border: 1px solid var(--gris-borde);
+            transition: transform 0.2s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--naranja-acento);
+        }
+
+        .info-card h3 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--azul-cielo);
+        }
+
+        .mv-container {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .mv-item {
+            flex: 1;
+            background: var(--blanco);
+            padding: 24px;
+            border-radius: 24px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .mv-item h4 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--rosa-cta);
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .contact-icon {
+            font-size: 1.8rem;
+            min-width: 48px;
+            text-align: center;
+        }
+
+        .map-container {
+            border-radius: 24px;
+            overflow: hidden;
+            margin-top: 20px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 300px;
+            border: 0;
         }
 
         @media (max-width: 1000px) {
@@ -552,12 +629,16 @@
             .hamburger {
                 display: flex;
             }
-            #hero, #paquetes, #como-funciona, #galeria, #reserva {
+            #hero, #paquetes, #como-funciona, #galeria, #reserva, #conocenos {
                 padding-left: 24px;
                 padding-right: 24px;
             }
             .pkg-grid {
                 gap: 24px;
+            }
+            .conocenos-grid {
+                grid-template-columns: 1fr;
+                gap: 32px;
             }
         }
 
@@ -568,6 +649,15 @@
             .engine-row {
                 flex-direction: column;
             }
+            .mv-container {
+                flex-direction: column;
+            }
+        }
+
+        footer {
+            background: var(--negro-suave);
+            color: #ccc;
+            padding: 70px 48px 40px;
         }
     </style>
 </head>
@@ -582,6 +672,7 @@
         <a href="#como-funciona">✨ Experiencia</a>
         <a href="#galeria">📸 Galería</a>
         <a href="#reserva">📅 Reservar</a>
+        <a href="#conocenos">🌟 Conócenos</a>
     </div>
     <nav id="main-nav">
         <a href="#" class="nav-logo">
@@ -592,6 +683,7 @@
             <li><a href="#como-funciona">Experiencia</a></li>
             <li><a href="#galeria">Galería</a></li>
             <li><a href="#reserva">Reservar</a></li>
+            <li><a href="#conocenos">Conócenos</a></li>
         </ul>
         <a href="#reserva" class="nav-cta">Reservar vuelo</a>
         <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
@@ -765,6 +857,55 @@
                 <button id="submitReserva">Solicitar reservación →</button>
                 <p style="margin-top: 28px; font-size: 0.75rem; color: var(--negro-suave);">Te contactamos en menos de
                     2 horas para confirmar disponibilidad y pago seguro.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- NUEVA SECCIÓN: Nosotros, Misión, Visión, Ubicación, Contacto -->
+    <section id="conocenos">
+        <div class="section-header">
+            <span class="section-eyebrow">Nuestra esencia</span>
+            <h2 class="section-title">Conoce <em>más de nosotros</em></h2>
+        </div>
+        <div class="conocenos-grid">
+            <!-- Columna izquierda: Nosotros y misión/visión -->
+            <div class="info-card">
+                <h3>✨ Nosotros</h3>
+                <p style="line-height: 1.6; margin-bottom: 24px;">Somos <strong>Hecho en Teoti</strong>, una empresa familiar con más de 15 años de experiencia ofreciendo vuelos en globo aerostático sobre la majestuosa Zona Arqueológica de Teotihuacán. Nacimos del amor por las tradiciones mexicanas y el deseo de compartir una vista única del amanecer entre las pirámides del Sol y la Luna. Cada vuelo es operado con los más altos estándares de seguridad y calidez humana.</p>
+                <div class="mv-container">
+                    <div class="mv-item">
+                        <h4>🎯 Misión</h4>
+                        <p>Brindar experiencias inolvidables y seguras, conectando a nuestros visitantes con la grandeza de Teotihuacán desde las alturas, fomentando el respeto por el patrimonio cultural.</p>
+                    </div>
+                    <div class="mv-item">
+                        <h4>🌟 Visión</h4>
+                        <p>Ser la empresa líder en turismo de aventura cultural en México, reconocida por la excelencia en servicio, innovación y compromiso con la sustentabilidad.</p>
+                    </div>
+                </div>
+            </div>
+            <!-- Columna derecha: Ubicación + Contacto -->
+            <div class="info-card">
+                <h3>📍 Ubicación</h3>
+                <p><strong>Globopuerto Teotihuacán</strong><br>Carretera Federal México-Tulancingo Km 28.5, San Martín de las Pirámides, Estado de México, C.P. 55800</p>
+                <div class="map-container">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3761.513641244585!2d-98.84373008419524!3d19.689829785183985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f6b0e1e75b7b%3A0x9e1f6e8b3e2f8b4c!2sGlobopuerto%20Teotihuac%C3%A1n!5e0!3m2!1ses!2smx!4v1650000000000!5m2!1ses!2smx" 
+                        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <h3 style="margin-top: 32px;">📞 Contacto y horarios</h3>
+                <div class="contact-item">
+                    <span class="contact-icon">📞</span> <span>+52 55 4321 8765</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">✉️</span> <span>vuelos@hechoenteoti.mx</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">🕒</span> <span>Lunes a Domingo: 06:00 - 14:00 hrs (vuelos al amanecer)</span>
+                </div>
+                <div class="contact-item">
+                    <span class="contact-icon">💬</span> <span>WhatsApp: +52 55 1234 5678</span>
+                </div>
             </div>
         </div>
     </section>
