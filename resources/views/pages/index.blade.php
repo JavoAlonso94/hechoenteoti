@@ -987,7 +987,7 @@
         </div>
     </section>
 
-    <div class="offer-strip">🎈 OFERTA EXCLUSIVA: 12% OFF en grupos de 4+ personas · Código: TEOTI2025 🎈</div>
+    <div class="offer-strip">🎈 OFERTA EXCLUSIVA: 6% OFF en grupos de 4+ personas · Código: TEOTI2025 🎈</div>
 
     <section id="paquetes">
         <div class="section-header">
