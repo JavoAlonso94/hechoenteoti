@@ -11,8 +11,13 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
     <!-- intl-tel-input CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/css/intlTelInput.css">
+    <!-- Flatpickr CSS (tema moderno) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
-        /* Todos los estilos originales (sin cambios) */
+        /* Todos los estilos originales se mantienen igual */
         * {
             margin: 0;
             padding: 0;
@@ -837,8 +842,8 @@
                 gap: 40px;
             }
 
-            /* 👇 NUEVAS REGLAS PARA CENTRAR TÍTULOS EN MÓVIL 👇 */
-            .hero-grid > div:first-child {
+            /* Centrar títulos en móvil */
+            .hero-grid>div:first-child {
                 text-align: center;
             }
 
@@ -849,7 +854,6 @@
             .info-card h3 {
                 text-align: center;
             }
-            /* 👆 FIN DE LOS NUEVOS ESTILOS 👆 */
 
             nav {
                 padding: 16px 24px;
@@ -938,8 +942,8 @@
                     experiencia más mágica de México. Vuela en globo al amanecer con seguridad y comodidad.</p>
                 <div class="booking-engine">
                     <div class="engine-row">
-                        <div class="engine-field"><label>📅 Fecha</label><input type="date" id="bookingDate"
-                                value="2026-06-20"></div>
+                        <div class="engine-field"><label>📅 Fecha</label><input type="text" id="bookingDate"
+                                placeholder="Selecciona una fecha" readonly></div>
                         <div class="engine-field"><label>👥 Adultos</label><input type="number" id="adultsCount"
                                 value="2" min="1"></div>
                         <div class="engine-field"><label>🧒 Niños (4-10)</label><input type="number" id="childrenCount"
@@ -1199,7 +1203,21 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/intlTelInput.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/utils.js"></script>
+    <!-- Flatpickr JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        // Inicializar Flatpickr en español
+        flatpickr("#bookingDate", {
+            locale: "es",
+            dateFormat: "Y-m-d",
+            minDate: "today",
+            defaultDate: "2026-06-20",
+            disableMobile: true,
+        });
+
         // Hero Swiper
         const heroSwiper = new Swiper('.hero-swiper', {
             loop: true,
@@ -1223,10 +1241,11 @@
             const pkg = prices[pkgId];
             const total = (adults * pkg.adult) + (children * pkg.child);
             const date = document.getElementById('bookingDate').value;
-            const formattedDate = date ? new Date(date).toLocaleDateString('es-MX') : 'fecha';
+            const formattedDate = date ? new Date(date + 'T00:00:00').toLocaleDateString('es-MX') : 'fecha';
             document.getElementById('summaryText').innerHTML = `${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
             document.getElementById('totalDisplay').innerHTML = `$${total.toLocaleString()} MXN`;
         }
+
         document.getElementById('adultsCount').addEventListener('input', updateSummary);
         document.getElementById('childrenCount').addEventListener('input', updateSummary);
         document.getElementById('packageSelect').addEventListener('change', updateSummary);
@@ -1276,13 +1295,23 @@
                         numeroCompleto = itiPhone.getNumber();
                         isValidPhone = true;
                     } else {
-                        alert("⚠️ Por favor ingresa un número de WhatsApp válido (incluyendo lada). Verifica que el país sea correcto.");
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Número inválido',
+                            text: 'Por favor ingresa un número de WhatsApp válido (incluyendo lada). Verifica que el país sea correcto.',
+                            confirmButtonColor: '#ff0099',
+                        });
                         return;
                     }
                 } else {
                     const rawPhone = document.getElementById('whatsappReserva').value.trim();
                     if (!rawPhone) {
-                        alert("Por favor ingresa tu número de WhatsApp.");
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Falta WhatsApp',
+                            text: 'Por favor ingresa tu número de WhatsApp.',
+                            confirmButtonColor: '#ff0099',
+                        });
                         return;
                     }
                     numeroCompleto = rawPhone;
@@ -1290,13 +1319,26 @@
                 }
 
                 if (!nombre || !email) {
-                    alert("Completa tu nombre y correo electrónico para solicitar la reserva.");
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Datos incompletos',
+                        text: 'Completa tu nombre y correo electrónico para solicitar la reserva.',
+                        confirmButtonColor: '#ff0099',
+                    });
                     return;
                 }
 
                 if (!isValidPhone) return;
 
-                alert(`✨ ¡Gracias ${nombre}! Hemos recibido tu solicitud.\n📞 Te contactaremos en ${numeroCompleto} para confirmar tu vuelo en globo.`);
+                // Éxito
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Solicitud enviada!',
+                    html: `<strong>${nombre}</strong>, hemos recibido tu solicitud.<br><br>📞 Te contactaremos en <strong>${numeroCompleto}</strong> para confirmar tu vuelo en globo.`,
+                    confirmButtonColor: '#0099ff',
+                    timer: 5000,
+                    timerProgressBar: true,
+                });
             });
         }
 
@@ -1307,7 +1349,10 @@
         });
 
         // Mobile menu
-        const hamburger = document.getElementById('hamburger'), mobileMenu = document.getElementById('mobile-menu'), overlay = document.getElementById('menuOverlay');
+        const hamburger = document.getElementById('hamburger'),
+            mobileMenu = document.getElementById('mobile-menu'),
+            overlay = document.getElementById('menuOverlay');
+
         function toggleMobileMenu(open) {
             if (open) {
                 mobileMenu.classList.add('open');
