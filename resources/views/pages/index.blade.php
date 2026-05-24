@@ -921,7 +921,7 @@
             <img src="https://placehold.co/100x100/0099ff/white?text=HT" alt="Hecho en Teoti" class="nav-logo-img">
         </a>
         <ul class="nav-links">
-            <li><a href="#paquetes">Paquetes</a></li>
+            <li><a href="#paquetes">Paquetess</a></li>
             <li><a href="#como-funciona">Experiencia</a></li>
             <li><a href="#galeria">Galería</a></li>
             <li><a href="#reserva">Reservar</a></li>
