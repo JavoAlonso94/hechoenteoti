@@ -830,11 +830,26 @@
             padding: 70px 48px 40px;
         }
 
+        /* RESPONSIVE GENERAL */
         @media (max-width: 1000px) {
             .hero-grid {
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
+
+            /* 👇 NUEVAS REGLAS PARA CENTRAR TÍTULOS EN MÓVIL 👇 */
+            .hero-grid > div:first-child {
+                text-align: center;
+            }
+
+            .pkg-name {
+                text-align: center;
+            }
+
+            .info-card h3 {
+                text-align: center;
+            }
+            /* 👆 FIN DE LOS NUEVOS ESTILOS 👆 */
 
             nav {
                 padding: 16px 24px;
