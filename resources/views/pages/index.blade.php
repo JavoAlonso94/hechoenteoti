@@ -1,28 +1,17 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Hecho en Teoti | Vuelos en Globo · Teotihuacán – Reserva moderna con carrito</title>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Permanent+Marker&display=swap"
-        rel="stylesheet">
+    <title>Hecho en Teoti | Vuelos en Globo · Teotihuacán – Experiencia Premium</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
-    <!-- intl-tel-input CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/css/intlTelInput.css">
-    <!-- Flatpickr CSS (tema moderno) -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         :root {
             --azul-cielo: #0099ff;
             --rosa-cta: #ff0099;
@@ -34,262 +23,409 @@
             --negro-suave: #1A1A1A;
             --gris-claro: #F5F5F5;
             --gris-borde: #E0E0E0;
-            --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.05);
-            --shadow-md: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
-            --radius-xl: 32px;
+            --shadow-sm: 0 4px 16px rgba(0, 0, 0, 0.06);
+            --shadow-md: 0 12px 32px -8px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 24px 48px -12px rgba(0, 0, 0, 0.18);
+            --shadow-glow: 0 0 40px rgba(255, 0, 153, 0.25);
+            --radius-xl: 28px;
             --radius-2xl: 40px;
+            --transition-bounce: cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-smooth: cubic-bezier(0.4, 0, 0.2, 1);
         }
-
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
         body {
             font-family: 'Montserrat', sans-serif;
-            background: linear-gradient(145deg, var(--azul-cielo) 0%, #0088dd 50%, var(--azul-profundo) 100%);
+            background: linear-gradient(160deg, var(--azul-cielo) 0%, #0077dd 40%, var(--azul-profundo) 100%);
             color: var(--blanco);
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--rosa-cta), var(--naranja-acento));
+            border-radius: 20px;
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s var(--transition-smooth);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-delay-1 {
+            transition-delay: 0.1s;
+        }
+        .reveal-delay-2 {
+            transition-delay: 0.2s;
+        }
+        .reveal-delay-3 {
+            transition-delay: 0.3s;
+        }
+        .reveal-delay-4 {
+            transition-delay: 0.4s;
+        }
+        .reveal-delay-5 {
+            transition-delay: 0.5s;
+        }
+        .reveal-delay-6 {
+            transition-delay: 0.6s;
         }
 
-        /* Lightbox moderno */
+        /* Lightbox (imágenes) */
         .lightbox {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(10px);
+            inset: 0;
+            background: rgba(0, 0, 0, 0.94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             z-index: 2000;
             display: flex;
             align-items: center;
             justify-content: center;
             opacity: 0;
             visibility: hidden;
-            transition: opacity 0.3s ease, visibility 0.3s ease;
+            transition: opacity 0.35s ease, visibility 0.35s ease;
         }
-
         .lightbox.active {
             opacity: 1;
             visibility: visible;
         }
-
         .lightbox-content {
             position: relative;
             max-width: 90vw;
             max-height: 90vh;
         }
-
         .lightbox-content img {
             width: auto;
             max-width: 100%;
-            max-height: 90vh;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            border: 2px solid rgba(255, 255, 255, 0.2);
+            max-height: 88vh;
+            border-radius: 22px;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 255, 255, 0.15);
         }
-
         .lightbox-close {
             position: absolute;
-            top: -40px;
-            right: -40px;
+            top: -44px;
+            right: -44px;
             background: linear-gradient(135deg, var(--rosa-cta), #c20077);
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 24px;
+            font-size: 20px;
             color: white;
-            transition: transform 0.2s;
-            border: none;
+            transition: all 0.25s var(--transition-bounce);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            z-index: 10;
         }
-
         .lightbox-close:hover {
-            transform: scale(1.1);
+            transform: scale(1.12);
             background: linear-gradient(135deg, var(--rosa-hover), #aa0068);
+            box-shadow: 0 0 24px rgba(255, 0, 153, 0.5);
         }
-
         .lightbox-prev,
         .lightbox-next {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.18);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             border-radius: 50%;
-            width: 50px;
-            height: 50px;
+            width: 52px;
+            height: 52px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            font-size: 28px;
+            font-size: 26px;
             color: white;
-            transition: all 0.2s;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.25s var(--transition-bounce);
+            border: 1.5px solid rgba(255, 255, 255, 0.3);
         }
-
         .lightbox-prev {
-            left: -60px;
+            left: -64px;
         }
-
         .lightbox-next {
-            right: -60px;
+            right: -64px;
         }
-
         .lightbox-prev:hover,
         .lightbox-next:hover {
             background: linear-gradient(135deg, var(--rosa-cta), var(--rosa-hover));
             border-color: transparent;
+            box-shadow: 0 0 28px rgba(255, 0, 153, 0.45);
+            transform: translateY(-50%) scale(1.08);
         }
 
+        /* ============ LIGHTBOX DE VIDEO (nuevo) ============ */
+        .video-lightbox {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            z-index: 2100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+            padding: 20px;
+        }
+        .video-lightbox.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .video-lightbox-container {
+            position: relative;
+            width: 100%;
+            max-width: 1100px;
+            aspect-ratio: 16/9;
+            background: #000;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), 0 0 0 2px rgba(255, 255, 255, 0.08);
+            transform: scale(0.9);
+            transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .video-lightbox.active .video-lightbox-container {
+            transform: scale(1);
+        }
+        .video-lightbox-container iframe {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .video-lightbox-close {
+            position: absolute;
+            top: -48px;
+            right: -48px;
+            background: linear-gradient(135deg, #ff0055, #c20044);
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 20px;
+            color: white;
+            transition: all 0.3s var(--transition-bounce);
+            border: 2px solid rgba(255, 255, 255, 0.35);
+            z-index: 20;
+            box-shadow: 0 8px 24px rgba(255, 0, 80, 0.4);
+        }
+        .video-lightbox-close:hover {
+            transform: scale(1.15) rotate(90deg);
+            background: linear-gradient(135deg, #ff2266, #a00038);
+            box-shadow: 0 14px 34px rgba(255, 0, 80, 0.6);
+        }
+        .video-lightbox-title {
+            position: absolute;
+            bottom: -52px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1rem;
+            letter-spacing: 0.02em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding: 0 20px;
+        }
         @media (max-width: 768px) {
-            .lightbox-prev {
-                left: 10px;
+            .video-lightbox-close {
+                top: 12px;
+                right: 12px;
+                width: 38px;
+                height: 38px;
+                font-size: 16px;
             }
-
-            .lightbox-next {
-                right: 10px;
+            .video-lightbox-container {
+                border-radius: 16px;
             }
-
-            .lightbox-close {
-                top: 10px;
-                right: 10px;
+            .video-lightbox-title {
+                bottom: -42px;
+                font-size: 0.85rem;
             }
         }
 
         /* Preloader */
         .preloader {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, var(--azul-cielo), var(--azul-profundo));
+            inset: 0;
+            background: linear-gradient(140deg, var(--azul-cielo), var(--azul-profundo));
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
             z-index: 9999;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+            gap: 20px;
         }
-
         .preloader.hidden {
             opacity: 0;
             visibility: hidden;
+            pointer-events: none;
         }
-
-        .preloader img {
-            width: 100px;
-            height: auto;
-            animation: softPulse 1.2s infinite ease-in-out;
+        .preloader-icon {
+            font-size: 64px;
+            color: var(--amarillo-acento);
+            animation: floatBalloon 1.6s infinite ease-in-out;
         }
-
-        @keyframes softPulse {
-            0% {
-                transform: scale(0.96);
-                opacity: 0.7;
-            }
-            50% {
-                transform: scale(1.04);
-                opacity: 1;
-            }
+        @keyframes floatBalloon {
+            0%,
             100% {
-                transform: scale(0.96);
-                opacity: 0.7;
+                transform: translateY(0) scale(1);
+            }
+            30% {
+                transform: translateY(-18px) scale(1.06);
+            }
+            60% {
+                transform: translateY(6px) scale(0.96);
+            }
+        }
+        .preloader-spinner {
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(255, 255, 255, 0.25);
+            border-top-color: var(--amarillo-acento);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
             }
         }
 
+        /* Navegación */
         nav {
             position: fixed;
             top: 0;
             left: 0;
             right: 0;
             z-index: 100;
-            padding: 20px 48px;
+            padding: 18px 48px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-            background: linear-gradient(115deg, rgba(0, 153, 255, 0.7) 0%, rgba(51, 51, 153, 0.7) 100%);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
-        }
-
-        nav.nav-scrolled {
-            padding: 12px 48px;
-            background: linear-gradient(115deg, rgba(0, 153, 255, 0.88) 0%, rgba(51, 51, 153, 0.88) 100%);
+            transition: all 0.45s var(--transition-smooth);
+            background: rgba(0, 140, 230, 0.55);
             backdrop-filter: blur(20px);
-            border-bottom-color: rgba(255, 255, 255, 0.3);
-            box-shadow: 0 8px 28px rgba(0, 0, 0, 0.12);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.06);
         }
-
-        .nav-logo-img {
-            height: 44px;
-            width: auto;
-            transition: all 0.2s;
+        nav.nav-scrolled {
+            padding: 10px 48px;
+            background: rgba(0, 140, 230, 0.82);
+            backdrop-filter: blur(26px);
+            -webkit-backdrop-filter: blur(26px);
+            border-bottom-color: rgba(255, 255, 255, 0.25);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
         }
-
-        .nav-logo-img:hover {
-            transform: scale(1.02);
-            filter: drop-shadow(0 0 6px rgba(255, 204, 0, 0.5));
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: var(--blanco);
+            font-weight: 800;
+            font-size: 1.1rem;
+            transition: transform 0.25s var(--transition-bounce);
         }
-
+        .nav-logo:hover {
+            transform: scale(1.03);
+        }
+        .nav-logo i {
+            font-size: 2rem;
+            color: var(--amarillo-acento);
+            filter: drop-shadow(0 0 8px rgba(255, 204, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+        .nav-logo:hover i {
+            transform: rotate(-10deg);
+        }
         .nav-links {
             display: flex;
-            gap: 36px;
+            gap: 32px;
             list-style: none;
+            align-items: center;
         }
-
         .nav-links a {
             color: var(--blanco);
             text-decoration: none;
             font-weight: 600;
+            font-size: 0.9rem;
             padding: 6px 0;
-            transition: color 0.3s ease;
+            transition: all 0.3s ease;
             position: relative;
+            letter-spacing: 0.01em;
         }
-
         .nav-links a::after {
             content: '';
             position: absolute;
-            bottom: 0;
+            bottom: -2px;
             left: 0;
             width: 0%;
-            height: 2px;
+            height: 2.5px;
             background: linear-gradient(90deg, var(--amarillo-acento), var(--rosa-cta));
-            transition: width 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            transition: width 0.4s var(--transition-smooth);
             border-radius: 4px;
         }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
         .nav-links a:hover {
             color: var(--amarillo-acento);
         }
-
+        .nav-links a:hover::after {
+            width: 100%;
+        }
         .nav-cta {
             background: linear-gradient(135deg, var(--rosa-cta), #c20077);
             padding: 12px 28px;
             border-radius: 100px;
             font-weight: 700;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             text-transform: uppercase;
+            letter-spacing: 0.04em;
             color: var(--blanco);
-            transition: 0.3s;
-            box-shadow: 0 6px 14px rgba(255, 0, 153, 0.25);
+            transition: all 0.3s var(--transition-bounce);
+            box-shadow: 0 6px 18px rgba(255, 0, 153, 0.3);
             text-decoration: none;
             border: 1px solid rgba(255, 255, 255, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-
         .nav-cta:hover {
             transform: translateY(-3px);
             background: linear-gradient(135deg, var(--rosa-hover), #aa0068);
-            box-shadow: 0 12px 24px rgba(255, 0, 153, 0.4);
+            box-shadow: 0 14px 30px rgba(255, 0, 153, 0.45);
         }
-
         .hamburger {
             display: none;
             flex-direction: column;
@@ -298,718 +434,1348 @@
             border: none;
             cursor: pointer;
             z-index: 102;
+            padding: 4px;
         }
-
         .hamburger span {
-            width: 26px;
+            width: 28px;
             height: 2.5px;
             background: var(--blanco);
             border-radius: 4px;
-            transition: all 0.35s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transition: all 0.35s var(--transition-bounce);
+            transform-origin: center;
         }
-
         .hamburger.active span:nth-child(1) {
             transform: rotate(45deg) translate(6px, 6px);
         }
-
         .hamburger.active span:nth-child(2) {
             opacity: 0;
             transform: scaleX(0);
         }
-
         .hamburger.active span:nth-child(3) {
             transform: rotate(-45deg) translate(6px, -6px);
         }
-
         .mobile-menu {
             position: fixed;
-            top: 0;
-            right: 0;
-            bottom: 0;
-            width: 80%;
-            max-width: 360px;
-            background: linear-gradient(145deg, rgba(0, 153, 255, 0.96), rgba(51, 51, 153, 0.98));
-            backdrop-filter: blur(32px);
+            inset: 0 0 0 auto;
+            width: 82%;
+            max-width: 380px;
+            background: linear-gradient(155deg, rgba(0, 153, 255, 0.97), rgba(51, 51, 153, 0.98));
+            backdrop-filter: blur(36px);
+            -webkit-backdrop-filter: blur(36px);
             z-index: 101;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            gap: 32px;
+            gap: 28px;
             transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            border-left: 1px solid rgba(255, 255, 255, 0.2);
+            transition: transform 0.45s cubic-bezier(0.22, 0.9, 0.3, 1.05);
+            border-left: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: -8px 0 32px rgba(0, 0, 0, 0.2);
         }
-
         .mobile-menu.open {
             transform: translateX(0);
         }
-
         .mobile-menu a {
             color: var(--blanco);
             text-decoration: none;
             font-weight: 700;
-            font-size: 1.4rem;
-            padding: 12px 20px;
+            font-size: 1.35rem;
+            padding: 14px 24px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-
+        .mobile-menu a:hover {
+            background: rgba(255, 255, 255, 0.12);
+            color: var(--amarillo-acento);
+        }
         .menu-overlay {
             position: fixed;
             inset: 0;
-            background: rgba(0, 0, 0, 0.35);
-            backdrop-filter: blur(4px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
             z-index: 99;
             opacity: 0;
             visibility: hidden;
-            transition: 0.3s;
+            transition: 0.35s;
         }
-
         .menu-overlay.active {
             opacity: 1;
             visibility: visible;
         }
 
+        /* Hero */
         #hero {
             min-height: 96vh;
             display: flex;
             align-items: center;
-            padding: 120px 48px 80px;
+            padding: 130px 48px 80px;
             background: transparent;
+            position: relative;
+            overflow: hidden;
         }
-
+        #hero::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            right: -120px;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(255, 204, 0, 0.12) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
         .hero-grid {
             display: grid;
             grid-template-columns: 1.1fr 0.9fr;
-            gap: 60px;
+            gap: 56px;
             max-width: 1400px;
             margin: 0 auto;
             width: 100%;
+            align-items: center;
         }
-
         .hero-title {
             font-family: 'Permanent Marker', cursive;
-            font-size: clamp(3.2rem, 7vw, 5.2rem);
-            line-height: 1.1;
-            margin-bottom: 20px;
+            font-size: clamp(3rem, 6.5vw, 5rem);
+            line-height: 1.08;
+            margin-bottom: 18px;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
         }
-
         .hero-title em {
             color: var(--amarillo-acento);
-            border-bottom: 3px solid var(--rosa-cta);
+            border-bottom: 4px solid var(--rosa-cta);
             display: inline-block;
+            padding-bottom: 4px;
         }
-
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 204, 0, 0.18);
+            border-radius: 100px;
+            padding: 8px 20px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            color: var(--amarillo-acento);
+            margin-bottom: 28px;
+            letter-spacing: 0.03em;
+            border: 1px solid rgba(255, 204, 0, 0.25);
+            animation: softGlow 2.5s infinite ease-in-out;
+        }
+        @keyframes softGlow {
+            0%,
+            100% {
+                box-shadow: 0 0 8px rgba(255, 204, 0, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 22px rgba(255, 204, 0, 0.45);
+            }
+        }
+        .hero-sub {
+            font-size: 1.08rem;
+            color: rgba(255, 255, 255, 0.88);
+            margin: 18px 0 40px;
+            max-width: 480px;
+        }
         .booking-engine {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.98), #ffffff);
+            background: rgba(255, 255, 255, 0.97);
             border-radius: var(--radius-2xl);
-            padding: 28px 36px;
-            box-shadow: var(--shadow-md);
-            backdrop-filter: blur(2px);
+            padding: 30px 34px;
+            box-shadow: var(--shadow-lg);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
-
         .engine-row {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
+            gap: 16px;
             align-items: flex-end;
         }
-
         .engine-field {
             flex: 1;
-            min-width: 150px;
+            min-width: 130px;
         }
-
         .engine-field label {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             font-weight: 800;
             color: var(--rosa-cta);
-            margin-bottom: 8px;
-            display: block;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
         }
-
         .engine-field input,
         .engine-field select {
             width: 100%;
-            padding: 14px 18px;
-            border-radius: 20px;
-            border: 1px solid var(--gris-borde);
+            padding: 14px 16px;
+            border-radius: 18px;
+            border: 1.5px solid var(--gris-borde);
             font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            background: #fafafa;
+            transition: all 0.3s ease;
+            color: var(--negro-suave);
         }
-
+        .engine-field input:focus,
+        .engine-field select:focus {
+            outline: none;
+            border-color: var(--rosa-cta);
+            box-shadow: 0 0 0 4px rgba(255, 0, 153, 0.08);
+            background: #fff;
+        }
         .search-btn {
             background: linear-gradient(115deg, var(--rosa-cta), #c20077);
             border: none;
-            border-radius: 28px;
-            padding: 14px 32px;
+            border-radius: 24px;
+            padding: 14px 28px;
             font-weight: 700;
             color: white;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s var(--transition-bounce);
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+            box-shadow: 0 6px 20px rgba(255, 0, 153, 0.3);
         }
-
         .search-btn:hover {
             background: linear-gradient(115deg, var(--rosa-hover), #aa0068);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            box-shadow: 0 14px 30px rgba(255, 0, 153, 0.45);
         }
-
         .booking-summary {
-            margin-top: 28px;
-            background: white;
-            border-radius: 24px;
-            padding: 18px 24px;
+            margin-top: 24px;
+            background: linear-gradient(135deg, #fefefe, #f8f8f8);
+            border-radius: 20px;
+            padding: 16px 22px;
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
             color: var(--negro-suave);
+            align-items: center;
+            border: 1px solid var(--gris-borde);
+            gap: 10px;
         }
-
         .summary-price {
-            font-size: 1.8rem;
+            font-size: 1.7rem;
             font-weight: 800;
             color: var(--rosa-cta);
+            letter-spacing: -0.02em;
         }
-
         .hero-image {
             border-radius: var(--radius-2xl);
             overflow: hidden;
             background: #1a1a1a;
             min-height: 380px;
+            box-shadow: var(--shadow-lg);
+            position: relative;
         }
-
         .hero-swiper {
             width: 100%;
             height: 100%;
         }
-
         .hero-swiper .swiper-slide img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
 
+        /* Offer strip */
+        .offer-strip {
+            background: linear-gradient(100deg, var(--amarillo-acento), var(--naranja-acento));
+            color: var(--azul-profundo);
+            padding: 14px 24px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: 0.02em;
+            position: relative;
+            overflow: hidden;
+        }
+        .offer-strip::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -60%;
+            width: 40%;
+            height: 200%;
+            background: rgba(255, 255, 255, 0.25);
+            transform: rotate(25deg);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer {
+            0% {
+                left: -60%;
+            }
+            100% {
+                left: 120%;
+            }
+        }
+
+        /* Paquetes */
         #paquetes {
             padding: 100px 48px;
-            background: linear-gradient(120deg, #ffffff, #fef9f0);
+            background: linear-gradient(125deg, #ffffff, #fef9f0, #fffdf7);
             color: var(--negro-suave);
         }
-
         .section-header {
             text-align: center;
-            max-width: 700px;
-            margin: 0 auto 64px;
+            max-width: 680px;
+            margin: 0 auto 60px;
         }
-
         .section-eyebrow {
-            font-size: 0.75rem;
+            font-size: 0.72rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.12em;
             color: var(--rosa-cta);
             font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-
+        .section-eyebrow::before,
+        .section-eyebrow::after {
+            content: '';
+            width: 28px;
+            height: 1.5px;
+            background: var(--rosa-cta);
+            opacity: 0.5;
+            border-radius: 2px;
+        }
         .section-title {
             font-family: 'Permanent Marker', cursive;
-            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-size: clamp(2rem, 3.8vw, 3rem);
+            margin-top: 6px;
         }
-
         .section-title em {
             color: var(--azul-cielo);
             font-style: normal;
         }
-
         .pkg-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-            gap: 32px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
             max-width: 1400px;
             margin: 0 auto;
         }
-
         .pkg-card {
-            background: linear-gradient(145deg, #ffffff, #fafafa);
+            background: #ffffff;
             border-radius: var(--radius-xl);
-            padding: 28px 28px 32px;
-            transition: transform 0.25s ease, box-shadow 0.2s;
-            border: 1px solid var(--gris-borde);
+            padding: 26px 26px 30px;
+            transition: all 0.35s var(--transition-smooth);
+            border: 1.5px solid var(--gris-borde);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
         }
-
+        .pkg-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--rosa-cta), var(--naranja-acento));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.5s var(--transition-smooth);
+        }
+        .pkg-card:hover::before {
+            transform: scaleX(1);
+        }
         .pkg-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-10px);
             border-color: var(--naranja-acento);
-            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 24px 44px -14px rgba(0, 0, 0, 0.15);
         }
-
         .pkg-img {
             width: 100%;
-            aspect-ratio: 4 / 3;
+            aspect-ratio: 4/3;
             object-fit: cover;
-            border-radius: 24px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-            transition: transform 0.3s ease;
+            border-radius: 22px;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
+            transition: transform 0.4s ease;
         }
-
         .pkg-card:hover .pkg-img {
-            transform: scale(1.02);
+            transform: scale(1.03);
         }
-
         .pkg-name {
             font-family: 'Permanent Marker', cursive;
-            font-size: 1.7rem;
-            margin: 8px 0 12px;
+            font-size: 1.6rem;
+            margin: 6px 0 12px;
+            color: var(--negro-suave);
         }
-
         .price-row-modern {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             border-bottom: 1px dashed var(--gris-borde);
-            padding: 10px 0;
+            padding: 9px 0;
+            font-size: 0.9rem;
         }
-
         .price-adult {
             font-weight: 800;
             color: var(--rosa-cta);
-            font-size: 1.1rem;
+            font-size: 1.05rem;
         }
-
+        .pkg-tag {
+            margin: 10px 0;
+            font-size: 0.68rem;
+            color: var(--rosa-cta);
+            font-weight: 700;
+            background: rgba(255, 0, 153, 0.07);
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 40px;
+            letter-spacing: 0.03em;
+        }
         .select-pkg {
             display: inline-flex;
+            align-items: center;
             justify-content: center;
+            gap: 8px;
             width: 100%;
-            margin-top: 24px;
+            margin-top: 20px;
             background: linear-gradient(115deg, var(--rosa-cta), #c20077);
             border-radius: 40px;
-            padding: 12px;
+            padding: 13px;
             font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.04em;
+            font-size: 0.8rem;
             color: white;
-            text-decoration: none;
-            transition: 0.2s;
             cursor: pointer;
             border: none;
+            font-family: 'Montserrat', sans-serif;
+            transition: all 0.3s var(--transition-bounce);
+            box-shadow: 0 6px 18px rgba(255, 0, 153, 0.25);
         }
-
         .select-pkg:hover {
             background: linear-gradient(115deg, var(--rosa-hover), #aa0068);
+            box-shadow: 0 12px 28px rgba(255, 0, 153, 0.4);
+            transform: translateY(-2px);
         }
 
-        .offer-strip {
-            background: linear-gradient(95deg, var(--amarillo-acento), var(--naranja-acento));
-            color: var(--azul-profundo);
-            padding: 14px;
-            text-align: center;
-            font-weight: 700;
-        }
-
+        /* Cómo funciona */
         #como-funciona {
-            padding: 60px 48px;
-            background: linear-gradient(125deg, #f0f4fa, #e9edf2);
+            padding: 70px 48px;
+            background: linear-gradient(130deg, #f0f4fa, #e8ecf2, #f5f6f9);
             color: var(--negro-suave);
         }
-
         .steps-modern {
             display: flex;
-            gap: 40px;
+            gap: 36px;
             justify-content: center;
             flex-wrap: wrap;
-            margin: 60px 0;
+            margin: 50px 0 20px;
         }
-
         .step-card {
-            background: linear-gradient(145deg, white, #fefefe);
-            border-radius: 28px;
-            padding: 32px;
+            background: #ffffff;
+            border-radius: 26px;
+            padding: 34px 26px;
             text-align: center;
             flex: 1;
-            min-width: 200px;
+            min-width: 190px;
+            max-width: 280px;
             box-shadow: var(--shadow-sm);
+            transition: all 0.35s var(--transition-smooth);
+            border: 1.5px solid transparent;
+        }
+        .step-card:hover {
+            border-color: var(--azul-cielo);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-6px);
+        }
+        .step-icon {
+            font-size: 2.6rem;
+            margin-bottom: 16px;
+            display: inline-block;
+            background: linear-gradient(135deg, var(--azul-cielo), var(--azul-profundo));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .step-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: var(--negro-suave);
+        }
+        .step-card p {
+            font-size: 0.85rem;
+            color: #666;
+        }
+        .disponibilidad-chip {
+            background: #ffffff;
+            border-radius: 26px;
+            padding: 20px 28px;
+            text-align: center;
+            max-width: 520px;
+            margin: 20px auto 0;
+            color: var(--negro-suave);
+            box-shadow: var(--shadow-sm);
+            border: 1.5px solid var(--gris-borde);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .disponibilidad-chip i {
+            color: var(--naranja-acento);
+            font-size: 1.1rem;
+        }
+        .disponibilidad-chip strong {
+            color: var(--rosa-cta);
+            font-size: 1rem;
         }
 
+        /* Galería imágenes */
         #galeria {
-            padding: 80px 48px;
-            background: linear-gradient(135deg, #ffffff, #fffcf5);
+            padding: 90px 48px;
+            background: linear-gradient(140deg, #ffffff, #fffcf5, #fefefe);
         }
-
         .gallery-modern {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 24px;
+            grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+            gap: 20px;
             max-width: 1400px;
             margin: 0 auto;
         }
-
         .gallery-item {
             position: relative;
-            border-radius: 28px;
+            border-radius: 24px;
             overflow: hidden;
-            aspect-ratio: 1 / 1;
+            aspect-ratio: 1/1;
             cursor: pointer;
-            transition: all 0.3s ease;
+            transition: all 0.35s var(--transition-smooth);
             box-shadow: var(--shadow-sm);
+            border: 2px solid transparent;
         }
-
         .gallery-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            transition: transform 0.55s cubic-bezier(0.22, 0.9, 0.3, 1.1);
         }
-
+        .gallery-item:hover {
+            border-color: var(--naranja-acento);
+            box-shadow: var(--shadow-md);
+        }
         .gallery-item:hover img {
-            transform: scale(1.08);
+            transform: scale(1.1);
         }
-
         .gallery-item .overlay {
             position: absolute;
             bottom: 0;
             left: 0;
             right: 0;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
             color: white;
-            padding: 20px;
+            padding: 18px 16px;
             transform: translateY(100%);
-            transition: transform 0.3s ease;
+            transition: transform 0.35s var(--transition-smooth);
             font-weight: 600;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
-
         .gallery-item:hover .overlay {
             transform: translateY(0);
         }
-
         .gallery-item .overlay span {
             display: inline-block;
-            font-size: 0.9rem;
+            font-size: 0.72rem;
             background: linear-gradient(95deg, var(--rosa-cta), var(--rosa-hover));
-            padding: 4px 12px;
+            padding: 5px 14px;
             border-radius: 40px;
-            margin-top: 8px;
+            font-weight: 700;
+            letter-spacing: 0.03em;
         }
 
-        @media (max-width: 640px) {
-            .gallery-modern {
-                grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-                gap: 12px;
+        /* ==================== */
+        /*  GALERÍA DE VIDEOS   */
+        /* ==================== */
+        #videos-gallery {
+            padding: 90px 48px;
+            background: linear-gradient(160deg, #0a0a14 0%, #12122a 30%, #0d0d22 60%, #080818 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        #videos-gallery::before {
+            content: '';
+            position: absolute;
+            top: -100px;
+            left: -100px;
+            width: 450px;
+            height: 450px;
+            background: radial-gradient(circle, rgba(255, 0, 153, 0.08) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        #videos-gallery::after {
+            content: '';
+            position: absolute;
+            bottom: -80px;
+            right: -80px;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 153, 255, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+        #videos-gallery .section-header {
+            position: relative;
+            z-index: 2;
+        }
+        #videos-gallery .section-title {
+            color: #ffffff;
+        }
+        #videos-gallery .section-eyebrow {
+            color: var(--rosa-cta);
+        }
+        #videos-gallery .section-eyebrow::before,
+        #videos-gallery .section-eyebrow::after {
+            background: var(--rosa-cta);
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+        /* Video destacado (grande) */
+        .video-card.featured {
+            grid-column: span 7;
+            grid-row: span 2;
+            aspect-ratio: 16/9;
+        }
+        /* Videos normales */
+        .video-card:not(.featured) {
+            grid-column: span 5;
+            aspect-ratio: 16/9;
+        }
+        .video-card {
+            position: relative;
+            border-radius: 22px;
+            overflow: hidden;
+            cursor: pointer;
+            background: #1a1a2e;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+            border: 2px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1.2);
+            group: true;
+        }
+        .video-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(255, 0, 153, 0.5);
+            box-shadow: 0 24px 56px rgba(255, 0, 153, 0.2), 0 0 0 4px rgba(255, 0, 153, 0.08);
+            z-index: 5;
+        }
+        .video-card .video-thumb {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.22, 0.9, 0.3, 1.1), filter 0.5s ease;
+            display: block;
+        }
+        .video-card:hover .video-thumb {
+            transform: scale(1.06);
+            filter: brightness(1.1) saturate(1.15);
+        }
+        /* Overlay oscuro */
+        .video-card .video-overlay-bg {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg,
+                    rgba(0, 0, 0, 0.1) 0%,
+                    rgba(0, 0, 0, 0.0) 35%,
+                    rgba(0, 0, 0, 0.55) 75%,
+                    rgba(0, 0, 0, 0.85) 100%);
+            transition: background 0.5s ease;
+            pointer-events: none;
+        }
+        .video-card:hover .video-overlay-bg {
+            background: linear-gradient(180deg,
+                    rgba(0, 0, 0, 0.2) 0%,
+                    rgba(0, 0, 0, 0.05) 30%,
+                    rgba(0, 0, 0, 0.7) 70%,
+                    rgba(0, 0, 0, 0.92) 100%);
+        }
+        /* Botón de play */
+        .video-card .play-btn-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.85);
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(255, 0, 153, 0.9), rgba(200, 0, 100, 0.9));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+            box-shadow: 0 0 0 12px rgba(255, 0, 153, 0.25), 0 12px 40px rgba(0, 0, 0, 0.5);
+            z-index: 3;
+            pointer-events: none;
+        }
+        .video-card.featured .play-btn-circle {
+            width: 100px;
+            height: 100px;
+            box-shadow: 0 0 0 18px rgba(255, 0, 153, 0.2), 0 20px 50px rgba(0, 0, 0, 0.55);
+        }
+        .video-card:hover .play-btn-circle {
+            transform: translate(-50%, -50%) scale(1.05);
+            background: linear-gradient(135deg, #ff2288, #e00070);
+            box-shadow: 0 0 0 20px rgba(255, 0, 153, 0.35), 0 16px 48px rgba(0, 0, 0, 0.6);
+            animation: playPulse 1.8s infinite;
+        }
+        .video-card .play-btn-circle i {
+            color: #ffffff;
+            font-size: 28px;
+            margin-left: 4px;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.4));
+            transition: transform 0.3s ease;
+        }
+        .video-card.featured .play-btn-circle i {
+            font-size: 36px;
+        }
+        .video-card:hover .play-btn-circle i {
+            transform: scale(1.1);
+        }
+        @keyframes playPulse {
+            0%,
+            100% {
+                box-shadow: 0 0 0 12px rgba(255, 0, 153, 0.35), 0 16px 48px rgba(0, 0, 0, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 0 26px rgba(255, 0, 153, 0.08), 0 16px 48px rgba(0, 0, 0, 0.6);
+            }
+        }
+        /* Info del video en la parte inferior */
+        .video-card .video-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 22px;
+            z-index: 4;
+            pointer-events: none;
+            transform: translateY(6px);
+            transition: transform 0.4s ease;
+        }
+        .video-card:hover .video-info {
+            transform: translateY(0);
+        }
+        .video-card .video-info .video-duration {
+            display: inline-block;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 0.03em;
+            margin-bottom: 6px;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        .video-card .video-info .video-title {
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1rem;
+            line-height: 1.25;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+        }
+        .video-card.featured .video-info .video-title {
+            font-size: 1.25rem;
+        }
+        /* Badge "Nuevo" o "Popular" */
+        .video-card .video-badge {
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            z-index: 4;
+            pointer-events: none;
+            background: linear-gradient(135deg, var(--amarillo-acento), var(--naranja-acento));
+            color: #1a1a1a;
+            font-weight: 800;
+            font-size: 0.65rem;
+            padding: 6px 14px;
+            border-radius: 40px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+        }
+        /* Borde de gradiente animado en hover */
+        .video-card::after {
+            content: '';
+            position: absolute;
+            inset: -2px;
+            border-radius: 24px;
+            background: linear-gradient(135deg, var(--rosa-cta), var(--naranja-acento), var(--azul-cielo), var(--rosa-cta));
+            background-size: 300% 300%;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            animation: gradientBorder 4s linear infinite;
+            pointer-events: none;
+        }
+        .video-card:hover::after {
+            opacity: 1;
+        }
+        @keyframes gradientBorder {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+        /* Responsive para video grid */
+        @media (max-width: 1100px) {
+            .video-card.featured {
+                grid-column: span 12;
+                grid-row: span 1;
+                aspect-ratio: 16/9;
+            }
+            .video-card:not(.featured) {
+                grid-column: span 6;
+                aspect-ratio: 16/9;
+            }
+        }
+        @media (max-width: 700px) {
+            #videos-gallery {
+                padding: 60px 16px;
+            }
+            .video-grid {
+                gap: 14px;
+            }
+            .video-card.featured,
+            .video-card:not(.featured) {
+                grid-column: span 12;
+                aspect-ratio: 16/9;
+            }
+            .video-card .play-btn-circle {
+                width: 58px;
+                height: 58px;
+            }
+            .video-card .play-btn-circle i {
+                font-size: 20px;
+            }
+            .video-card.featured .play-btn-circle {
+                width: 70px;
+                height: 70px;
+            }
+            .video-card.featured .play-btn-circle i {
+                font-size: 26px;
+            }
+            .video-card .video-info .video-title {
+                font-size: 0.85rem;
             }
         }
 
+        /* Reserva */
         #reserva {
-            padding: 80px 48px;
-            background: linear-gradient(115deg, var(--azul-cielo), #0077cc);
+            padding: 90px 48px;
+            background: linear-gradient(120deg, var(--azul-cielo), #0070cc, #005fa3);
+            position: relative;
+            overflow: hidden;
         }
-
+        #reserva::before {
+            content: '';
+            position: absolute;
+            bottom: -60px;
+            left: -80px;
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, rgba(255, 204, 0, 0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
         .reserva-card {
-            background: linear-gradient(145deg, white, #fefefe);
-            border-radius: 36px;
-            padding: 44px;
-            margin-top: 40px;
+            background: #ffffff;
+            border-radius: 34px;
+            padding: 42px 36px;
+            margin-top: 36px;
             color: var(--negro-suave);
+            box-shadow: var(--shadow-lg);
+            border: 1px solid rgba(255, 255, 255, 0.4);
         }
-
         .reserva-card input,
         .reserva-card select {
-            padding: 16px;
-            border-radius: 24px;
-            border: 1px solid var(--gris-borde);
+            padding: 15px 18px;
+            border-radius: 20px;
+            border: 1.5px solid var(--gris-borde);
             width: 100%;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: #fafafa;
         }
-
+        .reserva-card input:focus,
+        .reserva-card select:focus {
+            outline: none;
+            border-color: var(--rosa-cta);
+            box-shadow: 0 0 0 4px rgba(255, 0, 153, 0.06);
+            background: #fff;
+        }
         #submitReserva {
             background: linear-gradient(115deg, var(--rosa-cta), #c20077);
             border: none;
-            padding: 16px 36px;
+            padding: 17px 32px;
             border-radius: 60px;
             font-weight: 800;
+            font-size: 0.9rem;
             color: white;
             cursor: pointer;
-            transition: 0.2s;
+            transition: all 0.3s var(--transition-bounce);
             width: 100%;
-            margin-top: 28px;
+            margin-top: 26px;
+            font-family: 'Montserrat', sans-serif;
+            letter-spacing: 0.03em;
+            box-shadow: 0 8px 24px rgba(255, 0, 153, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
-
         #submitReserva:hover {
             background: linear-gradient(115deg, var(--rosa-hover), #aa0068);
+            box-shadow: 0 16px 36px rgba(255, 0, 153, 0.5);
+            transform: translateY(-3px);
         }
-
         .iti {
             width: 100%;
             display: block;
         }
-
         .iti__flag-container {
-            border-radius: 24px 0 0 24px;
+            border-radius: 20px 0 0 20px;
         }
-
         .iti--allow-dropdown input,
         .iti--separate-dial-code input {
-            padding-left: 90px !important;
+            padding-left: 88px !important;
             width: 100%;
-            border-radius: 24px;
+            border-radius: 20px;
         }
 
+        /* Conócenos */
         #conocenos {
-            padding: 80px 48px;
-            background: linear-gradient(135deg, #fef9f0, #ffffff);
+            padding: 90px 48px;
+            background: linear-gradient(140deg, #fef9f0, #ffffff, #fdfcf8);
             color: var(--negro-suave);
         }
-
         .conocenos-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 48px;
+            gap: 40px;
             max-width: 1400px;
             margin: 0 auto;
         }
-
         .info-card {
-            background: linear-gradient(145deg, #fafafa, #ffffff);
+            background: #ffffff;
             border-radius: var(--radius-xl);
-            padding: 32px;
-            border: 1px solid var(--gris-borde);
-            transition: transform 0.2s;
-        }
-
-        .info-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--naranja-acento);
-        }
-
-        .info-card h3 {
-            font-family: 'Permanent Marker', cursive;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
-            color: var(--azul-cielo);
-        }
-
-        .mv-container {
-            display: flex;
-            gap: 24px;
-            flex-wrap: wrap;
-            margin-top: 20px;
-        }
-
-        .mv-item {
-            flex: 1;
-            background: linear-gradient(125deg, white, #fcfcfc);
-            padding: 24px;
-            border-radius: 24px;
+            padding: 34px 30px;
+            border: 1.5px solid var(--gris-borde);
+            transition: all 0.3s ease;
             box-shadow: var(--shadow-sm);
         }
-
-        .mv-item h4 {
-            font-size: 1.4rem;
-            margin-bottom: 12px;
-            color: var(--rosa-cta);
+        .info-card:hover {
+            transform: translateY(-6px);
+            border-color: var(--naranja-acento);
+            box-shadow: var(--shadow-md);
         }
-
+        .info-card h3 {
+            font-family: 'Permanent Marker', cursive;
+            font-size: 1.7rem;
+            margin-bottom: 18px;
+            color: var(--azul-cielo);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .mv-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 18px;
+        }
+        .mv-item {
+            flex: 1;
+            min-width: 160px;
+            background: #fafafa;
+            padding: 22px;
+            border-radius: 22px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gris-borde);
+        }
+        .mv-item h4 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--rosa-cta);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
         .contact-item {
             display: flex;
             align-items: center;
-            gap: 16px;
-            margin-bottom: 20px;
-            font-size: 1.1rem;
+            gap: 14px;
+            margin-bottom: 16px;
+            font-size: 0.95rem;
+            color: #444;
         }
-
         .contact-icon {
-            font-size: 1.8rem;
-            min-width: 48px;
+            font-size: 1.4rem;
+            min-width: 40px;
             text-align: center;
+            color: var(--rosa-cta);
         }
-
         .map-container {
-            border-radius: 24px;
+            border-radius: 22px;
             overflow: hidden;
-            margin-top: 20px;
+            margin-top: 18px;
             box-shadow: var(--shadow-sm);
+            border: 1px solid var(--gris-borde);
         }
-
         .map-container iframe {
             width: 100%;
-            height: 300px;
+            height: 280px;
             border: 0;
         }
 
+        /* Footer */
         footer {
-            background: linear-gradient(145deg, #111111, #1f1f2f);
+            background: linear-gradient(150deg, #111118, #1a1a28);
             color: #ccc;
-            padding: 70px 48px 40px;
+            padding: 64px 48px 36px;
+        }
+        footer i {
+            margin-right: 6px;
+            color: var(--amarillo-acento);
         }
 
+        /* Botón volver arriba */
+        .back-to-top {
+            position: fixed;
+            bottom: 28px;
+            right: 28px;
+            z-index: 90;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rosa-cta), var(--rosa-hover));
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all 0.35s var(--transition-bounce);
+            box-shadow: 0 8px 22px rgba(255, 0, 153, 0.35);
+        }
+        .back-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 32px rgba(255, 0, 153, 0.5);
+        }
+
+        /* WhatsApp FAB */
+        .whatsapp-fab {
+            position: fixed;
+            bottom: 90px;
+            right: 28px;
+            z-index: 90;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: #25D366;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 24px rgba(37, 211, 102, 0.4);
+            transition: all 0.3s var(--transition-bounce);
+            text-decoration: none;
+        }
+        .whatsapp-fab:hover {
+            transform: scale(1.1);
+            box-shadow: 0 14px 32px rgba(37, 211, 102, 0.55);
+        }
+
+        /* Responsive general */
         @media (max-width: 1000px) {
             .hero-grid {
                 grid-template-columns: 1fr;
-                gap: 40px;
+                gap: 36px;
             }
-
             .hero-grid>div:first-child {
                 text-align: center;
             }
-
-            .pkg-name {
-                text-align: center;
+            .hero-sub {
+                margin-left: auto;
+                margin-right: auto;
             }
-
-            .info-card h3 {
-                text-align: center;
+            .booking-engine {
+                text-align: left;
             }
-
             nav {
-                padding: 16px 24px;
+                padding: 14px 22px;
             }
-
             .nav-links,
             .nav-cta {
                 display: none;
             }
-
             .hamburger {
                 display: flex;
             }
-
             #hero,
             #paquetes,
             #como-funciona,
             #galeria,
+            #videos-gallery,
             #reserva,
             #conocenos {
-                padding-left: 24px;
-                padding-right: 24px;
+                padding-left: 20px;
+                padding-right: 20px;
             }
-
-            .pkg-grid {
-                gap: 24px;
-            }
-
             .conocenos-grid {
                 grid-template-columns: 1fr;
-                gap: 32px;
+                gap: 28px;
+            }
+            .steps-modern {
+                gap: 20px;
+            }
+            .step-card {
+                min-width: 150px;
+                max-width: 100%;
+                flex: 1 1 45%;
             }
         }
-
+        @media (max-width: 640px) {
+            .gallery-modern {
+                grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+                gap: 10px;
+            }
+        }
         @media (max-width: 550px) {
             .booking-engine {
                 padding: 20px;
             }
-
             .engine-row {
                 flex-direction: column;
             }
-
+            .engine-field {
+                min-width: 100%;
+            }
             .mv-container {
                 flex-direction: column;
             }
-        }
-
-        /* Estilos para el carrito dentro del modal */
-        .cart-detail-line {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .cart-total {
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: #ff0099;
-            margin-top: 12px;
-            text-align: right;
+            .back-to-top {
+                bottom: 16px;
+                right: 16px;
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+            .whatsapp-fab {
+                bottom: 68px;
+                right: 16px;
+                width: 44px;
+                height: 44px;
+                font-size: 1.3rem;
+            }
         }
     </style>
 </head>
-
 <body>
+    @php
+    $paquetes = config('vuelos.paquetes', []);
+    $defaultImage = 'https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1';
+
+    // Videos de ejemplo (puedes mover esto a config/vuelos.php)
+    $videos = [
+    [
+    'id' => 'dQw4w9WgXcQ', // Reemplazar con ID real de YouTube
+    'title' => 'Amanecer mágico sobre las pirámides',
+    'duration' => '3:24',
+    'badge' => 'Nuevo',
+    'featured' => true,
+    'provider' => 'youtube',
+    ],
+    [
+    'id' => 'dQw4w9WgXcQ',
+    'title' => 'Experiencia completa: vuelo en globo',
+    'duration' => '5:10',
+    'badge' => 'Popular',
+    'featured' => false,
+    'provider' => 'youtube',
+    ],
+    [
+    'id' => 'dQw4w9WgXcQ',
+    'title' => 'Brindis y certificado al aterrizar',
+    'duration' => '2:48',
+    'badge' => '',
+    'featured' => false,
+    'provider' => 'youtube',
+    ],
+    [
+    'id' => 'dQw4w9WgXcQ',
+    'title' => 'Testimonio: "La mejor experiencia de mi vida"',
+    'duration' => '4:05',
+    'badge' => '',
+    'featured' => false,
+    'provider' => 'youtube',
+    ],
+    [
+    'id' => 'dQw4w9WgXcQ',
+    'title' => 'Detrás de cámaras: inflado del globo',
+    'duration' => '6:32',
+    'badge' => 'Exclusivo',
+    'featured' => false,
+    'provider' => 'youtube',
+    ],
+    ];
+    @endphp
+
+    {{-- Preloader --}}
     <div class="preloader" id="preloader">
-        <img src="https://placehold.co/100x100/0099ff/white?text=HT" alt="Hecho en Teoti">
+        <i class="fa-solid fa-balloon preloader-icon"></i>
+        <div class="preloader-spinner"></div>
     </div>
+
+    {{-- Overlay y menú móvil --}}
     <div class="menu-overlay" id="menuOverlay"></div>
     <div class="mobile-menu" id="mobile-menu">
-        <a href="#paquetes">🎈 Paquetes</a>
-        <a href="#como-funciona">✨ Experiencia</a>
-        <a href="#galeria">📸 Galería</a>
-        <a href="#reserva">📅 Reservar</a>
-        <a href="#conocenos">🌟 Conócenos</a>
+        <a href="#paquetes"><i class="fa-solid fa-gift"></i> Paquetes</a>
+        <a href="#como-funciona"><i class="fa-solid fa-wand-magic-sparkles"></i> Experiencia</a>
+        <a href="#galeria"><i class="fa-solid fa-images"></i> Galería</a>
+        <a href="#videos-gallery"><i class="fa-solid fa-film"></i> Videos</a>
+        <a href="#reserva"><i class="fa-solid fa-calendar-check"></i> Reservar</a>
+        <a href="#conocenos"><i class="fa-solid fa-star"></i> Conócenos</a>
     </div>
+
+    {{-- Navegación --}}
     <nav id="main-nav">
         <a href="#" class="nav-logo">
-            <img src="https://placehold.co/100x100/0099ff/white?text=HT" alt="Hecho en Teoti" class="nav-logo-img">
+            <i class="fa-solid fa-balloon"></i>
+            <span>Hecho<span style="color:var(--amarillo-acento);">en</span>Teoti</span>
         </a>
         <ul class="nav-links">
-            <li><a href="#paquetes">Paquetes</a></li>
-            <li><a href="#como-funciona">Experiencia</a></li>
-            <li><a href="#galeria">Galería</a></li>
-            <li><a href="#reserva">Reservar</a></li>
-            <li><a href="#conocenos">Conócenos</a></li>
+            <li><a href="#paquetes"><i class="fa-solid fa-gift"></i> Paquetes</a></li>
+            <li><a href="#como-funciona"><i class="fa-solid fa-wand-magic-sparkles"></i> Experiencia</a></li>
+            <li><a href="#galeria"><i class="fa-solid fa-images"></i> Galería</a></li>
+            <li><a href="#videos-gallery"><i class="fa-solid fa-film"></i> Videos</a></li>
+            <li><a href="#reserva"><i class="fa-solid fa-calendar-check"></i> Reservar</a></li>
+            <li><a href="#conocenos"><i class="fa-solid fa-star"></i> Conócenos</a></li>
         </ul>
-        <a href="#reserva" class="nav-cta">Reservar vuelo</a>
-        <button class="hamburger" id="hamburger"><span></span><span></span><span></span></button>
+        <a href="#reserva" class="nav-cta"><i class="fa-solid fa-rocket"></i> Reservar vuelo</a>
+        <button class="hamburger" id="hamburger" aria-label="Menú">
+            <span></span><span></span><span></span>
+        </button>
     </nav>
 
+    {{-- Hero --}}
     <section id="hero">
         <div class="hero-grid">
             <div>
-                <div class="hero-badge"
-                    style="display: inline-flex; background: rgba(255,204,0,0.2); border-radius: 100px; padding: 6px 16px; font-weight: 700; color: var(--amarillo-acento); margin-bottom: 28px;">
-                    ✨ vuelo al amanecer · Teotihuacán</div>
-                <h1 class="hero-title">Despierta sobre <em>las pirámides</em></h1>
-                <p class="hero-sub" style="font-size:1.1rem; color: rgba(255,255,255,0.9); margin: 20px 0 40px;">La
-                    experiencia más mágica de México. Vuela en globo al amanecer con seguridad y comodidad.</p>
-                <div class="booking-engine">
+                <div class="hero-badge reveal">
+                    <i class="fa-solid fa-sun"></i> vuelo al amanecer · Teotihuacán
+                </div>
+                <h1 class="hero-title reveal reveal-delay-1">Despierta sobre <em>las pirámides</em></h1>
+                <p class="hero-sub reveal reveal-delay-2">
+                    La experiencia más mágica de México. Vuela en globo al amanecer con seguridad y comodidad.
+                </p>
+                <div class="booking-engine reveal reveal-delay-3">
                     <div class="engine-row">
-                        <div class="engine-field"><label>📅 Fecha</label><input type="text" id="bookingDate"
-                                placeholder="Selecciona una fecha" readonly></div>
-                        <div class="engine-field"><label>👥 Adultos</label><input type="number" id="adultsCount"
-                                value="2" min="1"></div>
-                        <div class="engine-field"><label>🧒 Niños (4-10)</label><input type="number" id="childrenCount"
-                                value="0" min="0"></div>
-                        <div class="engine-field"><label>🎈 Paquete</label><select id="packageSelect">
-                                <option value="1">Vuelo en globo</option>
-                                <option value="2">Vuelo + Desayuno</option>
-                                <option value="3">+ Transporte CDMX + Desayuno</option>
-                                <option value="4">Completo + Pirámides</option>
-                            </select></div>
-                        <button class="search-btn" id="searchBtn">🔍 Buscar vuelos</button>
+                        <div class="engine-field">
+                            <label><i class="fa-solid fa-calendar-days"></i> Fecha</label>
+                            <input type="text" id="bookingDate" placeholder="Selecciona una fecha" readonly>
+                        </div>
+                        <div class="engine-field">
+                            <label><i class="fa-solid fa-user"></i> Adultos</label>
+                            <input type="number" id="adultsCount" value="2" min="1">
+                        </div>
+                        <div class="engine-field">
+                            <label><i class="fa-solid fa-child"></i> Niños (4-10)</label>
+                            <input type="number" id="childrenCount" value="0" min="0">
+                        </div>
+                        <div class="engine-field">
+                            <label><i class="fa-solid fa-gift"></i> Paquete</label>
+                            <select id="packageSelect">
+                                @foreach($paquetes as $id => $pkg)
+                                <option value="{{ $id }}">{{ $pkg['name'] }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <button class="search-btn" id="searchBtn"><i class="fa-solid fa-magnifying-glass"></i> Buscar vuelos</button>
                     </div>
-                    <div class="booking-summary"><span id="summaryText">20 jun 2026 · 2 adultos · Vuelo en
-                            globo</span><span class="summary-price" id="totalDisplay">$4,398 MXN</span></div>
+                    <div class="booking-summary">
+                        <span id="summaryText"><i class="fa-solid fa-calendar"></i> 20 jun 2026 · 2 adultos · Vuelo en globo</span>
+                        <span class="summary-price" id="totalDisplay">$4,398 MXN</span>
+                    </div>
                 </div>
             </div>
-            <div class="hero-image">
+            <div class="hero-image reveal reveal-delay-4">
                 <div class="swiper hero-swiper">
                     <div class="swiper-wrapper">
                         @php
-                            $carruselPath = public_path('assets/img/carrusel/');
-                            $carruselImages = [];
-                            if (is_dir($carruselPath)) {
-                                $files = scandir($carruselPath);
-                                foreach ($files as $file) {
-                                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-                                    if (in_array($extension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
-                                        $carruselImages[] = asset('assets/img/carrusel/' . $file);
-                                    }
-                                }
-                            }
+                        $carruselPath = public_path('assets/img/carrusel/');
+                        $carruselImages = [];
+                        if (is_dir($carruselPath)) {
+                        $files = scandir($carruselPath);
+                        foreach ($files as $file) {
+                        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                        if (in_array($extension, ['jpg','jpeg','png','webp','gif'])) {
+                        $carruselImages[] = asset('assets/img/carrusel/'.$file);
+                        }
+                        }
+                        }
                         @endphp
-
                         @if(count($carruselImages) > 0)
-                            @foreach($carruselImages as $img)
-                                <div class="swiper-slide">
-                                    <img src="{{ $img }}" alt="Carrusel Hecho en Teoti">
-                                </div>
-                            @endforeach
+                        @foreach($carruselImages as $img)
+                        <div class="swiper-slide"><img src="{{ $img }}" alt="Carrusel Hecho en Teoti" loading="lazy"></div>
+                        @endforeach
                         @else
-                            {{-- Fallback por si no hay imágenes en el directorio --}}
-                            <div class="swiper-slide"><img
-                                    src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1000&q=85"
-                                    alt="Vuelo en globo"></div>
-                            <div class="swiper-slide"><img
-                                    src="https://images.unsplash.com/photo-1506703719100-f0b3c5c4fea0?auto=format&fit=crop&w=1000&q=85"
-                                    alt="Amanecer"></div>
-                            <div class="swiper-slide"><img
-                                    src="https://images.unsplash.com/photo-1534777367038-9404f45b869b?auto=format&fit=crop&w=1000&q=85"
-                                    alt="Pirámides"></div>
-                            <div class="swiper-slide"><img
-                                    src="https://images.unsplash.com/photo-1621760874155-995ec1eb23de?auto=format&fit=crop&w=1000&q=85"
-                                    alt="Experiencia"></div>
+                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1000&q=85" alt="Vuelo en globo" loading="lazy"></div>
+                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1506703719100-f0b3c5c4fea0?auto=format&fit=crop&w=1000&q=85" alt="Amanecer" loading="lazy"></div>
+                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1534777367038-9404f45b869b?auto=format&fit=crop&w=1000&q=85" alt="Pirámides" loading="lazy"></div>
+                        <div class="swiper-slide"><img src="https://images.unsplash.com/photo-1621760874155-995ec1eb23de?auto=format&fit=crop&w=1000&q=85" alt="Experiencia" loading="lazy"></div>
                         @endif
                     </div>
                     <div class="swiper-button-prev"></div>
@@ -1020,228 +1786,320 @@
         </div>
     </section>
 
-    <div class="offer-strip">🎈 OFERTA EXCLUSIVA: 6% OFF en grupos de 4+ personas · Código: TEOTI2026 🎈</div>
+    {{-- Oferta --}}
+    <div class="offer-strip">
+        <i class="fa-solid fa-tag"></i> OFERTA EXCLUSIVA: 6% OFF en grupos de 4+ personas · Código: <strong>TEOTI2025</strong> <i class="fa-solid fa-tag"></i>
+    </div>
 
+    {{-- Paquetes --}}
     <section id="paquetes">
-        <div class="section-header">
+        <div class="section-header reveal">
             <span class="section-eyebrow">Nuestros paquetes</span>
             <h2 class="section-title">Elige tu <em>aventura</em></h2>
         </div>
         <div class="pkg-grid">
-            <div class="pkg-card" data-pkg-id="1">
-                <img class="pkg-img"
-                    src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
-                    alt="Momento mágico en globo">
-                <div class="pkg-name">Vuelo esencial</div>
-                <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,199</span></div>
-                <div class="price-row-modern"><span>Niño (4-10)</span><span>$1,999</span></div>
-                <div style="margin: 12px 0; font-size:0.7rem; color:var(--rosa-cta);">✅ Brindis + diploma</div>
-                <button class="select-pkg" data-pkg="1">Seleccionar</button>
+            @foreach($paquetes as $id => $pkg)
+            <div class="pkg-card reveal reveal-delay-{{ $loop->iteration }}" data-pkg-id="{{ $id }}">
+                <img class="pkg-img" src="{{ $pkg['image'] ?? $defaultImage }}" alt="{{ $pkg['name'] }}" loading="lazy">
+                <div class="pkg-name">{{ $pkg['name'] }}</div>
+                <div class="price-row-modern">
+                    <span><i class="fa-solid fa-user"></i> Adulto</span>
+                    <span class="price-adult">${{ number_format($pkg['adult'], 0) }}</span>
+                </div>
+                <div class="price-row-modern">
+                    <span><i class="fa-solid fa-child"></i> Niño (4-10)</span>
+                    <span>${{ number_format($pkg['child'], 0) }}</span>
+                </div>
+                <div class="pkg-tag"><i class="fa-solid fa-star"></i> {{ $pkg['tag'] }}</div>
+                <button class="select-pkg" data-pkg="{{ $id }}">
+                    <i class="fa-solid fa-cart-shopping"></i> Seleccionar
+                </button>
             </div>
-            <div class="pkg-card" data-pkg-id="2">
-                <img class="pkg-img"
-                    src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
-                    alt="Amanecer y desayuno">
-                <div class="pkg-name">Vuelo + Desayuno</div>
-                <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,299</span></div>
-                <div class="price-row-modern"><span>Niño</span><span>$2,149</span></div>
-                <div style="margin: 12px 0;">🍽️ Desayuno en hacienda</div>
-                <button class="select-pkg" data-pkg="2">Seleccionar</button>
-            </div>
-            <div class="pkg-card" data-pkg-id="3">
-                <img class="pkg-img"
-                    src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
-                    alt="Transporte incluido">
-                <div class="pkg-name">Todo incluido (CDMX)</div>
-                <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,749</span></div>
-                <div class="price-row-modern"><span>Niño</span><span>$2,599</span></div>
-                <div style="margin: 12px 0;">🚐 Transporte redondo + desayuno</div>
-                <button class="select-pkg" data-pkg="3">Seleccionar</button>
-            </div>
-            <div class="pkg-card" data-pkg-id="4">
-                <img class="pkg-img"
-                    src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1"
-                    alt="Acceso pirámides">
-                <div class="pkg-name">Experiencia completa</div>
-                <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,949</span></div>
-                <div class="price-row-modern"><span>Niño</span><span>$2,799</span></div>
-                <div style="margin: 12px 0;">🏛️ Acceso pirámides + guía</div>
-                <button class="select-pkg" data-pkg="4">Seleccionar</button>
-            </div>
+            @endforeach
         </div>
     </section>
 
+    {{-- Cómo funciona --}}
     <section id="como-funciona">
-        <div class="section-header">
+        <div class="section-header reveal">
             <span class="section-eyebrow">Simple y rápido</span>
             <h2 class="section-title">Reserva en <em>3 pasos</em></h2>
         </div>
         <div class="steps-modern">
-            <div class="step-card"><span style="font-size: 2rem;">📅</span>
+            <div class="step-card reveal reveal-delay-1">
+                <div class="step-icon"><i class="fa-solid fa-calendar-plus"></i></div>
                 <h3>1. Elige fecha</h3>
-                <p>Selecciona tu día preferido</p>
+                <p>Selecciona tu día preferido para la aventura.</p>
             </div>
-            <div class="step-card"><span style="font-size: 2rem;">🎈</span>
+            <div class="step-card reveal reveal-delay-2">
+                <div class="step-icon"><i class="fa-solid fa-balloon"></i></div>
                 <h3>2. Elige paquete</h3>
-                <p>Adultos y niños</p>
+                <p>Adultos y niños, el que mejor se adapte a ti.</p>
             </div>
-            <div class="step-card"><span style="font-size: 2rem;">✅</span>
+            <div class="step-card reveal reveal-delay-3">
+                <div class="step-icon"><i class="fa-solid fa-circle-check"></i></div>
                 <h3>3. Confirma y vuela</h3>
-                <p>Voucher en minutos</p>
+                <p>Recibe tu voucher en minutos y prepárate.</p>
             </div>
         </div>
-        <div
-            style="background: linear-gradient(135deg, white, #fefefe); border-radius: 28px; padding: 24px; text-align: center; max-width: 500px; margin: 20px auto 0; color: var(--negro-suave);">
-            📆 Disponibilidad: <strong>20, 21, 22, 27, 28 de junio</strong> — ¡últimos lugares!</div>
+        <div class="disponibilidad-chip reveal">
+            <i class="fa-solid fa-clock"></i> Disponibilidad: <strong>20, 21, 22, 27, 28 de junio</strong> — ¡últimos lugares!
+        </div>
     </section>
 
-    <!-- GALERÍA DINÁMICA DESDE DIRECTORIO assets/img/hechoenteoti/ -->
+    {{-- Galería imágenes --}}
     <section id="galeria">
-        <div class="section-header">
+        <div class="section-header reveal">
             <span class="section-eyebrow">Recuerdos que inspiran</span>
             <h2 class="section-title">Momentos <em>únicos</em></h2>
         </div>
         <div class="gallery-modern" id="galleryModern">
             @php
-                $galeriaPath = public_path('assets/img/hechoenteoti/');
-                $imagenes = [];
-                if (is_dir($galeriaPath)) {
-                    $files = scandir($galeriaPath);
-                    foreach ($files as $file) {
-                        $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
-                        if (in_array($extension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
-                            $imagenes[] = asset('assets/img/hechoenteoti/' . $file);
-                        }
-                    }
-                }
+            $galeriaPath = public_path('assets/img/hechoenteoti/');
+            $imagenes = [];
+            if (is_dir($galeriaPath)) {
+            $files = scandir($galeriaPath);
+            foreach ($files as $file) {
+            $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+            if (in_array($extension, ['jpg','jpeg','png','webp','gif'])) {
+            $imagenes[] = asset('assets/img/hechoenteoti/'.$file);
+            }
+            }
+            }
             @endphp
-
             @forelse($imagenes as $index => $imgUrl)
-                <div class="gallery-item" data-index="{{ $index }}">
-                    <img src="{{ $imgUrl }}" alt="Galería Hecho en Teoti">
-                    <div class="overlay"><span>📸 Recuerdo único</span></div>
-                </div>
+            <div class="gallery-item reveal" data-index="{{ $index }}">
+                <img src="{{ $imgUrl }}" alt="Galería Hecho en Teoti" loading="lazy">
+                <div class="overlay"><i class="fa-solid fa-camera"></i> <span>Recuerdo único</span></div>
+            </div>
             @empty
-                <div class="gallery-item"
-                    style="background:#eee; display:flex; align-items:center; justify-content:center;">
-                    <p>No hay imágenes disponibles en este momento.</p>
-                </div>
+            <div class="gallery-item reveal" style="background:#eee; display:flex; align-items:center; justify-content:center; cursor:default;">
+                <p style="color:#888;"><i class="fa-solid fa-image"></i> No hay imágenes disponibles</p>
+            </div>
             @endforelse
         </div>
     </section>
 
-    <section id="reserva">
-        <div style="max-width: 900px; margin: 0 auto; text-align: center;">
-            <span class="section-eyebrow">Asegura tu lugar</span>
-            <h2 class="section-title">¿Listo para <em>despegar?</em></h2>
-            <div class="reserva-card">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
-                    <input type="text" id="nombreReserva" placeholder="Nombre completo">
-                    <input type="email" id="emailReserva" placeholder="Correo electrónico">
-                    <div style="width: 100%;">
-                        <input type="tel" id="whatsappReserva" placeholder="WhatsApp (con lada)">
-                    </div>
+    {{-- ==================== GALERÍA DE VIDEOS ==================== --}}
+    <section id="videos-gallery">
+        <div class="section-header reveal">
+            <span class="section-eyebrow">Vive la experiencia</span>
+            <h2 class="section-title">Galería de <em style="color:var(--rosa-cta);">Videos</em></h2>
+            <p style="color:rgba(255,255,255,0.7);font-size:0.9rem;margin-top:8px;">Descubre por qué nuestra experiencia es inolvidable</p>
+        </div>
+        <div class="video-grid">
+            @foreach($videos as $index => $video)
+            @php
+            $thumbUrl = $video['provider'] === 'youtube'
+            ? "https://img.youtube.com/vi/{$video['id']}/maxresdefault.jpg"
+            : "https://img.youtube.com/vi/{$video['id']}/hqdefault.jpg";
+            $embedUrl = $video['provider'] === 'youtube'
+            ? "https://www.youtube.com/embed/{$video['id']}?autoplay=1&rel=0&modestbranding=1&showinfo=0"
+            : "https://player.vimeo.com/video/{$video['id']}?autoplay=1";
+            @endphp
+            <div class="video-card {{ $video['featured'] ? 'featured' : '' }} reveal reveal-delay-{{ $index + 1 }}"
+            data-video-url="{{ $embedUrl }}"
+            data-video-title="{{ $video['title'] }}"
+            data-video-provider="{{ $video['provider'] }}">
+            <img class="video-thumb"
+            src="{{ $thumbUrl }}"
+            alt="{{ $video['title'] }}"
+            loading="lazy"
+            onerror="this.onerror=null;this.src='https://img.youtube.com/vi/{{ $video['id'] }}/hqdefault.jpg';">
+            <div class="video-overlay-bg"></div>
+            <div class="play-btn-circle">
+                <i class="fa-solid fa-play"></i>
+            </div>
+            @if($video['badge'])
+            <div class="video-badge">{{ $video['badge'] }}</div>
+            @endif
+            <div class="video-info">
+                <span class="video-duration"><i class="fa-regular fa-clock"></i> {{ $video['duration'] }}</span>
+                <div class="video-title">{{ $video['title'] }}</div>
+            </div>
+        </div>
+        @endforeach
+    </div>
+</section>
+
+{{-- Reserva --}}
+<section id="reserva">
+    <div style="max-width: 880px; margin: 0 auto; text-align: center;">
+        <div class="section-header reveal" style="color:white;">
+            <span class="section-eyebrow" style="color:var(--amarillo-acento);">Asegura tu lugar</span>
+            <h2 class="section-title" style="color:white;">¿Listo para <em style="color:var(--amarillo-acento);">despegar?</em></h2>
+        </div>
+        <div class="reserva-card reveal reveal-delay-2">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+                <div>
+                    <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
+                        <i class="fa-solid fa-user-pen"></i> Nombre completo
+                    </label>
+                    <input type="text" id="nombreReserva" placeholder="Tu nombre completo">
+                </div>
+                <div>
+                    <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
+                        <i class="fa-solid fa-envelope"></i> Correo electrónico
+                    </label>
+                    <input type="email" id="emailReserva" placeholder="tu@correo.com">
+                </div>
+                <div>
+                    <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
+                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                    </label>
+                    <input type="tel" id="whatsappReserva" placeholder="WhatsApp (con lada)">
+                </div>
+                <div>
+                    <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
+                        <i class="fa-solid fa-gift"></i> Paquete
+                    </label>
                     <select id="paqueteFinal">
-                        <option value="1">Vuelo en globo</option>
-                        <option value="2">Vuelo + Desayuno</option>
-                        <option value="3">+ Transporte CDMX + Desayuno</option>
-                        <option value="4">Completo + Pirámides</option>
+                        @foreach($paquetes as $id => $pkg)
+                        <option value="{{ $id }}">{{ $pkg['name'] }}</option>
+                        @endforeach
                     </select>
                 </div>
-                <button id="submitReserva">Solicitar reservación →</button>
-                <p style="margin-top: 28px; font-size: 0.75rem; color: var(--negro-suave);">Te contactamos en menos de
-                    2 horas para confirmar disponibilidad y pago seguro.</p>
             </div>
+            <button id="submitReserva">
+                <i class="fa-solid fa-paper-plane"></i> Solicitar reservación
+            </button>
+            <p style="margin-top: 24px; font-size: 0.72rem; color: #777;">
+                <i class="fa-solid fa-shield-halved"></i> Te contactamos en menos de 2 horas para confirmar disponibilidad y pago seguro.
+            </p>
         </div>
-    </section>
+    </div>
+</section>
 
-    <section id="conocenos">
-        <div class="section-header">
-            <span class="section-eyebrow">Nuestra esencia</span>
-            <h2 class="section-title">Conoce <em>más de nosotros</em></h2>
-        </div>
-        <div class="conocenos-grid">
-            <div class="info-card">
-                <h3>✨ Nosotros</h3>
-                <p style="line-height: 1.6; margin-bottom: 24px;">Somos <strong>Hecho en Teoti</strong>, una empresa
-                    familiar con más de 15 años de experiencia ofreciendo vuelos en globo aerostático sobre la
-                    majestuosa Zona Arqueológica de Teotihuacán. Nacimos del amor por las tradiciones mexicanas y el
-                    deseo de compartir una vista única del amanecer entre las pirámides del Sol y la Luna. Cada vuelo
-                    es operado con los más altos estándares de seguridad y calidez humana.</p>
-                <div class="mv-container">
-                    <div class="mv-item">
-                        <h4>🎯 Misión</h4>
-                        <p>Brindar experiencias inolvidables y seguras, conectando a nuestros visitantes con la
-                            grandeza de Teotihuacán desde las alturas, fomentando el respeto por el patrimonio
-                            cultural.</p>
+{{-- Conócenos --}}
+<section id="conocenos">
+    <div class="section-header reveal">
+        <span class="section-eyebrow">Nuestra esencia</span>
+        <h2 class="section-title">Conoce <em>más de nosotros</em></h2>
+    </div>
+    <div class="conocenos-grid">
+        <div class="info-card reveal reveal-delay-1">
+            <h3><i class="fa-solid fa-people-group"></i> Nosotros</h3>
+            <p style="line-height:1.65;margin-bottom:22px;">
+                Somos <strong>Hecho en Teoti</strong>, una empresa familiar con más de 15 años de experiencia
+                ofreciendo vuelos en globo aerostático sobre la majestuosa Zona Arqueológica de Teotihuacán.
+                Nacimos del amor por las tradiciones mexicanas y el deseo de compartir una vista única del
+                amanecer entre las pirámides del Sol y la Luna. Cada vuelo es operado con los más altos
+                estándares de seguridad y calidez humana.
+            </p>
+            <div class="mv-container">
+                <div class="mv-item">
+                    <h4><i class="fa-solid fa-bullseye"></i> Misión</h4>
+                    <p>Brindar experiencias inolvidables y seguras, conectando a nuestros visitantes con la
+                        grandeza de Teotihuacán desde las alturas.</p>
                     </div>
                     <div class="mv-item">
-                        <h4>🌟 Visión</h4>
-                        <p>Ser la empresa líder en turismo de aventura cultural en México, reconocida por la excelencia
-                            en servicio, innovación y compromiso con la sustentabilidad.</p>
+                        <h4><i class="fa-solid fa-eye"></i> Visión</h4>
+                        <p>Ser la empresa líder en turismo de aventura cultural en México, reconocida por la
+                            excelencia en servicio, innovación y compromiso con la sustentabilidad.</p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="info-card">
-                <h3>📍 Ubicación</h3>
-                <p><strong>Globopuerto Teotihuacán</strong><br>Carretera Federal México-Tulancingo Km 28.5, San Martín
-                    de las Pirámides, Estado de México, C.P. 55800</p>
-                <div class="map-container">
-                    <iframe
+                <div class="info-card reveal reveal-delay-2">
+                    <h3><i class="fa-solid fa-location-dot"></i> Ubicación</h3>
+                    <p><strong>Globopuerto Teotihuacán</strong><br>Carretera Federal México-Tulancingo Km 28.5,
+                    San Martín de las Pirámides, Estado de México, C.P. 55800</p>
+                    <div class="map-container">
+                        <iframe
                         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3761.513641244585!2d-98.84373008419524!3d19.689829785183985!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x85d1f6b0e1e75b7b%3A0x9e1f6e8b3e2f8b4c!2sGlobopuerto%20Teotihuac%C3%A1n!5e0!3m2!1ses!2smx!4v1650000000000!5m2!1ses!2smx"
                         allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                     </iframe>
                 </div>
-                <h3 style="margin-top: 32px;">📞 Contacto y horarios</h3>
-                <div class="contact-item">
-                    <span class="contact-icon">📞</span> <span>+52 55 4321 8765</span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-icon">✉️</span> <span>vuelos@hechoenteoti.mx</span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-icon">🕒</span> <span>Lunes a Domingo: 06:00 - 14:00 hrs (vuelos al
-                        amanecer)</span>
-                </div>
-                <div class="contact-item">
-                    <span class="contact-icon">💬</span> <span>WhatsApp: +52 55 1234 5678</span>
-                </div>
+                <h3 style="margin-top:28px;"><i class="fa-solid fa-address-book"></i> Contacto y horarios</h3>
+                <div class="contact-item"><span class="contact-icon"><i class="fa-solid fa-phone"></i></span> <span>+52 55 4321 8765</span></div>
+                <div class="contact-item"><span class="contact-icon"><i class="fa-solid fa-envelope"></i></span> <span>vuelos@hechoenteoti.mx</span></div>
+                <div class="contact-item"><span class="contact-icon"><i class="fa-solid fa-clock"></i></span> <span>Lunes a Domingo: 06:00 - 14:00 hrs (vuelos al amanecer)</span></div>
+                <div class="contact-item"><span class="contact-icon"><i class="fa-brands fa-whatsapp"></i></span> <span>WhatsApp: +52 55 1234 5678</span></div>
             </div>
         </div>
     </section>
 
+    {{-- Footer --}}
     <footer>
-        <div
-            style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
-            <div><strong style="font-family:'Permanent Marker', cursive; font-size: 1.5rem;">hecho<span
-                        style="color:var(--amarillo-acento);">en</span>teoti</strong><br>Desde 2009 · Experiencias
-                únicas</div>
-            <div><strong>Contacto</strong><br>📞 55 4321 8765<br>✉️ vuelos@hechoenteoti.mx</div>
-            <div><strong>Información</strong><br>Políticas de clima<br>Términos y condiciones</div>
-            <div><strong>Redes</strong><br>📷 IG · 🎵 TT · 📘 FB</div>
+        <div style="max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:36px;">
+            <div>
+                <strong style="font-family:'Permanent Marker',cursive;font-size:1.5rem;">
+                    <i class="fa-solid fa-balloon"></i> hecho<span style="color:var(--amarillo-acento);">en</span>teoti
+                </strong>
+                <br>Desde 2009 · Experiencias únicas
+            </div>
+            <div><strong><i class="fa-solid fa-phone"></i> Contacto</strong><br>📞 55 4321 8765<br>✉️ vuelos@hechoenteoti.mx</div>
+            <div><strong><i class="fa-solid fa-circle-info"></i> Información</strong><br>Políticas de clima<br>Términos y condiciones</div>
+            <div><strong><i class="fa-solid fa-share-nodes"></i> Redes</strong><br>
+                <i class="fa-brands fa-instagram"></i> IG ·
+                <i class="fa-brands fa-tiktok"></i> TT ·
+                <i class="fa-brands fa-facebook"></i> FB
+            </div>
         </div>
-        <div style="text-align: center; margin-top: 60px; font-size: 0.75rem;">© 2025 Hecho en Teoti · Pilotos
-            certificados AFAC</div>
+        <div style="text-align:center;margin-top:50px;font-size:0.7rem;color:#888;">
+            © 2025 Hecho en Teoti · Pilotos certificados AFAC <i class="fa-solid fa-certificate"></i>
+        </div>
     </footer>
 
-    <!-- Lightbox estructura -->
+    {{-- Botón volver arriba --}}
+    <button class="back-to-top" id="backToTop" aria-label="Volver arriba">
+        <i class="fa-solid fa-chevron-up"></i>
+    </button>
+
+    {{-- WhatsApp FAB --}}
+    <a href="https://wa.me/525512345678" class="whatsapp-fab" target="_blank" rel="noopener" aria-label="WhatsApp">
+        <i class="fa-brands fa-whatsapp"></i>
+    </a>
+
+    {{-- Lightbox imágenes --}}
     <div class="lightbox" id="lightbox">
         <div class="lightbox-content">
             <img id="lightboxImg" src="" alt="">
-            <button class="lightbox-close" id="lightboxClose">✕</button>
-            <button class="lightbox-prev" id="lightboxPrev">‹</button>
-            <button class="lightbox-next" id="lightboxNext">›</button>
+            <button class="lightbox-close" id="lightboxClose"><i class="fa-solid fa-xmark"></i></button>
+            <button class="lightbox-prev" id="lightboxPrev"><i class="fa-solid fa-chevron-left"></i></button>
+            <button class="lightbox-next" id="lightboxNext"><i class="fa-solid fa-chevron-right"></i></button>
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/intlTelInput.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/utils.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        // Inicializar Flatpickr
+    {{-- Lightbox de Video --}}
+    <div class="video-lightbox" id="videoLightbox">
+        <div class="video-lightbox-container">
+            <iframe id="videoIframe" src="" frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+        </iframe>
+        <button class="video-lightbox-close" id="videoLightboxClose" aria-label="Cerrar video">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="video-lightbox-title" id="videoLightboxTitle"></div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/intlTelInput.min.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/utils.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11">
+</script>
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        // ============ PRELOADER ============
+        const preloader = document.getElementById('preloader');
+        const hidePreloader = () => {
+            if (preloader && !preloader.classList.contains('hidden')) {
+                preloader.classList.add('hidden');
+                setTimeout(() => { if (preloader) preloader.style.display = 'none'; }, 500);
+            }
+        };
+        window.addEventListener('load', hidePreloader);
+        setTimeout(hidePreloader, 2500);
+
+        // ============ FLATPICKR ============
         flatpickr("#bookingDate", {
             locale: "es",
             dateFormat: "Y-m-d",
@@ -1250,87 +2108,92 @@
             disableMobile: true,
         });
 
-        // Hero Swiper
+        // ============ HERO SWIPER ============
         const heroSwiper = new Swiper('.hero-swiper', {
             loop: true,
-            autoplay: { delay: 4500 },
+            autoplay: { delay: 4200, disableOnInteraction: false },
             navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
-            pagination: { el: '.swiper-pagination', clickable: true }
+            pagination: { el: '.swiper-pagination', clickable: true },
         });
 
-        // Precios y lógica de reserva
-        const prices = {
-            1: { adult: 2199, child: 1999, name: "Vuelo esencial" },
-            2: { adult: 2299, child: 2149, name: "Vuelo + Desayuno" },
-            3: { adult: 2749, child: 2599, name: "Todo incluido (CDMX)" },
-            4: { adult: 2949, child: 2799, name: "Experiencia completa" }
-        };
+        // ============ PRECIOS ============
+        const prices = @json($paquetes);
 
         function updateSummary() {
             const adults = parseInt(document.getElementById('adultsCount').value) || 0;
             const children = parseInt(document.getElementById('childrenCount').value) || 0;
             const pkgId = parseInt(document.getElementById('packageSelect').value);
             const pkg = prices[pkgId];
+            if (!pkg) return;
             const total = (adults * pkg.adult) + (children * pkg.child);
             const date = document.getElementById('bookingDate').value;
-            const formattedDate = date ? new Date(date + 'T00:00:00').toLocaleDateString('es-MX') : 'fecha';
+            const formattedDate = date ? new Date(date + 'T00:00:00').toLocaleDateString('es-MX', { day: 'numeric',
+                month: 'short', year: 'numeric' }) : 'fecha';
             document.getElementById('summaryText').innerHTML =
-                `${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
+                `<i class="fa-solid fa-calendar"></i> ${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
             document.getElementById('totalDisplay').innerHTML = `$${total.toLocaleString()} MXN`;
         }
 
-        // CARRITO MODAL CON SWEETALERT2
+        // ============ CARRITO MODAL ============
         function showCartModal(packageId) {
             const pkg = prices[packageId];
             if (!pkg) return;
             let currentAdults = parseInt(document.getElementById('adultsCount').value) || 1;
             let currentChildren = parseInt(document.getElementById('childrenCount').value) || 0;
             const currentDate = document.getElementById('bookingDate').value;
-            const formattedDate = currentDate ? new Date(currentDate + 'T00:00:00').toLocaleDateString('es-MX') :
-                'No seleccionada';
+            const formattedDate = currentDate ? new Date(currentDate + 'T00:00:00').toLocaleDateString('es-MX', {
+                day: 'numeric',
+                month: 'long',
+                year: 'numeric'
+            }) : 'No seleccionada';
 
             const modalHtml = `
-                <div style="text-align: left; font-family: 'Montserrat', sans-serif;">
-                    <div style="background: #f2f2f2; padding: 12px; border-radius: 20px; margin-bottom: 20px;">
-                        <div style="font-weight:800; font-size:1.2rem;">🎈 ${pkg.name}</div>
-                        <div>📅 Fecha: <strong>${formattedDate}</strong></div>
-                    </div>
-                    <div class="cart-detail-line"><span>👤 Adulto (12+ años)</span><span><strong>$${pkg.adult.toLocaleString()} MXN</strong> c/u</span></div>
-                    <div class="cart-detail-line"><span>🧒 Niño (4-10 años)</span><span><strong>$${pkg.child.toLocaleString()} MXN</strong> c/u</span></div>
-                    <div style="margin: 20px 0 15px 0;">
-                        <label style="font-weight:700;">👥 Cantidad de adultos:</label>
-                        <input type="number" id="cartAdultsInput" min="1" value="${currentAdults}" style="width:100%; padding:10px; margin-top:5px; border-radius:16px; border:1px solid #ccc;">
-                    </div>
-                    <div style="margin-bottom: 20px;">
-                        <label style="font-weight:700;">🧒 Cantidad de niños (4-10 años):</label>
-                        <input type="number" id="cartChildrenInput" min="0" value="${currentChildren}" style="width:100%; padding:10px; margin-top:5px; border-radius:16px; border:1px solid #ccc;">
-                    </div>
-                    <div class="cart-total" id="cartModalTotal">Total: $${((currentAdults * pkg.adult) + (currentChildren * pkg.child)).toLocaleString()} MXN</div>
-                    <p style="font-size:0.7rem; margin-top:12px; color:#666;">*Precios por persona. El vuelo incluye seguro y brindis.</p>
-                </div>
+            <div style="text-align:left;font-family:'Montserrat',sans-serif;">
+            <div style="background:#f5f5f5;padding:14px;border-radius:20px;margin-bottom:18px;">
+            <div style="font-weight:800;font-size:1.15rem;">
+            <i class="fa-solid fa-balloon" style="color:var(--rosa-cta);"></i> ${pkg.name}</div>
+            <div style="font-size:0.85rem;color:#555;"><i class="fa-solid fa-calendar-days"></i> Fecha: <strong>${formattedDate}</strong></div>
+            </div>
+            <div class="cart-detail-line" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;">
+            <span><i class="fa-solid fa-user"></i> Adulto (12+ años)</span><span><strong>$${pkg.adult.toLocaleString()} MXN</strong> c/u</span></div>
+            <div class="cart-detail-line" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;">
+            <span><i class="fa-solid fa-child"></i> Niño (4-10 años)</span><span><strong>$${pkg.child.toLocaleString()} MXN</strong> c/u</span></div>
+            <div style="margin:18px 0 12px;">
+            <label style="font-weight:700;"><i class="fa-solid fa-users"></i> Cantidad de adultos:</label>
+            <input type="number" id="cartAdultsInput" min="1" value="${currentAdults}" style="width:100%;padding:11px;margin-top:4px;border-radius:16px;border:1.5px solid #ccc;font-family:'Montserrat',sans-serif;">
+            </div>
+            <div style="margin-bottom:18px;">
+            <label style="font-weight:700;"><i class="fa-solid fa-children"></i> Cantidad de niños (4-10 años):</label>
+            <input type="number" id="cartChildrenInput" min="0" value="${currentChildren}" style="width:100%;padding:11px;margin-top:4px;border-radius:16px;border:1.5px solid #ccc;font-family:'Montserrat',sans-serif;">
+            </div>
+            <div class="cart-total" id="cartModalTotal" style="font-size:1.3rem;font-weight:800;color:#ff0099;text-align:right;">
+            Total: $${((currentAdults * pkg.adult) + (currentChildren * pkg.child)).toLocaleString()} MXN</div>
+            <p style="font-size:0.68rem;margin-top:10px;color:#888;"><i class="fa-solid fa-circle-info"></i> *Precios por persona. El vuelo incluye seguro y brindis.</p>
+            </div>
             `;
             Swal.fire({
-                title: '🛒 Tu carrito de compras',
+                title: '<i class="fa-solid fa-cart-shopping"></i> Tu carrito de compras',
                 html: modalHtml,
-                width: '550px',
+                width: '560px',
                 showCancelButton: true,
-                confirmButtonText: '✅ Actualizar y reservar',
-                cancelButtonText: '❌ Cancelar',
+                confirmButtonText: '<i class="fa-solid fa-check"></i> Actualizar y reservar',
+                cancelButtonText: '<i class="fa-solid fa-xmark"></i> Cancelar',
                 confirmButtonColor: '#ff0099',
-                cancelButtonColor: '#666',
+                cancelButtonColor: '#888',
                 background: '#ffffff',
                 backdrop: true,
                 allowOutsideClick: false,
+                customClass: { popup: 'swal2-popup-modern' },
                 didOpen: () => {
                     const adultInput = document.getElementById('cartAdultsInput');
                     const childInput = document.getElementById('cartChildrenInput');
                     const totalSpan = document.getElementById('cartModalTotal');
 
                     function recalcCart() {
-                        let adults = parseInt(adultInput.value) || 1;
-                        let children = parseInt(childInput.value) || 0;
-                        if (adults < 1) adults = 1;
-                        const total = (adults * pkg.adult) + (children * pkg.child);
+                        let a = parseInt(adultInput.value) || 1;
+                        let c = parseInt(childInput.value) || 0;
+                        if (a < 1) a = 1;
+                        const total = (a * pkg.adult) + (c * pkg.child);
                         totalSpan.innerHTML = `Total: $${total.toLocaleString()} MXN`;
                     }
                     adultInput.addEventListener('input', recalcCart);
@@ -1350,17 +2213,16 @@
                     Swal.fire({
                         icon: 'success',
                         title: '¡Carrito actualizado!',
-                        text: `Paquete ${pkg.name} con ${newAdults} adulto(s) y ${newChildren} niño(s). Completa tus datos para confirmar.`,
+                        html: `Paquete <strong>${pkg.name}</strong> con ${newAdults} adulto(s) y ${newChildren} niño(s).<br>Completa tus datos abajo para confirmar.`,
                         confirmButtonColor: '#0099ff',
-                        timer: 3000,
-                        showConfirmButton: true
+                        timer: 3500,
+                        showConfirmButton: true,
                     });
                     return true;
                 }
             });
         }
 
-        // Asignar evento a todos los botones .select-pkg
         document.querySelectorAll('.select-pkg').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
@@ -1369,7 +2231,6 @@
             });
         });
 
-        // Eventos normales del motor
         document.getElementById('adultsCount').addEventListener('input', updateSummary);
         document.getElementById('childrenCount').addEventListener('input', updateSummary);
         document.getElementById('packageSelect').addEventListener('change', updateSummary);
@@ -1379,7 +2240,7 @@
             document.getElementById('paquetes').scrollIntoView({ behavior: 'smooth' });
         });
 
-        // Intl-tel-input
+        // ============ INTL-TEL-INPUT ============
         let itiPhone = null;
         const phoneInput = document.querySelector("#whatsappReserva");
         if (phoneInput) {
@@ -1395,10 +2256,11 @@
                 utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/utils.js",
                 preferredCountries: ['mx', 'us', 'es', 'co', 'ar'],
                 autoPlaceholder: "aggressive",
-                formatOnDisplay: true
+                formatOnDisplay: true,
             });
         }
 
+        // ============ SUBMIT RESERVA ============
         const submitBtn = document.getElementById('submitReserva');
         if (submitBtn) {
             submitBtn.addEventListener('click', () => {
@@ -1406,7 +2268,6 @@
                 const email = document.getElementById('emailReserva').value.trim();
                 let numeroCompleto = "";
                 let isValidPhone = false;
-
                 if (itiPhone) {
                     if (itiPhone.isValidNumber()) {
                         numeroCompleto = itiPhone.getNumber();
@@ -1415,7 +2276,7 @@
                         Swal.fire({
                             icon: 'warning',
                             title: 'Número inválido',
-                            text: 'Por favor ingresa un número de WhatsApp válido (incluyendo lada). Verifica que el país sea correcto.',
+                            text: 'Por favor ingresa un número de WhatsApp válido (incluyendo lada).',
                             confirmButtonColor: '#ff0099',
                         });
                         return;
@@ -1423,34 +2284,25 @@
                 } else {
                     const rawPhone = document.getElementById('whatsappReserva').value.trim();
                     if (!rawPhone) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Falta WhatsApp',
+                        Swal.fire({ icon: 'error', title: 'Falta WhatsApp',
                             text: 'Por favor ingresa tu número de WhatsApp.',
-                            confirmButtonColor: '#ff0099',
-                        });
+                            confirmButtonColor: '#ff0099' });
                         return;
                     }
                     numeroCompleto = rawPhone;
                     isValidPhone = true;
                 }
-
                 if (!nombre || !email) {
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Datos incompletos',
-                        text: 'Completa tu nombre y correo electrónico para solicitar la reserva.',
-                        confirmButtonColor: '#ff0099',
-                    });
+                    Swal.fire({ icon: 'error', title: 'Datos incompletos',
+                        text: 'Completa tu nombre y correo electrónico.',
+                        confirmButtonColor: '#ff0099' });
                     return;
                 }
-
                 if (!isValidPhone) return;
-
                 Swal.fire({
                     icon: 'success',
                     title: '¡Solicitud enviada!',
-                    html: `<strong>${nombre}</strong>, hemos recibido tu solicitud.<br><br>📞 Te contactaremos en <strong>${numeroCompleto}</strong> para confirmar tu vuelo en globo.`,
+                    html: `<strong>${nombre}</strong>, hemos recibido tu solicitud.<br><br><i class="fa-solid fa-phone"></i> Te contactaremos en <strong>${numeroCompleto}</strong> para confirmar tu vuelo en globo.`,
                     confirmButtonColor: '#0099ff',
                     timer: 5000,
                     timerProgressBar: true,
@@ -1458,29 +2310,28 @@
             });
         }
 
-        // Nav scroll
+        // ============ NAV SCROLL ============
         const nav = document.getElementById('main-nav');
+        const backToTop = document.getElementById('backToTop');
         window.addEventListener('scroll', () => {
-            window.scrollY > 20 ? nav.classList.add('nav-scrolled') : nav.classList.remove('nav-scrolled');
+            const scrolled = window.scrollY > 20;
+            nav.classList.toggle('nav-scrolled', scrolled);
+            backToTop.classList.toggle('visible', window.scrollY > 500);
+        });
+        backToTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Mobile menu
+        // ============ MOBILE MENU ============
         const hamburger = document.getElementById('hamburger'),
             mobileMenu = document.getElementById('mobile-menu'),
             overlay = document.getElementById('menuOverlay');
 
         function toggleMobileMenu(open) {
-            if (open) {
-                mobileMenu.classList.add('open');
-                hamburger.classList.add('active');
-                overlay.classList.add('active');
-                document.body.style.overflow = 'hidden';
-            } else {
-                mobileMenu.classList.remove('open');
-                hamburger.classList.remove('active');
-                overlay.classList.remove('active');
-                document.body.style.overflow = '';
-            }
+            mobileMenu.classList.toggle('open', open);
+            hamburger.classList.toggle('active', open);
+            overlay.classList.toggle('active', open);
+            document.body.style.overflow = open ? 'hidden' : '';
         }
         hamburger.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -1499,24 +2350,19 @@
             if (window.innerWidth > 1000 && mobileMenu.classList.contains('open')) toggleMobileMenu(false);
         });
 
-        // Preloader
-        window.addEventListener('load', () => {
-            const preloader = document.getElementById('preloader');
-            if (preloader) {
-                preloader.classList.add('hidden');
-                setTimeout(() => preloader.style.display = 'none', 500);
-            }
-        });
-        setTimeout(() => {
-            const preloader = document.getElementById('preloader');
-            if (preloader && !preloader.classList.contains('hidden')) {
-                preloader.classList.add('hidden');
-                setTimeout(() => preloader.style.display = 'none', 500);
-            }
-        }, 2000);
-        updateSummary();
+        // ============ REVEAL ON SCROLL ============
+        const revealElements = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+        revealElements.forEach(el => revealObserver.observe(el));
 
-        // Lightbox para galería dinámica
+        // ============ LIGHTBOX IMÁGENES ============
         const galleryItems = document.querySelectorAll('.gallery-item');
         const lightbox = document.getElementById('lightbox');
         const lightboxImg = document.getElementById('lightboxImg');
@@ -1524,9 +2370,12 @@
         const prevBtn = document.getElementById('lightboxPrev');
         const nextBtn = document.getElementById('lightboxNext');
         let currentIndex = 0;
-        const images = Array.from(galleryItems).map(item => item.querySelector('img').src);
+        const images = Array.from(galleryItems)
+            .filter(item => item.querySelector('img'))
+            .map(item => item.querySelector('img').src);
 
         function openLightbox(index) {
+            if (images.length === 0) return;
             currentIndex = index;
             lightboxImg.src = images[currentIndex];
             lightbox.classList.add('active');
@@ -1539,17 +2388,20 @@
         }
 
         function showNext() {
+            if (images.length === 0) return;
             currentIndex = (currentIndex + 1) % images.length;
             lightboxImg.src = images[currentIndex];
         }
 
         function showPrev() {
+            if (images.length === 0) return;
             currentIndex = (currentIndex - 1 + images.length) % images.length;
             lightboxImg.src = images[currentIndex];
         }
-
         galleryItems.forEach((item, idx) => {
-            item.addEventListener('click', () => openLightbox(idx));
+            if (item.querySelector('img')) {
+                item.addEventListener('click', () => openLightbox(idx));
+            }
         });
         if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
         if (nextBtn) nextBtn.addEventListener('click', showNext);
@@ -1563,7 +2415,73 @@
             if (e.key === 'ArrowRight') showNext();
             if (e.key === 'ArrowLeft') showPrev();
         });
-    </script>
-</body>
 
+        // ============ VIDEO LIGHTBOX ============
+        const videoLightbox = document.getElementById('videoLightbox');
+        const videoIframe = document.getElementById('videoIframe');
+        const videoCloseBtn = document.getElementById('videoLightboxClose');
+        const videoTitleEl = document.getElementById('videoLightboxTitle');
+        const videoCards = document.querySelectorAll('.video-card');
+        let currentVideoUrl = '';
+
+        function openVideoLightbox(videoUrl, videoTitle) {
+            currentVideoUrl = videoUrl;
+            videoIframe.src = videoUrl;
+            videoTitleEl.textContent = videoTitle;
+            videoLightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+            // Pequeño delay para la animación de escala
+            setTimeout(() => {
+                document.querySelector('.video-lightbox-container').style.transform = 'scale(1)';
+            }, 50);
+        }
+
+        function closeVideoLightbox() {
+            videoLightbox.classList.remove('active');
+            document.querySelector('.video-lightbox-container').style.transform = 'scale(0.9)';
+            // Destruir el iframe para detener reproducción
+            videoIframe.src = '';
+            currentVideoUrl = '';
+            videoTitleEl.textContent = '';
+            document.body.style.overflow = '';
+        }
+
+        videoCards.forEach(card => {
+            card.addEventListener('click', () => {
+                const videoUrl = card.getAttribute('data-video-url');
+                const videoTitle = card.getAttribute('data-video-title');
+                if (videoUrl) {
+                    openVideoLightbox(videoUrl, videoTitle);
+                }
+            });
+        });
+
+        if (videoCloseBtn) {
+            videoCloseBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                closeVideoLightbox();
+            });
+        }
+
+        // Cerrar al hacer clic fuera del contenedor
+        if (videoLightbox) {
+            videoLightbox.addEventListener('click', (e) => {
+                if (e.target === videoLightbox) {
+                    closeVideoLightbox();
+                }
+            });
+        }
+
+        // Cerrar con tecla Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && videoLightbox.classList.contains('active')) {
+                closeVideoLightbox();
+            }
+        });
+
+        // ============ INICIALIZAR RESUMEN ============
+        updateSummary();
+    });
+</script>
+</body>
 </html>
