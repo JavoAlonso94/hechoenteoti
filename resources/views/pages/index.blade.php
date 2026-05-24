@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Hecho en Teoti | Vuelos en Globo · Teotihuacán – Reserva moderna</title>
+    <title>Hecho en Teoti | Vuelos en Globo · Teotihuacán – Reserva moderna con carrito</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Permanent+Marker&display=swap"
         rel="stylesheet">
@@ -17,7 +17,6 @@
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
-        /* Todos los estilos originales se mantienen igual */
         * {
             margin: 0;
             padding: 0;
@@ -586,6 +585,8 @@
             color: white;
             text-decoration: none;
             transition: 0.2s;
+            cursor: pointer;
+            border: none;
         }
 
         .select-pkg:hover {
@@ -624,7 +625,6 @@
             box-shadow: var(--shadow-sm);
         }
 
-        /* GALERÍA MODERNA */
         #galeria {
             padding: 80px 48px;
             background: linear-gradient(135deg, #ffffff, #fffcf5);
@@ -677,10 +677,9 @@
         }
 
         .gallery-item .overlay span {
-            display: block;
+            display: inline-block;
             font-size: 0.9rem;
             background: linear-gradient(95deg, var(--rosa-cta), var(--rosa-hover));
-            display: inline-block;
             padding: 4px 12px;
             border-radius: 40px;
             margin-top: 8px;
@@ -835,14 +834,12 @@
             padding: 70px 48px 40px;
         }
 
-        /* RESPONSIVE GENERAL */
         @media (max-width: 1000px) {
             .hero-grid {
                 grid-template-columns: 1fr;
                 gap: 40px;
             }
 
-            /* Centrar títulos en móvil */
             .hero-grid>div:first-child {
                 text-align: center;
             }
@@ -901,6 +898,22 @@
                 flex-direction: column;
             }
         }
+
+        /* Estilos para el carrito dentro del modal */
+        .cart-detail-line {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cart-total {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: #ff0099;
+            margin-top: 12px;
+            text-align: right;
+        }
     </style>
 </head>
 
@@ -921,7 +934,7 @@
             <img src="https://placehold.co/100x100/0099ff/white?text=HT" alt="Hecho en Teoti" class="nav-logo-img">
         </a>
         <ul class="nav-links">
-            <li><a href="#paquetes">Paquetess</a></li>
+            <li><a href="#paquetes">Paquetes</a></li>
             <li><a href="#como-funciona">Experiencia</a></li>
             <li><a href="#galeria">Galería</a></li>
             <li><a href="#reserva">Reservar</a></li>
@@ -963,21 +976,41 @@
             <div class="hero-image">
                 <div class="swiper hero-swiper">
                     <div class="swiper-wrapper">
-                        <div class="swiper-slide"><img
-                                src="https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/679367110_122131064667049843_6584605312738152555_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHyAtbSHDuQNMVI5LJreeryEFfxJRRJh4wQV_ElFEmHjApgeKsEX1YKwJpzz4dzEMEVAua7PKeHleBK7zRm_4Bz&_nc_ohc=YMK9g5hlsaIQ7kNvwHE562Y&_nc_oc=Adqt7tjdEah_b7-LblzNHivIkSx7UDdDwRcEkpxWhJTrMWXBZba2VoO0M5ccYC45MPg&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=QfrN-YkKxuCEHuicAUJEvg&_nc_ss=7b2a8&oh=00_Af5usU5h2ePo_bgjESgAyHZ-GYFZRKIKNdzhn4HAAkPbEg&oe=69FB44C7"
-                                alt="Globo"></div>
-                        <div class="swiper-slide"><img
-                                src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1000&q=85"
-                                alt="Vuelo"></div>
-                        <div class="swiper-slide"><img
-                                src="https://images.unsplash.com/photo-1506703719100-f0b3c5c4fea0?auto=format&fit=crop&w=1000&q=85"
-                                alt="Amanecer"></div>
-                        <div class="swiper-slide"><img
-                                src="https://images.unsplash.com/photo-1534777367038-9404f45b869b?auto=format&fit=crop&w=1000&q=85"
-                                alt="Pirámides"></div>
-                        <div class="swiper-slide"><img
-                                src="https://images.unsplash.com/photo-1621760874155-995ec1eb23de?auto=format&fit=crop&w=1000&q=85"
-                                alt="Experiencia"></div>
+                        @php
+                            $carruselPath = public_path('assets/img/carrusel/');
+                            $carruselImages = [];
+                            if (is_dir($carruselPath)) {
+                                $files = scandir($carruselPath);
+                                foreach ($files as $file) {
+                                    $extension = strtolower(pathinfo($file, PATHINFO_EXTENSION));
+                                    if (in_array($extension, ['jpg', 'jpeg', 'png', 'webp', 'gif'])) {
+                                        $carruselImages[] = asset('assets/img/carrusel/' . $file);
+                                    }
+                                }
+                            }
+                        @endphp
+
+                        @if(count($carruselImages) > 0)
+                            @foreach($carruselImages as $img)
+                                <div class="swiper-slide">
+                                    <img src="{{ $img }}" alt="Carrusel Hecho en Teoti">
+                                </div>
+                            @endforeach
+                        @else
+                            {{-- Fallback por si no hay imágenes en el directorio --}}
+                            <div class="swiper-slide"><img
+                                    src="https://images.unsplash.com/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=1000&q=85"
+                                    alt="Vuelo en globo"></div>
+                            <div class="swiper-slide"><img
+                                    src="https://images.unsplash.com/photo-1506703719100-f0b3c5c4fea0?auto=format&fit=crop&w=1000&q=85"
+                                    alt="Amanecer"></div>
+                            <div class="swiper-slide"><img
+                                    src="https://images.unsplash.com/photo-1534777367038-9404f45b869b?auto=format&fit=crop&w=1000&q=85"
+                                    alt="Pirámides"></div>
+                            <div class="swiper-slide"><img
+                                    src="https://images.unsplash.com/photo-1621760874155-995ec1eb23de?auto=format&fit=crop&w=1000&q=85"
+                                    alt="Experiencia"></div>
+                        @endif
                     </div>
                     <div class="swiper-button-prev"></div>
                     <div class="swiper-button-next"></div>
@@ -987,7 +1020,7 @@
         </div>
     </section>
 
-    <div class="offer-strip">🎈 OFERTA EXCLUSIVA: 6% OFF en grupos de 4+ personas · Código: TEOTI2025 🎈</div>
+    <div class="offer-strip">🎈 OFERTA EXCLUSIVA: 6% OFF en grupos de 4+ personas · Código: TEOTI2026 🎈</div>
 
     <section id="paquetes">
         <div class="section-header">
@@ -1003,7 +1036,7 @@
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,199</span></div>
                 <div class="price-row-modern"><span>Niño (4-10)</span><span>$1,999</span></div>
                 <div style="margin: 12px 0; font-size:0.7rem; color:var(--rosa-cta);">✅ Brindis + diploma</div>
-                <a href="#" class="select-pkg" data-pkg="1">Seleccionar</a>
+                <button class="select-pkg" data-pkg="1">Seleccionar</button>
             </div>
             <div class="pkg-card" data-pkg-id="2">
                 <img class="pkg-img"
@@ -1013,7 +1046,7 @@
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,299</span></div>
                 <div class="price-row-modern"><span>Niño</span><span>$2,149</span></div>
                 <div style="margin: 12px 0;">🍽️ Desayuno en hacienda</div>
-                <a href="#" class="select-pkg" data-pkg="2">Seleccionar</a>
+                <button class="select-pkg" data-pkg="2">Seleccionar</button>
             </div>
             <div class="pkg-card" data-pkg-id="3">
                 <img class="pkg-img"
@@ -1023,7 +1056,7 @@
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,749</span></div>
                 <div class="price-row-modern"><span>Niño</span><span>$2,599</span></div>
                 <div style="margin: 12px 0;">🚐 Transporte redondo + desayuno</div>
-                <a href="#" class="select-pkg" data-pkg="3">Seleccionar</a>
+                <button class="select-pkg" data-pkg="3">Seleccionar</button>
             </div>
             <div class="pkg-card" data-pkg-id="4">
                 <img class="pkg-img"
@@ -1033,7 +1066,7 @@
                 <div class="price-row-modern"><span>Adulto</span><span class="price-adult">$2,949</span></div>
                 <div class="price-row-modern"><span>Niño</span><span>$2,799</span></div>
                 <div style="margin: 12px 0;">🏛️ Acceso pirámides + guía</div>
-                <a href="#" class="select-pkg" data-pkg="4">Seleccionar</a>
+                <button class="select-pkg" data-pkg="4">Seleccionar</button>
             </div>
         </div>
     </section>
@@ -1089,7 +1122,8 @@
                     <div class="overlay"><span>📸 Recuerdo único</span></div>
                 </div>
             @empty
-                <div class="gallery-item" style="background:#eee; display:flex; align-items:center; justify-content:center;">
+                <div class="gallery-item"
+                    style="background:#eee; display:flex; align-items:center; justify-content:center;">
                     <p>No hay imágenes disponibles en este momento.</p>
                 </div>
             @endforelse
@@ -1180,7 +1214,7 @@
         <div
             style="max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 40px;">
             <div><strong style="font-family:'Permanent Marker', cursive; font-size: 1.5rem;">hecho<span
-                            style="color:var(--amarillo-acento);">en</span>teoti</strong><br>Desde 2009 · Experiencias
+                        style="color:var(--amarillo-acento);">en</span>teoti</strong><br>Desde 2009 · Experiencias
                 únicas</div>
             <div><strong>Contacto</strong><br>📞 55 4321 8765<br>✉️ vuelos@hechoenteoti.mx</div>
             <div><strong>Información</strong><br>Políticas de clima<br>Términos y condiciones</div>
@@ -1203,13 +1237,11 @@
     <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/intlTelInput.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/intl-tel-input@24.5.0/build/js/utils.js"></script>
-    <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/es.js"></script>
-    <!-- SweetAlert2 JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        // Inicializar Flatpickr en español
+        // Inicializar Flatpickr
         flatpickr("#bookingDate", {
             locale: "es",
             dateFormat: "Y-m-d",
@@ -1228,10 +1260,10 @@
 
         // Precios y lógica de reserva
         const prices = {
-            1: { adult: 2199, child: 1999, name: "Vuelo en globo" },
+            1: { adult: 2199, child: 1999, name: "Vuelo esencial" },
             2: { adult: 2299, child: 2149, name: "Vuelo + Desayuno" },
-            3: { adult: 2749, child: 2599, name: "Vuelo + Transporte + Desayuno" },
-            4: { adult: 2949, child: 2799, name: "Paquete completo + Pirámides" }
+            3: { adult: 2749, child: 2599, name: "Todo incluido (CDMX)" },
+            4: { adult: 2949, child: 2799, name: "Experiencia completa" }
         };
 
         function updateSummary() {
@@ -1242,10 +1274,102 @@
             const total = (adults * pkg.adult) + (children * pkg.child);
             const date = document.getElementById('bookingDate').value;
             const formattedDate = date ? new Date(date + 'T00:00:00').toLocaleDateString('es-MX') : 'fecha';
-            document.getElementById('summaryText').innerHTML = `${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
+            document.getElementById('summaryText').innerHTML =
+                `${formattedDate} · ${adults} adultos, ${children} niños · ${pkg.name}`;
             document.getElementById('totalDisplay').innerHTML = `$${total.toLocaleString()} MXN`;
         }
 
+        // CARRITO MODAL CON SWEETALERT2
+        function showCartModal(packageId) {
+            const pkg = prices[packageId];
+            if (!pkg) return;
+            let currentAdults = parseInt(document.getElementById('adultsCount').value) || 1;
+            let currentChildren = parseInt(document.getElementById('childrenCount').value) || 0;
+            const currentDate = document.getElementById('bookingDate').value;
+            const formattedDate = currentDate ? new Date(currentDate + 'T00:00:00').toLocaleDateString('es-MX') :
+                'No seleccionada';
+
+            const modalHtml = `
+                <div style="text-align: left; font-family: 'Montserrat', sans-serif;">
+                    <div style="background: #f2f2f2; padding: 12px; border-radius: 20px; margin-bottom: 20px;">
+                        <div style="font-weight:800; font-size:1.2rem;">🎈 ${pkg.name}</div>
+                        <div>📅 Fecha: <strong>${formattedDate}</strong></div>
+                    </div>
+                    <div class="cart-detail-line"><span>👤 Adulto (12+ años)</span><span><strong>$${pkg.adult.toLocaleString()} MXN</strong> c/u</span></div>
+                    <div class="cart-detail-line"><span>🧒 Niño (4-10 años)</span><span><strong>$${pkg.child.toLocaleString()} MXN</strong> c/u</span></div>
+                    <div style="margin: 20px 0 15px 0;">
+                        <label style="font-weight:700;">👥 Cantidad de adultos:</label>
+                        <input type="number" id="cartAdultsInput" min="1" value="${currentAdults}" style="width:100%; padding:10px; margin-top:5px; border-radius:16px; border:1px solid #ccc;">
+                    </div>
+                    <div style="margin-bottom: 20px;">
+                        <label style="font-weight:700;">🧒 Cantidad de niños (4-10 años):</label>
+                        <input type="number" id="cartChildrenInput" min="0" value="${currentChildren}" style="width:100%; padding:10px; margin-top:5px; border-radius:16px; border:1px solid #ccc;">
+                    </div>
+                    <div class="cart-total" id="cartModalTotal">Total: $${((currentAdults * pkg.adult) + (currentChildren * pkg.child)).toLocaleString()} MXN</div>
+                    <p style="font-size:0.7rem; margin-top:12px; color:#666;">*Precios por persona. El vuelo incluye seguro y brindis.</p>
+                </div>
+            `;
+            Swal.fire({
+                title: '🛒 Tu carrito de compras',
+                html: modalHtml,
+                width: '550px',
+                showCancelButton: true,
+                confirmButtonText: '✅ Actualizar y reservar',
+                cancelButtonText: '❌ Cancelar',
+                confirmButtonColor: '#ff0099',
+                cancelButtonColor: '#666',
+                background: '#ffffff',
+                backdrop: true,
+                allowOutsideClick: false,
+                didOpen: () => {
+                    const adultInput = document.getElementById('cartAdultsInput');
+                    const childInput = document.getElementById('cartChildrenInput');
+                    const totalSpan = document.getElementById('cartModalTotal');
+
+                    function recalcCart() {
+                        let adults = parseInt(adultInput.value) || 1;
+                        let children = parseInt(childInput.value) || 0;
+                        if (adults < 1) adults = 1;
+                        const total = (adults * pkg.adult) + (children * pkg.child);
+                        totalSpan.innerHTML = `Total: $${total.toLocaleString()} MXN`;
+                    }
+                    adultInput.addEventListener('input', recalcCart);
+                    childInput.addEventListener('input', recalcCart);
+                    recalcCart();
+                },
+                preConfirm: () => {
+                    const newAdults = parseInt(document.getElementById('cartAdultsInput')?.value) || 1;
+                    const newChildren = parseInt(document.getElementById('cartChildrenInput')?.value) || 0;
+                    if (newAdults < 1) { Swal.showValidationMessage('Mínimo 1 adulto');
+                        return false; }
+                    document.getElementById('adultsCount').value = newAdults;
+                    document.getElementById('childrenCount').value = newChildren;
+                    document.getElementById('packageSelect').value = packageId;
+                    updateSummary();
+                    document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Carrito actualizado!',
+                        text: `Paquete ${pkg.name} con ${newAdults} adulto(s) y ${newChildren} niño(s). Completa tus datos para confirmar.`,
+                        confirmButtonColor: '#0099ff',
+                        timer: 3000,
+                        showConfirmButton: true
+                    });
+                    return true;
+                }
+            });
+        }
+
+        // Asignar evento a todos los botones .select-pkg
+        document.querySelectorAll('.select-pkg').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.preventDefault();
+                const pkgId = btn.getAttribute('data-pkg');
+                if (pkgId) showCartModal(parseInt(pkgId));
+            });
+        });
+
+        // Eventos normales del motor
         document.getElementById('adultsCount').addEventListener('input', updateSummary);
         document.getElementById('childrenCount').addEventListener('input', updateSummary);
         document.getElementById('packageSelect').addEventListener('change', updateSummary);
@@ -1254,13 +1378,6 @@
             updateSummary();
             document.getElementById('paquetes').scrollIntoView({ behavior: 'smooth' });
         });
-        document.querySelectorAll('.select-pkg').forEach(btn => btn.addEventListener('click', (e) => {
-            e.preventDefault();
-            const pkgId = btn.getAttribute('data-pkg');
-            if (pkgId) document.getElementById('packageSelect').value = pkgId;
-            updateSummary();
-            document.getElementById('hero').scrollIntoView({ behavior: 'smooth' });
-        }));
 
         // Intl-tel-input
         let itiPhone = null;
@@ -1330,7 +1447,6 @@
 
                 if (!isValidPhone) return;
 
-                // Éxito
                 Swal.fire({
                     icon: 'success',
                     title: '¡Solicitud enviada!',
@@ -1435,10 +1551,10 @@
         galleryItems.forEach((item, idx) => {
             item.addEventListener('click', () => openLightbox(idx));
         });
-        closeBtn.addEventListener('click', closeLightbox);
-        nextBtn.addEventListener('click', showNext);
-        prevBtn.addEventListener('click', showPrev);
-        lightbox.addEventListener('click', (e) => {
+        if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
+        if (nextBtn) nextBtn.addEventListener('click', showNext);
+        if (prevBtn) prevBtn.addEventListener('click', showPrev);
+        if (lightbox) lightbox.addEventListener('click', (e) => {
             if (e.target === lightbox) closeLightbox();
         });
         document.addEventListener('keydown', (e) => {
