@@ -17,14 +17,14 @@ return [
             'adult'  => 2199,
             'child'  => 1999,
             'tag'    => '✅ Brindis + diploma',
-            'image'  => asset('assets/img/carrusel/940-788-max.jpg'),
+            'image'  => 'assets/img/carrusel/940-788-max.jpg',
         ],
         2 => [
             'name'   => 'Vuelo + Desayuno',
             'adult'  => 2299,
             'child'  => 2149,
             'tag'    => '🍽️ Desayuno en hacienda',
-            'image'  => null, // Usará la imagen por defecto del HTML
+            'image'  => null, 
         ],
         3 => [
             'name'   => 'Todo incluido (CDMX)',
@@ -46,13 +46,6 @@ return [
     |--------------------------------------------------------------------------
     | Configuración adicional de vuelos
     |--------------------------------------------------------------------------
-    |
-    | Puedes agregar más opciones de configuración según necesites:
-    | - Horarios disponibles
-    | - Temporadas
-    | - Descuentos por grupo
-    | - etc.
-    |
     */
     'horarios_disponibles' => [
         'lunes_a_viernes' => ['06:00', '06:30'],
