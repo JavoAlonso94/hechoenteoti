@@ -9,8 +9,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Reserva extends Model
 {
     protected $fillable = [
-        'paquete_id', 'contacto_nombre', 'contacto_telefono', 'contacto_correo',
-        'num_personas', 'total',
+        'paquete_id', 'fecha_viaje', 'contacto_nombre', 'contacto_telefono', 'contacto_correo',
+        'num_personas', 'total', 'metodo_pago', 'estado',
     ];
 
     public function paquete(): BelongsTo

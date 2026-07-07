@@ -1345,6 +1345,87 @@
             box-shadow: 0 0 0 4px rgba(255, 0, 153, 0.06);
             background: #fff;
         }
+
+        /* Stepper del wizard de reserva */
+        .reserva-stepper {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .reserva-stepper .step-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #aaa;
+        }
+        .reserva-stepper .step-item .step-circle {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: #eee;
+            color: #999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+        .reserva-stepper .step-item.active { color: var(--rosa-cta); }
+        .reserva-stepper .step-item.active .step-circle { background: var(--rosa-cta); color: #fff; }
+        .reserva-stepper .step-item.done .step-circle { background: #2ecc71; color: #fff; }
+        .reserva-step-panel { display: none; text-align: left; }
+        .reserva-step-panel.active { display: block; }
+        .reserva-aviso {
+            background: #eaf6ff;
+            border: 1px solid #b8e2ff;
+            border-radius: 14px;
+            padding: 12px 16px;
+            font-size: 0.8rem;
+            color: #0077cc;
+            margin: 16px 0;
+        }
+        .reserva-warnings { list-style: none; padding: 0; margin: 14px 0; }
+        .reserva-warnings li {
+            font-size: 0.78rem;
+            color: #8a6d00;
+            background: #fff8e1;
+            border-radius: 10px;
+            padding: 8px 12px;
+            margin-bottom: 6px;
+        }
+        .reserva-nav { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; }
+        .btn-volver {
+            background: #eee;
+            color: #555;
+            border: none;
+            border-radius: 30px;
+            padding: 14px 24px;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif;
+            cursor: pointer;
+        }
+        .resumen-reserva {
+            background: #f7f7fb;
+            border-radius: 18px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+        .resumen-reserva div { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 5px 0; border-bottom: 1px dashed #ddd; }
+        .resumen-reserva .resumen-total { font-weight: 800; font-size: 1.15rem; color: var(--rosa-cta); border-bottom: none; }
+        .metodo-pago-opt {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 1.5px solid var(--gris-borde);
+            border-radius: 16px;
+            padding: 14px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .metodo-pago-opt.selected { border-color: var(--rosa-cta); background: #fff5fa; }
         #submitReserva {
             background: linear-gradient(115deg, var(--rosa-cta), #c20077);
             border: none;
@@ -1965,42 +2046,137 @@
             <h2 class="section-title" style="color:white;">¿Listo para <em style="color:var(--amarillo-acento);">despegar?</em></h2>
         </div>
         <div class="reserva-card reveal reveal-delay-2">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
-                <div>
-                    <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
-                        <i class="fa-solid fa-user-pen"></i> Nombre completo
-                    </label>
-                    <input type="text" id="nombreReserva" placeholder="Tu nombre completo">
+
+            <div class="reserva-stepper">
+                <div class="step-item active" data-step-indicator="1"><span class="step-circle">1</span> Vuelo</div>
+                <div class="step-item" data-step-indicator="2"><span class="step-circle">2</span> Responsable</div>
+                <div class="step-item" data-step-indicator="3"><span class="step-circle">3</span> Pago</div>
+                <div class="step-item" data-step-indicator="4"><span class="step-circle">4</span> Pasajeros</div>
+            </div>
+
+            {{-- PASO 1: VUELO --}}
+            <div class="reserva-step-panel active" data-step-panel="1">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+                    <div>
+                        <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
+                            <i class="fa-solid fa-gift"></i> Paquete
+                        </label>
+                        <select id="paqueteFinal">
+                            @foreach($paquetes as $id => $pkg)
+                            <option value="{{ $id }}">{{ $pkg['name'] }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div>
+                        <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
+                            <i class="fa-solid fa-calendar-days"></i> Fecha del viaje
+                        </label>
+                        <input type="date" id="fechaViaje" min="{{ now()->toDateString() }}">
+                    </div>
+                    <div>
+                        <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
+                            <i class="fa-solid fa-users"></i> Número de pasajeros
+                        </label>
+                        <select id="numPasajeros">
+                            @for($i = 1; $i <= 10; $i++)
+                            <option value="{{ $i }}">{{ $i }} pasajero{{ $i > 1 ? 's' : '' }}</option>
+                            @endfor
+                        </select>
+                    </div>
                 </div>
-                <div>
-                    <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
-                        <i class="fa-solid fa-envelope"></i> Correo electrónico
-                    </label>
-                    <input type="email" id="emailReserva" placeholder="tu@correo.com">
-                </div>
-                <div>
-                    <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
-                        <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                    </label>
-                    <input type="tel" id="whatsappReserva" placeholder="WhatsApp (con lada)">
-                </div>
-                <div>
-                    <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">
-                        <i class="fa-solid fa-gift"></i> Paquete
-                    </label>
-                    <select id="paqueteFinal">
-                        @foreach($paquetes as $id => $pkg)
-                        <option value="{{ $id }}">{{ $pkg['name'] }}</option>
-                        @endforeach
-                    </select>
+                <div class="reserva-nav" style="justify-content:flex-end;">
+                    <button type="button" class="step-continuar" data-goto="2">Continuar <i class="fa-solid fa-arrow-right"></i></button>
                 </div>
             </div>
-            <button id="submitReserva">
-                <i class="fa-solid fa-paper-plane"></i> Solicitar reservación
-            </button>
-            <p style="margin-top: 24px; font-size: 0.72rem; color: #777;">
-                <i class="fa-solid fa-shield-halved"></i> Te contactamos en menos de 2 horas para confirmar disponibilidad y pago seguro.
-            </p>
+
+            {{-- PASO 2: RESPONSABLE --}}
+            <div class="reserva-step-panel" data-step-panel="2">
+                <h3 style="margin-bottom:16px;">Datos del responsable de la reserva</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 18px;">
+                    <div>
+                        <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">Nombres *</label>
+                        <input type="text" id="responsableNombres" placeholder="Nombres">
+                    </div>
+                    <div>
+                        <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">Apellidos *</label>
+                        <input type="text" id="responsableApellidos" placeholder="Apellidos">
+                    </div>
+                    <div>
+                        <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">Correo electrónico *</label>
+                        <input type="email" id="emailReserva" placeholder="tu@correo.com">
+                    </div>
+                    <div>
+                        <label style="font-weight:700;font-size:0.75rem;color:var(--rosa-cta);margin-bottom:4px;display:block;">Teléfono (con lada) *</label>
+                        <input type="tel" id="whatsappReserva" placeholder="Teléfono con lada">
+                    </div>
+                </div>
+
+                <div class="reserva-aviso">
+                    <i class="fa-solid fa-circle-info"></i> Los datos de cada pasajero se solicitarán después de realizar el pago.
+                </div>
+
+                <label style="font-size:0.8rem;display:block;margin-bottom:10px;">
+                    <input type="checkbox" id="aceptaTerminos"> Acepto los <a href="#" style="color:var(--rosa-cta);">términos y condiciones</a> *
+                </label>
+
+                <ul class="reserva-warnings">
+                    <li><i class="fa-solid fa-triangle-exclamation"></i> Presentar identificación oficial el día del vuelo</li>
+                    <li><i class="fa-solid fa-triangle-exclamation"></i> Llegar 30 minutos antes de la hora programada</li>
+                    <li><i class="fa-solid fa-triangle-exclamation"></i> El peso registrado debe ser exacto</li>
+                </ul>
+
+                <div class="reserva-nav">
+                    <button type="button" class="btn-volver step-continuar" data-goto="1"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+                    <button type="button" class="step-continuar" data-goto="3">Continuar <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            {{-- PASO 3: PAGO --}}
+            <div class="reserva-step-panel" data-step-panel="3">
+                <h3 style="margin-bottom:16px;">Resumen y forma de pago</h3>
+
+                <div class="resumen-reserva" id="resumenReserva"></div>
+
+                <label style="font-weight:700;font-size:0.8rem;display:block;margin-bottom:8px;">Método de pago</label>
+                <label class="metodo-pago-opt">
+                    <input type="radio" name="metodoPago" value="tarjeta" checked>
+                    <i class="fa-solid fa-credit-card"></i> Tarjeta de crédito/débito
+                </label>
+                <label class="metodo-pago-opt">
+                    <input type="radio" name="metodoPago" value="transferencia">
+                    <i class="fa-solid fa-building-columns"></i> Transferencia bancaria
+                </label>
+                <div class="reserva-aviso">
+                    <i class="fa-solid fa-lock"></i> La pasarela de pago se integrará próximamente. Por ahora, al completar la reserva quedará registrada y te contactaremos para confirmar el cobro.
+                </div>
+
+                <div class="reserva-nav">
+                    <button type="button" class="btn-volver step-continuar" data-goto="2"><i class="fa-solid fa-arrow-left"></i> Volver</button>
+                    <button type="button" id="completarReserva">Completar reserva <i class="fa-solid fa-arrow-right"></i></button>
+                </div>
+            </div>
+
+            {{-- PASO 4: PASAJEROS (post-pago) --}}
+            <div class="reserva-step-panel" data-step-panel="4">
+                <h3 style="margin-bottom:16px;">Datos de cada pasajero</h3>
+                <div class="reserva-aviso">
+                    <i class="fa-solid fa-circle-check" style="color:#2ecc71;"></i> Tu reserva #<span id="folioReserva"></span> quedó registrada. Completa a los pasajeros para confirmarla.
+                </div>
+
+                <div id="pasajerosContainer"></div>
+
+                <div id="totalReservaLine" style="text-align:right;font-size:1.3rem;font-weight:800;color:var(--rosa-cta);margin-top:14px;">
+                    Total: $0 MXN
+                </div>
+
+                <button id="submitReserva">
+                    <i class="fa-solid fa-paper-plane"></i> Finalizar reservación
+                </button>
+                <p style="margin-top: 24px; font-size: 0.72rem; color: #777;">
+                    <i class="fa-solid fa-shield-halved"></i> Te contactamos en menos de 2 horas para confirmar disponibilidad.
+                </p>
+            </div>
+
         </div>
     </div>
 </section>
@@ -2086,10 +2262,9 @@
     </a>
 
     {{-- Carrito flotante --}}
-    <button class="cart-fab" id="cartFab" type="button">
+    <button class="cart-fab visible" id="cartFab" type="button">
         <i class="fa-solid fa-cart-shopping"></i>
-        <span class="cart-badge-count" id="cartBadgeCount">0</span>
-        <span id="cartBadgeTotal">$0 MXN</span>
+        <span>Mi reserva</span>
     </button>
 
     {{-- Lightbox imágenes --}}
@@ -2176,9 +2351,7 @@
             document.getElementById('totalDisplay').innerHTML = `$${total.toLocaleString()} MXN`;
         }
 
-        // ============ CARRITO: FORMULARIO EN 1 PANTALLA + ESTATUS ============
-        let cart = { paqueteId: null, personas: [], total: 0 };
-
+        // ============ WIZARD DE RESERVA (4 pasos) ============
         function calcEdad(fechaStr) {
             const nac = new Date(fechaStr + 'T00:00:00');
             const hoy = new Date();
@@ -2188,188 +2361,153 @@
             return edad;
         }
 
-        function updateCartFab() {
-            const fab = document.getElementById('cartFab');
-            document.getElementById('cartBadgeCount').textContent = cart.personas.length;
-            document.getElementById('cartBadgeTotal').textContent = `$${cart.total.toLocaleString()} MXN`;
-            fab.classList.toggle('visible', cart.personas.length > 0);
+        function pkgActual() {
+            return prices[document.getElementById('paqueteFinal').value];
         }
 
-        function buildPersonasHtml(cantidad, existing) {
-            const hoyStr = new Date().toISOString().split('T')[0];
-            let rows = '';
-            for (let i = 0; i < cantidad; i++) {
-                const p = existing[i] || {};
-                rows += `
-                <div class="persona-row" style="border:1px solid #eee;border-radius:14px;padding:10px;margin-bottom:10px;text-align:left;">
-                    <div style="font-weight:700;font-size:0.8rem;color:var(--rosa-cta);margin-bottom:6px;">Pasajero ${i + 1}</div>
-                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                        <input type="text" class="p-nombre swal2-input" placeholder="Nombre(s)" value="${p.nombre || ''}" style="margin:0;padding:9px;">
-                        <input type="text" class="p-apellidos swal2-input" placeholder="Apellidos" value="${p.apellidos || ''}" style="margin:0;padding:9px;">
-                        <input type="number" class="p-peso swal2-input" placeholder="Peso (kg)" min="1" max="300" value="${p.peso || ''}" style="margin:0;padding:9px;">
-                        <input type="date" class="p-fecha swal2-input" max="${hoyStr}" value="${p.fecha_nacimiento || ''}" style="margin:0;padding:9px;">
-                    </div>
-                    <div class="p-edad-info" style="font-size:0.7rem;color:#888;margin-top:4px;"></div>
-                </div>`;
+        function goToStep(n) {
+            document.querySelectorAll('.reserva-step-panel').forEach(p => {
+                p.classList.toggle('active', p.getAttribute('data-step-panel') === String(n));
+            });
+            document.querySelectorAll('.reserva-stepper .step-item').forEach(s => {
+                const step = parseInt(s.getAttribute('data-step-indicator'));
+                s.classList.toggle('active', step === n);
+                s.classList.toggle('done', step < n);
+            });
+            document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        document.querySelectorAll('.step-continuar').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const destino = parseInt(btn.getAttribute('data-goto'));
+                if (destino === 3) {
+                    if (!validarResponsable()) return;
+                    mostrarResumen();
+                }
+                goToStep(destino);
+            });
+        });
+
+        function validarResponsable() {
+            const nombres = document.getElementById('responsableNombres').value.trim();
+            const apellidos = document.getElementById('responsableApellidos').value.trim();
+            const email = document.getElementById('emailReserva').value.trim();
+            const acepta = document.getElementById('aceptaTerminos').checked;
+            if (!nombres || !apellidos || !email) {
+                Swal.fire({ icon: 'error', title: 'Datos incompletos',
+                    text: 'Completa nombres, apellidos y correo electrónico.',
+                    confirmButtonColor: '#ff0099' });
+                return false;
             }
-            return rows;
+            if (!acepta) {
+                Swal.fire({ icon: 'warning', title: 'Falta aceptar términos',
+                    text: 'Debes aceptar los términos y condiciones para continuar.',
+                    confirmButtonColor: '#ff0099' });
+                return false;
+            }
+            return true;
         }
 
-        async function bookPackage(pkgId) {
-            const pkg = prices[pkgId];
-            if (!pkg) return;
-            const existing = (cart.paqueteId === pkgId) ? cart.personas : [];
-            const cantidadInicial = existing.length || 1;
+        function mostrarResumen() {
+            const pkg = pkgActual();
+            const cantidad = parseInt(document.getElementById('numPasajeros').value) || 1;
+            const fecha = document.getElementById('fechaViaje').value || 'Sin definir';
+            const totalEstimado = pkg ? cantidad * pkg.adult : 0;
+            document.getElementById('resumenReserva').innerHTML = `
+                <div><span>Paquete</span><strong>${pkg ? pkg.name : ''}</strong></div>
+                <div><span>Fecha del viaje</span><strong>${fecha}</strong></div>
+                <div><span>Pasajeros</span><strong>${cantidad}</strong></div>
+                <div class="resumen-total"><span>Total estimado</span><span>$${totalEstimado.toLocaleString()} MXN</span></div>
+            `;
+        }
 
-            const { value } = await Swal.fire({
-                title: pkg.name,
-                width: '640px',
-                html: `
-                    <div style="text-align:left;">
-                        <label style="font-weight:700;font-size:0.8rem;">¿Cuántas personas viajarán?</label>
-                        <input type="number" id="cantidadPersonas" min="1" max="20" value="${cantidadInicial}" class="swal2-input" style="margin:4px 0 14px;padding:9px;">
-                        <div id="personasContainer" style="max-height:340px;overflow-y:auto;">${buildPersonasHtml(cantidadInicial, existing)}</div>
-                        <div id="totalPreview" style="font-size:1.15rem;font-weight:800;color:var(--rosa-cta);text-align:right;margin-top:8px;">Total: $0 MXN</div>
-                    </div>
-                `,
-                confirmButtonText: 'Guardar pasajeros',
-                confirmButtonColor: '#ff0099',
-                showCancelButton: true,
-                cancelButtonText: 'Cancelar',
-                allowOutsideClick: false,
-                didOpen: () => {
-                    const container = document.getElementById('personasContainer');
-                    const cantidadInput = document.getElementById('cantidadPersonas');
-                    const totalPreview = document.getElementById('totalPreview');
+        // ---- Pasajeros (paso 4, se llenan tras "pagar") ----
+        function pasajeroRowHtml(i, p = {}) {
+            const hoyStr = new Date().toISOString().split('T')[0];
+            return `
+            <div class="persona-row" style="border:1px solid #eee;border-radius:14px;padding:10px;margin-bottom:10px;">
+                <div style="font-weight:700;font-size:0.8rem;color:var(--rosa-cta);margin-bottom:6px;">Pasajero ${i + 1}</div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <input type="text" class="p-nombre" placeholder="Nombre(s)" value="${p.nombre || ''}">
+                    <input type="text" class="p-apellidos" placeholder="Apellidos" value="${p.apellidos || ''}">
+                    <input type="number" class="p-peso" placeholder="Peso (kg)" min="1" max="300" value="${p.peso || ''}">
+                    <input type="date" class="p-fecha" max="${hoyStr}" value="${p.fecha_nacimiento || ''}">
+                </div>
+                <div class="p-edad-info" style="font-size:0.72rem;color:#888;margin-top:4px;"></div>
+            </div>`;
+        }
 
-                    function recalc() {
-                        let total = 0;
-                        container.querySelectorAll('.persona-row').forEach(row => {
-                            const fecha = row.querySelector('.p-fecha').value;
-                            const info = row.querySelector('.p-edad-info');
-                            if (fecha) {
-                                const edad = calcEdad(fecha);
-                                const precio = edad <= 10 ? pkg.child : pkg.adult;
-                                info.textContent = `Edad: ${edad} años · $${precio.toLocaleString()} MXN`;
-                                total += precio;
-                            } else {
-                                info.textContent = '';
-                            }
-                        });
-                        totalPreview.textContent = `Total: $${total.toLocaleString()} MXN`;
-                    }
+        function renderPasajeros() {
+            const cantidad = parseInt(document.getElementById('numPasajeros').value) || 1;
+            const container = document.getElementById('pasajerosContainer');
+            let html = '';
+            for (let i = 0; i < cantidad; i++) html += pasajeroRowHtml(i);
+            container.innerHTML = html;
+            recalcularTotal();
+        }
 
-                    container.addEventListener('input', recalc);
-                    cantidadInput.addEventListener('input', () => {
-                        let n = parseInt(cantidadInput.value) || 1;
-                        if (n < 1) n = 1;
-                        if (n > 20) n = 20;
-                        const rowsData = [];
-                        container.querySelectorAll('.persona-row').forEach(row => {
-                            rowsData.push({
-                                nombre: row.querySelector('.p-nombre').value,
-                                apellidos: row.querySelector('.p-apellidos').value,
-                                peso: row.querySelector('.p-peso').value,
-                                fecha_nacimiento: row.querySelector('.p-fecha').value,
-                            });
-                        });
-                        container.innerHTML = buildPersonasHtml(n, rowsData);
-                        recalc();
-                    });
-                    recalc();
-                },
-                preConfirm: () => {
-                    const container = document.getElementById('personasContainer');
-                    const personas = [];
-                    let valid = true;
-                    container.querySelectorAll('.persona-row').forEach(row => {
-                        const nombre = row.querySelector('.p-nombre').value.trim();
-                        const apellidos = row.querySelector('.p-apellidos').value.trim();
-                        const peso = parseFloat(row.querySelector('.p-peso').value);
-                        const fecha = row.querySelector('.p-fecha').value;
-                        if (!nombre || !apellidos || !peso || !fecha) valid = false;
-                        personas.push({ nombre, apellidos, peso, fecha_nacimiento: fecha, edad: fecha ? calcEdad(fecha) : null });
-                    });
-                    if (!valid || personas.length === 0) {
-                        Swal.showValidationMessage('Completa los datos de todos los pasajeros');
-                        return false;
-                    }
-                    return personas;
+        function leerPasajeros(soloValidos = true) {
+            const filas = document.querySelectorAll('#pasajerosContainer .persona-row');
+            const personas = [];
+            filas.forEach(row => {
+                const nombre = row.querySelector('.p-nombre').value.trim();
+                const apellidos = row.querySelector('.p-apellidos').value.trim();
+                const peso = parseFloat(row.querySelector('.p-peso').value);
+                const fecha = row.querySelector('.p-fecha').value;
+                if (soloValidos && (!nombre || !apellidos || !peso || !fecha)) return;
+                personas.push({ nombre, apellidos, peso, fecha_nacimiento: fecha, edad: fecha ? calcEdad(fecha) : null });
+            });
+            return personas;
+        }
+
+        function recalcularTotal() {
+            const pkg = pkgActual();
+            let total = 0;
+            document.querySelectorAll('#pasajerosContainer .persona-row').forEach(row => {
+                const fecha = row.querySelector('.p-fecha').value;
+                const info = row.querySelector('.p-edad-info');
+                if (fecha && pkg) {
+                    const edad = calcEdad(fecha);
+                    const precio = edad <= 10 ? pkg.child : pkg.adult;
+                    info.textContent = `Edad: ${edad} año(s) · ${edad <= 10 ? 'Niño' : 'Adulto'} · $${precio.toLocaleString()} MXN`;
+                    total += precio;
+                } else {
+                    info.textContent = '';
                 }
             });
-
-            if (!value) return;
-
-            const total = value.reduce((sum, p) => sum + (p.edad <= 10 ? pkg.child : pkg.adult), 0);
-            cart = { paqueteId: pkgId, personas: value, total };
-            updateCartFab();
-            document.getElementById('paqueteFinal').value = pkgId;
-
-            Swal.fire({
-                icon: 'success',
-                title: '¡Pasajeros guardados!',
-                html: `Paquete <strong>${pkg.name}</strong><br>${value.length} pasajero(s) · Total: <strong>$${total.toLocaleString()} MXN</strong>`,
-                confirmButtonColor: '#0099ff',
-                timer: 2500,
-                showConfirmButton: false,
-            });
+            document.getElementById('totalReservaLine').textContent = `Total: $${total.toLocaleString()} MXN`;
         }
+
+        document.getElementById('pasajerosContainer').addEventListener('input', recalcularTotal);
 
         function showCartStatus() {
-            if (!cart.paqueteId || cart.personas.length === 0) {
-                Swal.fire({
-                    icon: 'info',
-                    title: 'Carrito vacío',
-                    text: 'Aún no has elegido un paquete ni pasajeros.',
-                    confirmButtonText: 'Ver paquetes',
-                    confirmButtonColor: '#ff0099',
-                }).then(() => document.getElementById('paquetes').scrollIntoView({ behavior: 'smooth' }));
-                return;
-            }
-            const pkg = prices[cart.paqueteId];
-            const filas = cart.personas.map(p => `
-                <tr>
-                    <td style="padding:6px;border-bottom:1px solid #eee;">${p.nombre} ${p.apellidos}</td>
-                    <td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">${p.edad}</td>
-                    <td style="padding:6px;border-bottom:1px solid #eee;text-align:right;">$${(p.edad <= 10 ? pkg.child : pkg.adult).toLocaleString()}</td>
-                </tr>`).join('');
-
+            const pkg = pkgActual();
+            const cantidad = parseInt(document.getElementById('numPasajeros').value) || 1;
+            const totalEstimado = pkg ? cantidad * pkg.adult : 0;
             Swal.fire({
                 title: '<i class="fa-solid fa-cart-shopping"></i> Tu reservación',
-                width: '560px',
                 html: `
                     <div style="text-align:left;">
-                        <div style="font-weight:800;margin-bottom:10px;">${pkg.name}</div>
-                        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
-                            <thead><tr><th style="text-align:left;padding:6px;">Pasajero</th><th style="padding:6px;">Edad</th><th style="text-align:right;padding:6px;">Precio</th></tr></thead>
-                            <tbody>${filas}</tbody>
-                        </table>
-                        <div style="text-align:right;font-size:1.2rem;font-weight:800;color:var(--rosa-cta);margin-top:10px;">Total: $${cart.total.toLocaleString()} MXN</div>
+                        <div style="font-weight:800;margin-bottom:6px;">${pkg ? pkg.name : 'Sin paquete seleccionado'}</div>
+                        <div style="font-size:0.85rem;color:#555;">${cantidad} pasajero(s)</div>
+                        <div style="text-align:right;font-size:1.2rem;font-weight:800;color:var(--rosa-cta);margin-top:10px;">Total estimado: $${totalEstimado.toLocaleString()} MXN</div>
                     </div>
                 `,
-                showCancelButton: true,
-                confirmButtonText: 'Ir a completar reserva',
-                cancelButtonText: 'Editar pasajeros',
+                confirmButtonText: 'Ir al formulario',
                 confirmButtonColor: '#0099ff',
-                cancelButtonColor: '#ff0099',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
-                } else if (result.dismiss === Swal.DismissReason.cancel) {
-                    bookPackage(cart.paqueteId);
-                }
-            });
+            }).then(() => document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' }));
         }
+        document.getElementById('cartFab').addEventListener('click', showCartStatus);
 
         document.querySelectorAll('.select-pkg').forEach(btn => {
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const pkgId = btn.getAttribute('data-pkg');
-                if (pkgId) bookPackage(parseInt(pkgId));
+                if (!pkgId) return;
+                document.getElementById('paqueteFinal').value = pkgId;
+                goToStep(1);
             });
         });
-
-        document.getElementById('cartFab').addEventListener('click', showCartStatus);
 
         document.getElementById('adultsCount').addEventListener('input', updateSummary);
         document.getElementById('childrenCount').addEventListener('input', updateSummary);
@@ -2400,92 +2538,134 @@
             });
         }
 
-        // ============ SUBMIT RESERVA ============
-        const submitBtn = document.getElementById('submitReserva');
-        if (submitBtn) {
-            submitBtn.addEventListener('click', () => {
-                const nombre = document.getElementById('nombreReserva').value.trim();
-                const email = document.getElementById('emailReserva').value.trim();
-                let numeroCompleto = "";
-                let isValidPhone = false;
-                if (itiPhone) {
-                    if (itiPhone.isValidNumber()) {
-                        numeroCompleto = itiPhone.getNumber();
-                        isValidPhone = true;
-                    } else {
-                        Swal.fire({
-                            icon: 'warning',
-                            title: 'Número inválido',
-                            text: 'Por favor ingresa un número de WhatsApp válido (incluyendo lada).',
-                            confirmButtonColor: '#ff0099',
-                        });
-                        return;
-                    }
-                } else {
-                    const rawPhone = document.getElementById('whatsappReserva').value.trim();
-                    if (!rawPhone) {
-                        Swal.fire({ icon: 'error', title: 'Falta WhatsApp',
-                            text: 'Por favor ingresa tu número de WhatsApp.',
-                            confirmButtonColor: '#ff0099' });
-                        return;
-                    }
-                    numeroCompleto = rawPhone;
-                    isValidPhone = true;
-                }
-                if (!nombre || !email) {
-                    Swal.fire({ icon: 'error', title: 'Datos incompletos',
-                        text: 'Completa tu nombre y correo electrónico.',
-                        confirmButtonColor: '#ff0099' });
-                    return;
-                }
-                if (!isValidPhone) return;
-                if (!cart.paqueteId || cart.personas.length === 0) {
-                    Swal.fire({ icon: 'warning', title: 'Selecciona un paquete',
-                        text: 'Primero elige un paquete y registra a los pasajeros.',
-                        confirmButtonColor: '#ff0099' });
-                    return;
-                }
-                submitBtn.disabled = true;
-                fetch('/reservas', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
-                    },
-                    body: JSON.stringify({
-                        paquete_id: cart.paqueteId,
-                        contacto_nombre: nombre,
-                        contacto_telefono: numeroCompleto,
-                        contacto_correo: email,
-                        personas: cart.personas,
-                    }),
-                })
-                .then(res => res.json().then(data => ({ status: res.status, data })))
-                .then(({ status, data }) => {
-                    submitBtn.disabled = false;
-                    if (status !== 200 || !data.ok) {
-                        Swal.fire({ icon: 'error', title: 'No se pudo enviar',
-                            text: 'Revisa tus datos e intenta de nuevo.',
-                            confirmButtonColor: '#ff0099' });
-                        return;
-                    }
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Reservación confirmada!',
-                        html: `<strong>${nombre}</strong>, folio #${data.reserva_id}.<br>Total: <strong>$${Number(data.total).toLocaleString()} MXN</strong> · ${data.num_personas} pasajero(s)<br><br><i class="fa-solid fa-phone"></i> Te contactaremos en <strong>${numeroCompleto}</strong>.`,
-                        confirmButtonColor: '#0099ff',
-                    });
-                    cart = { paqueteId: null, personas: [], total: 0 };
-                    updateCartFab();
-                })
-                .catch(() => {
-                    submitBtn.disabled = false;
-                    Swal.fire({ icon: 'error', title: 'Error de conexión',
-                        text: 'Intenta nuevamente.', confirmButtonColor: '#ff0099' });
-                });
-            });
+        function obtenerTelefonoValidado() {
+            if (itiPhone) {
+                if (itiPhone.isValidNumber()) return { ok: true, numero: itiPhone.getNumber() };
+                Swal.fire({ icon: 'warning', title: 'Número inválido',
+                    text: 'Ingresa un teléfono válido (incluyendo lada).',
+                    confirmButtonColor: '#ff0099' });
+                return { ok: false, numero: '' };
+            }
+            const raw = document.getElementById('whatsappReserva').value.trim();
+            if (!raw) {
+                Swal.fire({ icon: 'error', title: 'Falta el teléfono',
+                    text: 'Ingresa tu teléfono con lada.',
+                    confirmButtonColor: '#ff0099' });
+                return { ok: false, numero: '' };
+            }
+            return { ok: true, numero: raw };
         }
+
+        // ============ FASE 1: COMPLETAR RESERVA (vuelo + responsable + pago) ============
+        let reservaActualId = null;
+
+        const completarBtn = document.getElementById('completarReserva');
+        completarBtn.addEventListener('click', () => {
+            const fechaViaje = document.getElementById('fechaViaje').value;
+            if (!fechaViaje) {
+                Swal.fire({ icon: 'warning', title: 'Falta la fecha del viaje',
+                    text: 'Selecciona la fecha en la que quieres volar.',
+                    confirmButtonColor: '#ff0099' });
+                return;
+            }
+            const telefono = obtenerTelefonoValidado();
+            if (!telefono.ok) return;
+
+            const nombreCompleto = `${document.getElementById('responsableNombres').value.trim()} ${document.getElementById('responsableApellidos').value.trim()}`.trim();
+            const metodoPago = document.querySelector('input[name="metodoPago"]:checked').value;
+
+            completarBtn.disabled = true;
+            fetch('/reservas', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({
+                    paquete_id: parseInt(document.getElementById('paqueteFinal').value),
+                    fecha_viaje: fechaViaje,
+                    num_personas: parseInt(document.getElementById('numPasajeros').value),
+                    contacto_nombre: nombreCompleto,
+                    contacto_telefono: telefono.numero,
+                    contacto_correo: document.getElementById('emailReserva').value.trim(),
+                    metodo_pago: metodoPago,
+                }),
+            })
+            .then(res => res.json().then(data => ({ status: res.status, data })))
+            .then(({ status, data }) => {
+                completarBtn.disabled = false;
+                if (status !== 200 || !data.ok) {
+                    Swal.fire({ icon: 'error', title: 'No se pudo completar la reserva',
+                        text: 'Revisa tus datos e intenta de nuevo.',
+                        confirmButtonColor: '#ff0099' });
+                    return;
+                }
+                reservaActualId = data.reserva_id;
+                document.getElementById('folioReserva').textContent = data.reserva_id;
+                renderPasajeros();
+                goToStep(4);
+            })
+            .catch(() => {
+                completarBtn.disabled = false;
+                Swal.fire({ icon: 'error', title: 'Error de conexión',
+                    text: 'Intenta nuevamente.', confirmButtonColor: '#ff0099' });
+            });
+        });
+
+        // ============ FASE 2: PASAJEROS (post-pago) ============
+        const submitBtn = document.getElementById('submitReserva');
+        submitBtn.addEventListener('click', () => {
+            const personas = leerPasajeros();
+            if (personas.length === 0) {
+                Swal.fire({ icon: 'warning', title: 'Faltan datos de pasajeros',
+                    text: 'Completa nombre, apellidos, peso y fecha de nacimiento de cada pasajero.',
+                    confirmButtonColor: '#ff0099' });
+                return;
+            }
+            if (!reservaActualId) return;
+
+            submitBtn.disabled = true;
+            fetch(`/reservas/${reservaActualId}/pasajeros`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                },
+                body: JSON.stringify({ personas }),
+            })
+            .then(res => res.json().then(data => ({ status: res.status, data })))
+            .then(({ status, data }) => {
+                submitBtn.disabled = false;
+                if (status !== 200 || !data.ok) {
+                    Swal.fire({ icon: 'error', title: 'No se pudo enviar',
+                        text: 'Revisa tus datos e intenta de nuevo.',
+                        confirmButtonColor: '#ff0099' });
+                    return;
+                }
+                Swal.fire({
+                    icon: 'success',
+                    title: '¡Reservación completada!',
+                    html: `Folio #${data.reserva_id}.<br>Total: <strong>$${Number(data.total).toLocaleString()} MXN</strong> · ${data.num_personas} pasajero(s)<br><br>Te contactaremos para confirmar todo.`,
+                    confirmButtonColor: '#0099ff',
+                });
+                // Reset del wizard completo
+                reservaActualId = null;
+                document.getElementById('responsableNombres').value = '';
+                document.getElementById('responsableApellidos').value = '';
+                document.getElementById('emailReserva').value = '';
+                document.getElementById('fechaViaje').value = '';
+                document.getElementById('numPasajeros').value = '1';
+                document.getElementById('aceptaTerminos').checked = false;
+                goToStep(1);
+            })
+            .catch(() => {
+                submitBtn.disabled = false;
+                Swal.fire({ icon: 'error', title: 'Error de conexión',
+                    text: 'Intenta nuevamente.', confirmButtonColor: '#ff0099' });
+            });
+        });
 
         // ============ NAV SCROLL ============
         const nav = document.getElementById('main-nav');
