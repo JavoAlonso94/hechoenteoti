@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Hecho en Teoti | Vuelos en Globo · Teotihuacán – Experiencia Premium</title>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Permanent+Marker&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -1538,6 +1539,41 @@
             box-shadow: 0 14px 32px rgba(37, 211, 102, 0.55);
         }
 
+        /* Carrito flotante */
+        .cart-fab {
+            position: fixed;
+            bottom: 90px;
+            left: 28px;
+            z-index: 90;
+            display: none;
+            align-items: center;
+            gap: 10px;
+            background: var(--rosa-cta);
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            padding: 12px 18px;
+            border-radius: 30px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 0.85rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s var(--transition-bounce);
+        }
+        .cart-fab.visible { display: flex; }
+        .cart-fab:hover { transform: scale(1.05); }
+        .cart-fab .cart-badge-count {
+            background: #fff;
+            color: var(--rosa-cta);
+            border-radius: 50%;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+        }
+
         /* Responsive general */
         @media (max-width: 1000px) {
             .hero-grid {
@@ -1625,7 +1661,6 @@
 </head>
 <body>
     @php
-    $paquetes = config('vuelos.paquetes', []);
     $defaultImage = 'https://scontent-qro3-1.xx.fbcdn.net/v/t39.30808-6/661117349_122128766967049843_8253620055200934046_n.jpg?_nc_cat=102&ccb=1-7&_nc_sid=7b2446&_nc_eui2=AeHvhnUSVxurjqV33kMironYX2mgcdK7-VZfaaBx0rv5Vk4ZCck-F7_3rbtDLYXTHQIsvOMbRrtnBl_5f7Rmf1Ou&_nc_ohc=LOwvXN-6euMQ7kNvwHAIoWn&_nc_oc=AdpxV37ei9QDSHF-LZpVAta-kTJx3z7SIEm7njBN4muptyIeVrh_-6eVAT9soQiJ5go&_nc_zt=23&_nc_ht=scontent-qro3-1.xx&_nc_gid=UYd-wMQU7PwSLzTeN2D--w&_nc_ss=7b2a8&oh=00_Af5qillGa3sSl7XFjqN9xw-t28VJjF-agwerNvlhqW1Lsw&oe=69FB48A1';
 
     // Videos de ejemplo (puedes mover esto a config/vuelos.php)
@@ -2050,6 +2085,13 @@
         <i class="fa-brands fa-whatsapp"></i>
     </a>
 
+    {{-- Carrito flotante --}}
+    <button class="cart-fab" id="cartFab" type="button">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-badge-count" id="cartBadgeCount">0</span>
+        <span id="cartBadgeTotal">$0 MXN</span>
+    </button>
+
     {{-- Lightbox imágenes --}}
     <div class="lightbox" id="lightbox">
         <div class="lightbox-content">
@@ -2134,91 +2176,187 @@
             document.getElementById('totalDisplay').innerHTML = `$${total.toLocaleString()} MXN`;
         }
 
-        // ============ CARRITO MODAL ============
-        function showCartModal(packageId) {
-            const pkg = prices[packageId];
+        // ============ CARRITO: FORMULARIO EN 1 PANTALLA + ESTATUS ============
+        let cart = { paqueteId: null, personas: [], total: 0 };
+
+        function calcEdad(fechaStr) {
+            const nac = new Date(fechaStr + 'T00:00:00');
+            const hoy = new Date();
+            let edad = hoy.getFullYear() - nac.getFullYear();
+            const m = hoy.getMonth() - nac.getMonth();
+            if (m < 0 || (m === 0 && hoy.getDate() < nac.getDate())) edad--;
+            return edad;
+        }
+
+        function updateCartFab() {
+            const fab = document.getElementById('cartFab');
+            document.getElementById('cartBadgeCount').textContent = cart.personas.length;
+            document.getElementById('cartBadgeTotal').textContent = `$${cart.total.toLocaleString()} MXN`;
+            fab.classList.toggle('visible', cart.personas.length > 0);
+        }
+
+        function buildPersonasHtml(cantidad, existing) {
+            const hoyStr = new Date().toISOString().split('T')[0];
+            let rows = '';
+            for (let i = 0; i < cantidad; i++) {
+                const p = existing[i] || {};
+                rows += `
+                <div class="persona-row" style="border:1px solid #eee;border-radius:14px;padding:10px;margin-bottom:10px;text-align:left;">
+                    <div style="font-weight:700;font-size:0.8rem;color:var(--rosa-cta);margin-bottom:6px;">Pasajero ${i + 1}</div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <input type="text" class="p-nombre swal2-input" placeholder="Nombre(s)" value="${p.nombre || ''}" style="margin:0;padding:9px;">
+                        <input type="text" class="p-apellidos swal2-input" placeholder="Apellidos" value="${p.apellidos || ''}" style="margin:0;padding:9px;">
+                        <input type="number" class="p-peso swal2-input" placeholder="Peso (kg)" min="1" max="300" value="${p.peso || ''}" style="margin:0;padding:9px;">
+                        <input type="date" class="p-fecha swal2-input" max="${hoyStr}" value="${p.fecha_nacimiento || ''}" style="margin:0;padding:9px;">
+                    </div>
+                    <div class="p-edad-info" style="font-size:0.7rem;color:#888;margin-top:4px;"></div>
+                </div>`;
+            }
+            return rows;
+        }
+
+        async function bookPackage(pkgId) {
+            const pkg = prices[pkgId];
             if (!pkg) return;
-            let currentAdults = parseInt(document.getElementById('adultsCount').value) || 1;
-            let currentChildren = parseInt(document.getElementById('childrenCount').value) || 0;
-            const currentDate = document.getElementById('bookingDate').value;
-            const formattedDate = currentDate ? new Date(currentDate + 'T00:00:00').toLocaleDateString('es-MX', {
-                day: 'numeric',
-                month: 'long',
-                year: 'numeric'
-            }) : 'No seleccionada';
+            const existing = (cart.paqueteId === pkgId) ? cart.personas : [];
+            const cantidadInicial = existing.length || 1;
 
-            const modalHtml = `
-            <div style="text-align:left;font-family:'Montserrat',sans-serif;">
-            <div style="background:#f5f5f5;padding:14px;border-radius:20px;margin-bottom:18px;">
-            <div style="font-weight:800;font-size:1.15rem;">
-            <i class="fa-solid fa-balloon" style="color:var(--rosa-cta);"></i> ${pkg.name}</div>
-            <div style="font-size:0.85rem;color:#555;"><i class="fa-solid fa-calendar-days"></i> Fecha: <strong>${formattedDate}</strong></div>
-            </div>
-            <div class="cart-detail-line" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;">
-            <span><i class="fa-solid fa-user"></i> Adulto (12+ años)</span><span><strong>$${pkg.adult.toLocaleString()} MXN</strong> c/u</span></div>
-            <div class="cart-detail-line" style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #eee;">
-            <span><i class="fa-solid fa-child"></i> Niño (4-10 años)</span><span><strong>$${pkg.child.toLocaleString()} MXN</strong> c/u</span></div>
-            <div style="margin:18px 0 12px;">
-            <label style="font-weight:700;"><i class="fa-solid fa-users"></i> Cantidad de adultos:</label>
-            <input type="number" id="cartAdultsInput" min="1" value="${currentAdults}" style="width:100%;padding:11px;margin-top:4px;border-radius:16px;border:1.5px solid #ccc;font-family:'Montserrat',sans-serif;">
-            </div>
-            <div style="margin-bottom:18px;">
-            <label style="font-weight:700;"><i class="fa-solid fa-children"></i> Cantidad de niños (4-10 años):</label>
-            <input type="number" id="cartChildrenInput" min="0" value="${currentChildren}" style="width:100%;padding:11px;margin-top:4px;border-radius:16px;border:1.5px solid #ccc;font-family:'Montserrat',sans-serif;">
-            </div>
-            <div class="cart-total" id="cartModalTotal" style="font-size:1.3rem;font-weight:800;color:#ff0099;text-align:right;">
-            Total: $${((currentAdults * pkg.adult) + (currentChildren * pkg.child)).toLocaleString()} MXN</div>
-            <p style="font-size:0.68rem;margin-top:10px;color:#888;"><i class="fa-solid fa-circle-info"></i> *Precios por persona. El vuelo incluye seguro y brindis.</p>
-            </div>
-            `;
-            Swal.fire({
-                title: '<i class="fa-solid fa-cart-shopping"></i> Tu carrito de compras',
-                html: modalHtml,
-                width: '560px',
-                showCancelButton: true,
-                confirmButtonText: '<i class="fa-solid fa-check"></i> Actualizar y reservar',
-                cancelButtonText: '<i class="fa-solid fa-xmark"></i> Cancelar',
+            const { value } = await Swal.fire({
+                title: pkg.name,
+                width: '640px',
+                html: `
+                    <div style="text-align:left;">
+                        <label style="font-weight:700;font-size:0.8rem;">¿Cuántas personas viajarán?</label>
+                        <input type="number" id="cantidadPersonas" min="1" max="20" value="${cantidadInicial}" class="swal2-input" style="margin:4px 0 14px;padding:9px;">
+                        <div id="personasContainer" style="max-height:340px;overflow-y:auto;">${buildPersonasHtml(cantidadInicial, existing)}</div>
+                        <div id="totalPreview" style="font-size:1.15rem;font-weight:800;color:var(--rosa-cta);text-align:right;margin-top:8px;">Total: $0 MXN</div>
+                    </div>
+                `,
+                confirmButtonText: 'Guardar pasajeros',
                 confirmButtonColor: '#ff0099',
-                cancelButtonColor: '#888',
-                background: '#ffffff',
-                backdrop: true,
+                showCancelButton: true,
+                cancelButtonText: 'Cancelar',
                 allowOutsideClick: false,
-                customClass: { popup: 'swal2-popup-modern' },
                 didOpen: () => {
-                    const adultInput = document.getElementById('cartAdultsInput');
-                    const childInput = document.getElementById('cartChildrenInput');
-                    const totalSpan = document.getElementById('cartModalTotal');
+                    const container = document.getElementById('personasContainer');
+                    const cantidadInput = document.getElementById('cantidadPersonas');
+                    const totalPreview = document.getElementById('totalPreview');
 
-                    function recalcCart() {
-                        let a = parseInt(adultInput.value) || 1;
-                        let c = parseInt(childInput.value) || 0;
-                        if (a < 1) a = 1;
-                        const total = (a * pkg.adult) + (c * pkg.child);
-                        totalSpan.innerHTML = `Total: $${total.toLocaleString()} MXN`;
+                    function recalc() {
+                        let total = 0;
+                        container.querySelectorAll('.persona-row').forEach(row => {
+                            const fecha = row.querySelector('.p-fecha').value;
+                            const info = row.querySelector('.p-edad-info');
+                            if (fecha) {
+                                const edad = calcEdad(fecha);
+                                const precio = edad <= 10 ? pkg.child : pkg.adult;
+                                info.textContent = `Edad: ${edad} años · $${precio.toLocaleString()} MXN`;
+                                total += precio;
+                            } else {
+                                info.textContent = '';
+                            }
+                        });
+                        totalPreview.textContent = `Total: $${total.toLocaleString()} MXN`;
                     }
-                    adultInput.addEventListener('input', recalcCart);
-                    childInput.addEventListener('input', recalcCart);
-                    recalcCart();
+
+                    container.addEventListener('input', recalc);
+                    cantidadInput.addEventListener('input', () => {
+                        let n = parseInt(cantidadInput.value) || 1;
+                        if (n < 1) n = 1;
+                        if (n > 20) n = 20;
+                        const rowsData = [];
+                        container.querySelectorAll('.persona-row').forEach(row => {
+                            rowsData.push({
+                                nombre: row.querySelector('.p-nombre').value,
+                                apellidos: row.querySelector('.p-apellidos').value,
+                                peso: row.querySelector('.p-peso').value,
+                                fecha_nacimiento: row.querySelector('.p-fecha').value,
+                            });
+                        });
+                        container.innerHTML = buildPersonasHtml(n, rowsData);
+                        recalc();
+                    });
+                    recalc();
                 },
                 preConfirm: () => {
-                    const newAdults = parseInt(document.getElementById('cartAdultsInput')?.value) || 1;
-                    const newChildren = parseInt(document.getElementById('cartChildrenInput')?.value) || 0;
-                    if (newAdults < 1) { Swal.showValidationMessage('Mínimo 1 adulto');
-                        return false; }
-                    document.getElementById('adultsCount').value = newAdults;
-                    document.getElementById('childrenCount').value = newChildren;
-                    document.getElementById('packageSelect').value = packageId;
-                    updateSummary();
-                    document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
-                    Swal.fire({
-                        icon: 'success',
-                        title: '¡Carrito actualizado!',
-                        html: `Paquete <strong>${pkg.name}</strong> con ${newAdults} adulto(s) y ${newChildren} niño(s).<br>Completa tus datos abajo para confirmar.`,
-                        confirmButtonColor: '#0099ff',
-                        timer: 3500,
-                        showConfirmButton: true,
+                    const container = document.getElementById('personasContainer');
+                    const personas = [];
+                    let valid = true;
+                    container.querySelectorAll('.persona-row').forEach(row => {
+                        const nombre = row.querySelector('.p-nombre').value.trim();
+                        const apellidos = row.querySelector('.p-apellidos').value.trim();
+                        const peso = parseFloat(row.querySelector('.p-peso').value);
+                        const fecha = row.querySelector('.p-fecha').value;
+                        if (!nombre || !apellidos || !peso || !fecha) valid = false;
+                        personas.push({ nombre, apellidos, peso, fecha_nacimiento: fecha, edad: fecha ? calcEdad(fecha) : null });
                     });
-                    return true;
+                    if (!valid || personas.length === 0) {
+                        Swal.showValidationMessage('Completa los datos de todos los pasajeros');
+                        return false;
+                    }
+                    return personas;
+                }
+            });
+
+            if (!value) return;
+
+            const total = value.reduce((sum, p) => sum + (p.edad <= 10 ? pkg.child : pkg.adult), 0);
+            cart = { paqueteId: pkgId, personas: value, total };
+            updateCartFab();
+            document.getElementById('paqueteFinal').value = pkgId;
+
+            Swal.fire({
+                icon: 'success',
+                title: '¡Pasajeros guardados!',
+                html: `Paquete <strong>${pkg.name}</strong><br>${value.length} pasajero(s) · Total: <strong>$${total.toLocaleString()} MXN</strong>`,
+                confirmButtonColor: '#0099ff',
+                timer: 2500,
+                showConfirmButton: false,
+            });
+        }
+
+        function showCartStatus() {
+            if (!cart.paqueteId || cart.personas.length === 0) {
+                Swal.fire({
+                    icon: 'info',
+                    title: 'Carrito vacío',
+                    text: 'Aún no has elegido un paquete ni pasajeros.',
+                    confirmButtonText: 'Ver paquetes',
+                    confirmButtonColor: '#ff0099',
+                }).then(() => document.getElementById('paquetes').scrollIntoView({ behavior: 'smooth' }));
+                return;
+            }
+            const pkg = prices[cart.paqueteId];
+            const filas = cart.personas.map(p => `
+                <tr>
+                    <td style="padding:6px;border-bottom:1px solid #eee;">${p.nombre} ${p.apellidos}</td>
+                    <td style="padding:6px;border-bottom:1px solid #eee;text-align:center;">${p.edad}</td>
+                    <td style="padding:6px;border-bottom:1px solid #eee;text-align:right;">$${(p.edad <= 10 ? pkg.child : pkg.adult).toLocaleString()}</td>
+                </tr>`).join('');
+
+            Swal.fire({
+                title: '<i class="fa-solid fa-cart-shopping"></i> Tu reservación',
+                width: '560px',
+                html: `
+                    <div style="text-align:left;">
+                        <div style="font-weight:800;margin-bottom:10px;">${pkg.name}</div>
+                        <table style="width:100%;border-collapse:collapse;font-size:0.85rem;">
+                            <thead><tr><th style="text-align:left;padding:6px;">Pasajero</th><th style="padding:6px;">Edad</th><th style="text-align:right;padding:6px;">Precio</th></tr></thead>
+                            <tbody>${filas}</tbody>
+                        </table>
+                        <div style="text-align:right;font-size:1.2rem;font-weight:800;color:var(--rosa-cta);margin-top:10px;">Total: $${cart.total.toLocaleString()} MXN</div>
+                    </div>
+                `,
+                showCancelButton: true,
+                confirmButtonText: 'Ir a completar reserva',
+                cancelButtonText: 'Editar pasajeros',
+                confirmButtonColor: '#0099ff',
+                cancelButtonColor: '#ff0099',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('reserva').scrollIntoView({ behavior: 'smooth' });
+                } else if (result.dismiss === Swal.DismissReason.cancel) {
+                    bookPackage(cart.paqueteId);
                 }
             });
         }
@@ -2227,9 +2365,11 @@
             btn.addEventListener('click', (e) => {
                 e.preventDefault();
                 const pkgId = btn.getAttribute('data-pkg');
-                if (pkgId) showCartModal(parseInt(pkgId));
+                if (pkgId) bookPackage(parseInt(pkgId));
             });
         });
+
+        document.getElementById('cartFab').addEventListener('click', showCartStatus);
 
         document.getElementById('adultsCount').addEventListener('input', updateSummary);
         document.getElementById('childrenCount').addEventListener('input', updateSummary);
@@ -2299,13 +2439,50 @@
                     return;
                 }
                 if (!isValidPhone) return;
-                Swal.fire({
-                    icon: 'success',
-                    title: '¡Solicitud enviada!',
-                    html: `<strong>${nombre}</strong>, hemos recibido tu solicitud.<br><br><i class="fa-solid fa-phone"></i> Te contactaremos en <strong>${numeroCompleto}</strong> para confirmar tu vuelo en globo.`,
-                    confirmButtonColor: '#0099ff',
-                    timer: 5000,
-                    timerProgressBar: true,
+                if (!cart.paqueteId || cart.personas.length === 0) {
+                    Swal.fire({ icon: 'warning', title: 'Selecciona un paquete',
+                        text: 'Primero elige un paquete y registra a los pasajeros.',
+                        confirmButtonColor: '#ff0099' });
+                    return;
+                }
+                submitBtn.disabled = true;
+                fetch('/reservas', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content,
+                    },
+                    body: JSON.stringify({
+                        paquete_id: cart.paqueteId,
+                        contacto_nombre: nombre,
+                        contacto_telefono: numeroCompleto,
+                        contacto_correo: email,
+                        personas: cart.personas,
+                    }),
+                })
+                .then(res => res.json().then(data => ({ status: res.status, data })))
+                .then(({ status, data }) => {
+                    submitBtn.disabled = false;
+                    if (status !== 200 || !data.ok) {
+                        Swal.fire({ icon: 'error', title: 'No se pudo enviar',
+                            text: 'Revisa tus datos e intenta de nuevo.',
+                            confirmButtonColor: '#ff0099' });
+                        return;
+                    }
+                    Swal.fire({
+                        icon: 'success',
+                        title: '¡Reservación confirmada!',
+                        html: `<strong>${nombre}</strong>, folio #${data.reserva_id}.<br>Total: <strong>$${Number(data.total).toLocaleString()} MXN</strong> · ${data.num_personas} pasajero(s)<br><br><i class="fa-solid fa-phone"></i> Te contactaremos en <strong>${numeroCompleto}</strong>.`,
+                        confirmButtonColor: '#0099ff',
+                    });
+                    cart = { paqueteId: null, personas: [], total: 0 };
+                    updateCartFab();
+                })
+                .catch(() => {
+                    submitBtn.disabled = false;
+                    Swal.fire({ icon: 'error', title: 'Error de conexión',
+                        text: 'Intenta nuevamente.', confirmButtonColor: '#ff0099' });
                 });
             });
         }
